@@ -2,12 +2,42 @@
 
 
 [[projects]]
-  digest = "1:f56aa05e200bfcab9346a56d7fc860fe1ccb544bb04b82d386caba71e15c9af5"
+  branch = "master"
+  digest = "1:c65aa92e55cf8e651f5ed6e2b39c022039fff342d65d2970731778a04f1323db"
   name = "github.com/hoisie/web"
   packages = ["."]
   pruneopts = "UT"
-  revision = "450827e80115ecef60cca452dd914b5c400a0396"
-  version = "v0.1.0"
+  revision = "a498c022b2c0babab2bf9c0400754190b24c8c39"
+
+[[projects]]
+  branch = "master"
+  digest = "1:cb77e5934866333fa0784326a57e64c4da128001c94fbd1d29819d79bd3b1087"
+  name = "golang.org/x/crypto"
+  packages = [
+    "pbkdf2",
+    "ssh/terminal",
+  ]
+  pruneopts = "UT"
+  revision = "0e37d006457bf46f9e6692014ba72ef82c33022c"
+
+[[projects]]
+  branch = "master"
+  digest = "1:7427036b6d926b3d1fa0773771820735b35554a98296f1074df440ee30a97296"
+  name = "golang.org/x/net"
+  packages = ["websocket"]
+  pruneopts = "UT"
+  revision = "2f5d2388922f370f4355f327fcf4cfe9f5583908"
+
+[[projects]]
+  branch = "master"
+  digest = "1:4d2869b8df54b3a687c426758d0891720e8bedfa6ff5d472671ce1d31d29bdfb"
+  name = "golang.org/x/sys"
+  packages = [
+    "unix",
+    "windows",
+  ]
+  pruneopts = "UT"
+  revision = "d47a0f3392421c5624713c9a19fe781f651f8a50"
 
 [solve-meta]
   analyzer-name = "dep"
