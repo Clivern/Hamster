@@ -2,37 +2,29 @@ package controller
 
 import (
     "github.com/gin-gonic/gin"
-    "github.com/clivern/hamster/internal/app/sender"
     "github.com/clivern/hamster/pkg"
+    "os"
 )
 
 func CreateCommentTest(c *gin.Context) {
+    // export GITHUB_TOKEN=b1.....
+    github_api := &pkg.GithubAPI{
+        Token: os.Getenv("GITHUB_TOKEN"),
+        Author:"Clivern",
+        Repository:"Hamster",
+    }
 
-    var message sender.Comment
-    message.Body = "Hello World!"
-
-    err, data := message.ConvertToJSON()
+    created_comment, err := github_api.NewComment("Hi Buddy", 1)
 
     if err == nil {
-        response, err := pkg.Request(
-            "POST",
-            "https://api.github.com/repos/Clivern/Hamster/issues/1/comments",
-            data,
-            "bbb...",
-        )
-
-        if err != nil{
-            c.JSON(200, gin.H{
-                "status": "Request Error!",
-            })
-        }else{
-            c.JSON(200, gin.H{
-                "status": response,
-            })
-        }
+        c.JSON(200, gin.H{
+            "status": "ok",
+            "id": created_comment.ID,
+        })
     }else{
         c.JSON(200, gin.H{
-            "status": "Not Ok",
+            "status": "not ok",
+            "error": err.Error(),
         })
     }
 }

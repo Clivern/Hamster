@@ -9,18 +9,18 @@ type Comment struct {
 }
 
 
-func (e *Comment) LoadFromJSON (data []byte) bool {
+func (e *Comment) LoadFromJSON (data []byte) (bool, error) {
     err := json.Unmarshal(data, &e)
     if err != nil {
-        return false
+        return false, err
     }
-    return true
+    return true, nil
 }
 
-func (e *Comment) ConvertToJSON () (error, string) {
+func (e *Comment) ConvertToJSON () (string, error) {
     data, err := json.Marshal(&e)
     if err != nil {
-        return err, ""
+        return "", err
     }
-    return err, string(data)
+    return string(data), nil
 }

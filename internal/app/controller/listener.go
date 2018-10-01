@@ -11,7 +11,7 @@ func Listen(c *gin.Context) {
 
     b, _ := c.GetRawData()
 
-    ok := commit.LoadFromJSON(b)
+    ok, _ := commit.LoadFromJSON(b)
 
     if !ok {
         c.JSON(200, gin.H{

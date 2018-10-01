@@ -8,12 +8,17 @@ import (
 func TestCommit(t *testing.T) {
 
     var commit Commit
-    dat, _ := ioutil.ReadFile("../../../samples/commit.json")
 
-    ok := commit.LoadFromJSON(dat)
+    dat, err := ioutil.ReadFile("../../../samples/commit.json")
+
+    if err != nil{
+        t.Errorf("File samples/commit.json is invalid!")
+    }
+
+    ok, _ := commit.LoadFromJSON(dat)
 
     if !ok {
-        t.Errorf("Testing file samples/commit.json is invalid")
+        t.Errorf("Testing with file samples/commit.json is invalid")
     }
 
     got := commit.Commit.Commit.Author.Name
