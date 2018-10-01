@@ -14,5 +14,9 @@ func main() {
     r.GET("/favicon.ico", func(c *gin.Context) {
         c.String(http.StatusNoContent, "")
     })
+
+    // Test Routes
+    r.GET("/create-comment-test", controller.CreateCommentTest)
+
     r.Run()
 }
