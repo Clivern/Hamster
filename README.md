@@ -8,14 +8,15 @@
 
 ## Documentation
 
-[Create a Comment](https://developer.github.com/v3/issues/comments/#create-a-comment)
-------------------
+### Create a Comment:
 
 ```bash
 $ export GITHUB_TOKEN=b1...
 ```
 
 ```go
+// for more info https://developer.github.com/v3/issues/comments/#create-a-comment
+
 import (
     "github.com/clivern/hamster/pkg"
     "os"
