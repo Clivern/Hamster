@@ -8,7 +8,8 @@
 
 ## Documentation
 
-To create a comment
+[Create a Comment](https://developer.github.com/v3/issues/comments/#create-a-comment)
+------------------
 
 ```bash
 $ export GITHUB_TOKEN=b1...
@@ -23,8 +24,8 @@ import (
 
 github_api := &pkg.GithubAPI{
     Token: os.Getenv("GITHUB_TOKEN"),
-    Author:"Clivern",
-    Repository:"Hamster",
+    Author: "Clivern",
+    Repository: "Hamster",
 }
 
 // Replace Message with the message and 1 with the issue id
@@ -32,6 +33,7 @@ created_comment, err := github_api.NewComment("Message", 1)
 
 if err == nil {
     // created_comment.ID
+    // check github.com/clivern/hamster/internal/app/response/created_comment.CreatedComment for available data
 }else{
     // err.Error()
 }
