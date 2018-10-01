@@ -26,8 +26,8 @@
 
 
 [[constraint]]
-  name = "github.com/hoisie/web"
-  branch = "master"
+  name = "github.com/gin-gonic/gin"
+  version = "1.3.0"
 
 [prune]
   go-tests = true

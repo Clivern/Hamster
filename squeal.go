@@ -1,12 +1,18 @@
 package main
 
 import (
-    "github.com/hoisie/web"
+    "github.com/gin-gonic/gin"
+    "github.com/clivern/hamster/internal/app/controller"
+    "net/http"
 )
 
-func hello(val string) string { return "hello " + val }
-
 func main() {
-    web.Get("/(.*)", hello)
-    web.Run("0.0.0.0:8000")
+    //gin.SetMode(gin.ReleaseMode)
+    r := gin.Default()
+    r.GET("/", controller.Index)
+    r.POST("/listen", controller.Listen)
+    r.GET("/favicon.ico", func(c *gin.Context) {
+        c.String(http.StatusNoContent, "")
+    })
+    r.Run()
 }
