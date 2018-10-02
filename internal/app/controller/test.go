@@ -60,3 +60,27 @@ func ActionsTest(c *gin.Context) {
         "data": fmt.Sprintf("%s -> %d", commit.Sha, commit.ID),
     })
 }
+
+
+func ParserTest(c *gin.Context) {
+
+    rawBody, _ := c.GetRawData()
+
+    parser := &listener.Parser{
+        UserAgent: c.GetHeader("User-Agent"),
+        GithubDelivery: c.GetHeader("X-GitHub-Delivery"),
+        GitHubEvent: c.GetHeader("X-GitHub-Event"),
+        HubSignature: c.GetHeader("X-Hub-Signature"),
+        Body: string(rawBody),
+    }
+
+    fmt.Println(parser.GetUserAgent())
+    fmt.Println(parser.GetGithubDelivery())
+    fmt.Println(parser.GetGitHubEvent())
+    fmt.Println(parser.GetHubSignature())
+    fmt.Println(parser.VerifySignature("$12345667$"))
+
+    c.JSON(200, gin.H{
+        "status": "ok",
+    })
+}

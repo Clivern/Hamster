@@ -18,6 +18,7 @@ func main() {
     // Test Routes
     r.GET("/create-comment-test", controller.CreateCommentTest)
     r.GET("/actions-test", controller.ActionsTest)
+    r.POST("/parser-test", controller.ParserTest)
 
     r.Run()
 }

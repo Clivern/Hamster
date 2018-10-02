@@ -40,10 +40,11 @@ if err == nil {
 }
 ```
 
-### Register Actions or Listeners
+### Register Actions or Listeners:
 
 Once any action happen on github like a new commit, new issue, new comment .... etc. You will get a `POST` request to your defined Hamster URL.
-In order to create custom actions please follow the following:
+
+In order to create custom github listeners, please check the following
 
 ```go
 import (
@@ -81,9 +82,53 @@ actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
 actions.ExecuteCommitActions(commit)
 ```
 
-## Working Examples
+### Verify the Incoming Github Actions
 
+```go
+import (
+    "github.com/gin-gonic/gin"
+    "github.com/clivern/hamster/internal/app/listener"
+    "os"
+    "fmt"
+)
 
+// using gin framework to create a new route
+r.POST("/parser-test", func (c *gin.Context) {
+
+    rawBody, _ := c.GetRawData()
+
+    parser := &listener.Parser{
+        UserAgent: c.GetHeader("User-Agent"),
+        GithubDelivery: c.GetHeader("X-GitHub-Delivery"),
+        GitHubEvent: c.GetHeader("X-GitHub-Event"),
+        HubSignature: c.GetHeader("X-Hub-Signature"),
+        Body: string(rawBody),
+    }
+
+    fmt.Println(parser.GetUserAgent())
+    fmt.Println(parser.GetGithubDelivery())
+    fmt.Println(parser.GetGitHubEvent())
+    fmt.Println(parser.GetHubSignature())
+    // if true this means that request coming from github with your secret
+    fmt.Println(parser.VerifySignature(os.Getenv("GITHUB_WEBHOOK_SECRET")))
+
+    c.JSON(200, gin.H{
+        "status": "ok",
+    })
+})
+```
+
+```bash
+// Github request is like that
+$ curl -X POST \
+    -H 'User-Agent: GitHub-Hookshot/997d58f' \
+    -H 'X-GitHub-Delivery: 06743070-c63e-11e8-9f16-48c86eb6bbe5' \
+    -H 'X-GitHub-Event: issue_comment' \
+    -H 'X-Hub-Signature: sha1=fr4254ba00119b76734567de793fadcef43c9865' \
+    -d '{"action":"created",...}' 'http://localhost:8080/parser-test'
+```
+
+### Working Examples
 
 
 ## Badges
