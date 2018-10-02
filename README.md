@@ -40,6 +40,51 @@ if err == nil {
 }
 ```
 
+### Register Actions or Listeners
+
+Once any action happen on github like a new commit, new issue, new comment .... etc. You will get a `POST` request to your defined Hamster URL.
+In order to create custom actions please follow the following:
+
+```go
+import (
+    "github.com/clivern/hamster/internal/app/receiver"
+    "github.com/clivern/hamster/internal/app/listener"
+    "fmt"
+)
+
+
+// Let's assume we get the following commit object with ID=1 and SHA is "Hi"
+var commit receiver.Commit
+
+commit.ID = 1
+commit.Sha = "Hi"
+
+
+var actions listener.Action
+
+actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
+    // Interact with commit object
+    fmt.Printf("Action 1 ID: %d\n", commit.ID) // ~ returns 1
+    fmt.Printf("Action 1 SHA: %s\n", commit.Sha) // ~ returns Hi
+    return true, nil
+})
+
+
+actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
+    // Interact with commit object
+    fmt.Printf("Action 2 ID: %d\n", commit.ID) // ~ returns 1
+    fmt.Printf("Action 2 SHA: %s\n", commit.Sha) // ~ returns Hi
+    return true, nil
+})
+
+// Execute all actions
+actions.ExecuteCommitActions(commit)
+```
+
+## Working Examples
+
+
+
 
 ## Badges
 
