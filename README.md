@@ -118,7 +118,7 @@ r.POST("/parser-test", func (c *gin.Context) {
 })
 ```
 
-```bash
+```curl
 // Github request is like that
 $ curl -X POST \
     -H 'User-Agent: GitHub-Hookshot/997d58f' \
