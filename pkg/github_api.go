@@ -18,8 +18,6 @@ type GithubAPI struct {
     Repository  string `json:"repository"`
 }
 
-//https://api.github.com/repos/Clivern/Hamster/issues/1/comments
-
 func (e *GithubAPI) NewComment (body string, issueId int) (response.CreatedComment, error) {
 
     var created_comment response.CreatedComment

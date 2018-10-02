@@ -1,26 +1,47 @@
 package controller
 
 import (
+    "github.com/clivern/hamster/internal/app/listener"
     "github.com/clivern/hamster/internal/app/receiver"
+    "github.com/clivern/hamster/plugin"
     "github.com/gin-gonic/gin"
+    "os"
+    "fmt"
 )
 
 func Listen(c *gin.Context) {
 
-    var commit receiver.Commit
+    var actions listener.Action
+    rawBody, _ := c.GetRawData()
+    body := string(rawBody)
 
-    b, _ := c.GetRawData()
+    parser := &listener.Parser{
+        UserAgent: c.GetHeader("User-Agent"),
+        GithubDelivery: c.GetHeader("X-GitHub-Delivery"),
+        GitHubEvent: c.GetHeader("X-GitHub-Event"),
+        HubSignature: c.GetHeader("X-Hub-Signature"),
+        Body: body,
+    }
 
-    ok, _ := commit.LoadFromJSON(b)
+    ok := parser.VerifySignature(os.Getenv("GithubWebhookSecret"))
 
-    if !ok {
+    if ok {
+        fmt.Println("Nice!")
+
+        if parser.GetGitHubEvent() == "push" {
+            var commit receiver.Commit
+            commit.LoadFromJSON(rawBody)
+            actions.RegisterCommitAction(plugin.CommitListener)
+            actions.ExecuteCommitActions(commit)
+        }
+
         c.JSON(200, gin.H{
-            "status": "not ok",
+            "status": "Nice!",
         })
     }else{
+        fmt.Println("Oops!")
         c.JSON(200, gin.H{
-            "status": "ok",
-            "author": commit.Commit.Commit.Author.Name,
+            "status": "Oops!",
         })
     }
 }

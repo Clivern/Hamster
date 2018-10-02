@@ -11,7 +11,7 @@ import (
 
 // Commit Action
 func CommitListener(commit receiver.Commit)(bool, error){
-    fmt.Printf("CommitListener Fired")
+    fmt.Printf("CommitListener Fired: %s \n", commit.Sha)
     return true, nil
 }
 
