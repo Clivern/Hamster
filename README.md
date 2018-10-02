@@ -1,10 +1,8 @@
 <p align="center">
   <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/feature/listen/logo/logo.png" height="80" />
   <h3 align="center">Hamster</h3>
-  <p align="center">An Opinionated Github Bot!</p>
+  <p align="center">A Bot Toolkit for Github!</p>
 </p>
-
----
 
 ## Documentation
 

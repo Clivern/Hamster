@@ -27,19 +27,16 @@ func (e *Action) ConvertToJSON () (string, error) {
     return string(data), nil
 }
 
-func (e *Action) RegisterCommitAction (f func(commit receiver.Commit)(bool, error)) (bool, error) {
+func (e *Action) RegisterCommitAction (f func(commit receiver.Commit)(bool, error)) {
     e.Commit = append(e.Commit, f)
-    return true, nil
 }
 
-func (e *Action) RegisterIssueAction (f func(issue receiver.Issue)(bool, error)) (bool, error) {
+func (e *Action) RegisterIssueAction (f func(issue receiver.Issue)(bool, error)) {
     e.Issue = append(e.Issue, f)
-    return true, nil
 }
 
-func (e *Action) RegisterIssueCommentAction (f func(issue_comment receiver.IssueComment)(bool, error)) (bool, error) {
+func (e *Action) RegisterIssueCommentAction (f func(issue_comment receiver.IssueComment)(bool, error)) {
     e.IssueComment = append(e.IssueComment, f)
-    return true, nil
 }
 
 func (e *Action) ExecuteCommitActions (commit receiver.Commit) (bool, error) {
