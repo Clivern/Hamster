@@ -78,7 +78,7 @@ func ParserTest(c *gin.Context) {
     fmt.Println(parser.GetGithubDelivery())
     fmt.Println(parser.GetGitHubEvent())
     fmt.Println(parser.GetHubSignature())
-    fmt.Println(parser.VerifySignature("$12345667$"))
+    fmt.Println(parser.VerifySignature(os.Getenv("GITHUB_WEBHOOK_SECRET")))
 
     c.JSON(200, gin.H{
         "status": "ok",
