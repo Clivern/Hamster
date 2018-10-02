@@ -1,4 +1,5 @@
 {
+    "app_mode": "dev",
     "github_token": "..",
     "github_webhook_secret": "..",
     "repository_author": "..",

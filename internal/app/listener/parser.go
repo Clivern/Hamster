@@ -103,9 +103,3 @@ func (e *Parser) SignBody(secret, body []byte) []byte {
     computed.Write(body)
     return []byte(computed.Sum(nil))
 }
-
-func (e *Parser) Parse () (bool, error) {
-    // Define the incoming github action
-
-    return true, nil
-}

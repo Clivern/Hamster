@@ -12,16 +12,33 @@
 $ cp config.json config.dist.json
 ```
 
-Then add your `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
+Then add your `app_mode`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
 
 ```json
 {
+    "app_mode": "prod",
     "github_token": "...",
     "github_webhook_secret": "...",
     "repository_author": "Clivern",
     "repository_name": "Hamster"
 }
 ```
+
+### Customize the Default Event Listeners:
+
+Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
+
+```go
+// plugin/base.go
+
+// Status Action
+func StatusListener(status event.Status)(bool, error){
+    fmt.Printf("StatusListener Fired: %s \n", status.Sha)
+    return true, nil
+}
+```
+
+All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 ### Create a Comment:
 

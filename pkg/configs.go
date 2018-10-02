@@ -12,6 +12,7 @@ type Config struct {
     GithubWebhookSecret string `json:"github_webhook_secret"`
     RepositoryAuthor string `json:"repository_author"`
     RepositoryName string `json:"repository_name"`
+    AppMode string `json:"app_mode"`
 }
 
 
@@ -37,4 +38,5 @@ func (e *Config) Cache () {
     os.Setenv("GithubWebhookSecret", e.GithubWebhookSecret)
     os.Setenv("RepositoryAuthor", e.RepositoryAuthor)
     os.Setenv("RepositoryName", e.RepositoryName)
+    os.Setenv("AppMode", e.AppMode)
 }

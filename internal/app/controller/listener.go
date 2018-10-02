@@ -9,7 +9,6 @@ import (
 )
 
 func Listen(c *gin.Context) {
-
     var actions listener.Action
     rawBody, _ := c.GetRawData()
     body := string(rawBody)
