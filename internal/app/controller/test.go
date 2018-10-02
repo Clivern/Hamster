@@ -35,29 +35,29 @@ func CreateCommentTest(c *gin.Context) {
 
 func ActionsTest(c *gin.Context) {
 
-    var commit event.Commit
+    var status event.Status
     var actions listener.Action
 
-    commit.ID = 1
-    commit.Sha = "Hi"
+    status.ID = 1
+    status.Sha = "Hi"
 
-    actions.RegisterCommitAction(func(commit event.Commit)(bool, error){
-        fmt.Printf("Action 1 ID: %d\n", commit.ID)
-        fmt.Printf("Action 1 SHA: %s\n", commit.Sha)
+    actions.RegisterStatusAction(func(status event.Status)(bool, error){
+        fmt.Printf("Action 1 ID: %d\n", status.ID)
+        fmt.Printf("Action 1 SHA: %s\n", status.Sha)
         return true, nil
     })
 
-    actions.RegisterCommitAction(func(commit event.Commit)(bool, error){
-        fmt.Printf("Action 2 ID: %d\n", commit.ID)
-        fmt.Printf("Action 3 SHA: %s\n", commit.Sha)
+    actions.RegisterStatusAction(func(status event.Status)(bool, error){
+        fmt.Printf("Action 2 ID: %d\n", status.ID)
+        fmt.Printf("Action 3 SHA: %s\n", status.Sha)
         return true, nil
     })
 
-    actions.ExecuteCommitActions(commit)
+    actions.ExecuteStatusActions(status)
 
     c.JSON(200, gin.H{
         "status": "ok",
-        "data": fmt.Sprintf("%s -> %d", commit.Sha, commit.ID),
+        "data": fmt.Sprintf("%s -> %d", status.Sha, status.ID),
     })
 }
 

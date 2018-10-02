@@ -1,13 +1,12 @@
 package event
 
 import (
-    "time"
     "encoding/json"
+    "time"
 )
 
-// Built with https://transform.now.sh/json-to-go/
-
-type Commit struct {
+// Any time a Repository has a status update from the API.
+type Status struct {
     ID          int64  `json:"id"`
     Sha         string `json:"sha"`
     Name        string `json:"name"`
@@ -222,8 +221,7 @@ type Commit struct {
     } `json:"sender"`
 }
 
-
-func (e *Commit) LoadFromJSON (data []byte) (bool, error) {
+func (e *Status) LoadFromJSON (data []byte) (bool, error) {
     err := json.Unmarshal(data, &e)
     if err != nil {
         return false, err
@@ -231,7 +229,7 @@ func (e *Commit) LoadFromJSON (data []byte) (bool, error) {
     return true, nil
 }
 
-func (e *Commit) ConvertToJSON () (string, error) {
+func (e *Status) ConvertToJSON () (string, error) {
     data, err := json.Marshal(&e)
     if err != nil {
         return "", err

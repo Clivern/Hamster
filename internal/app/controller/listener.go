@@ -26,10 +26,10 @@ func Listen(c *gin.Context) {
 
     if ok {
         if parser.GetGitHubEvent() == "status" {
-            var commit event.Commit
-            commit.LoadFromJSON(rawBody)
-            actions.RegisterCommitAction(plugin.CommitListener)
-            actions.ExecuteCommitActions(commit)
+            var status event.Status
+            status.LoadFromJSON(rawBody)
+            actions.RegisterStatusAction(plugin.StatusListener)
+            actions.ExecuteStatusActions(status)
         }
         c.JSON(200, gin.H{
             "status": "Nice!",

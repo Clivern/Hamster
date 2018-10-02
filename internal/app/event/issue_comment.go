@@ -4,7 +4,7 @@ import (
     "time"
     "encoding/json"
 )
-
+// Any time a comment on an issue is created, edited, or deleted.
 type IssueComment struct {
     Action string `json:"action"`
     Issue  struct {

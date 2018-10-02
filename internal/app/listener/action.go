@@ -6,8 +6,8 @@ import (
 )
 
 type Action struct {
-    Commit          []func(commit event.Commit)(bool, error)
-    Issue           []func(issue event.Issue)(bool, error)
+    Status          []func(status event.Status)(bool, error)
+    Issues           []func(issue event.Issues)(bool, error)
     IssueComment    []func(issue_comment event.IssueComment)(bool, error)
 }
 
@@ -27,21 +27,21 @@ func (e *Action) ConvertToJSON () (string, error) {
     return string(data), nil
 }
 
-func (e *Action) RegisterCommitAction (f func(commit event.Commit)(bool, error)) {
-    e.Commit = append(e.Commit, f)
+func (e *Action) RegisterStatusAction (f func(status event.Status)(bool, error)) {
+    e.Status = append(e.Status, f)
 }
 
-func (e *Action) RegisterIssueAction (f func(issue event.Issue)(bool, error)) {
-    e.Issue = append(e.Issue, f)
+func (e *Action) RegisterIssuesAction (f func(issue event.Issues)(bool, error)) {
+    e.Issues = append(e.Issues, f)
 }
 
 func (e *Action) RegisterIssueCommentAction (f func(issue_comment event.IssueComment)(bool, error)) {
     e.IssueComment = append(e.IssueComment, f)
 }
 
-func (e *Action) ExecuteCommitActions (commit event.Commit) (bool, error) {
-    for _, fun := range e.Commit{
-        ok, err := fun(commit)
+func (e *Action) ExecuteStatusActions (status event.Status) (bool, error) {
+    for _, fun := range e.Status{
+        ok, err := fun(status)
         if !ok {
             return false, err
         }
@@ -49,8 +49,8 @@ func (e *Action) ExecuteCommitActions (commit event.Commit) (bool, error) {
     return true, nil
 }
 
-func (e *Action) ExecuteIssueActions (issue event.Issue) (bool, error) {
-    for _, fun := range e.Issue{
+func (e *Action) ExecuteIssuesActions (issue event.Issues) (bool, error) {
+    for _, fun := range e.Issues{
         ok, err := fun(issue)
         if !ok {
             return false, err

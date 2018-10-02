@@ -5,7 +5,8 @@ import (
     "encoding/json"
 )
 
-type Issue struct {
+// Any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
+type Issues struct {
     Action string `json:"action"`
     Issue  struct {
         URL           string `json:"url"`
@@ -173,7 +174,7 @@ type Issue struct {
 }
 
 
-func (e *Issue) LoadFromJSON (data []byte) (bool, error) {
+func (e *Issues) LoadFromJSON (data []byte) (bool, error) {
     err := json.Unmarshal(data, &e)
     if err != nil {
         return false, err
@@ -181,7 +182,7 @@ func (e *Issue) LoadFromJSON (data []byte) (bool, error) {
     return true, nil
 }
 
-func (e *Issue) ConvertToJSON () (string, error) {
+func (e *Issues) ConvertToJSON () (string, error) {
     data, err := json.Marshal(&e)
     if err != nil {
         return "", err

@@ -9,15 +9,15 @@ import (
     "fmt"
 )
 
-// Commit Action
-func CommitListener(commit event.Commit)(bool, error){
-    fmt.Printf("CommitListener Fired: %s \n", commit.Sha)
+// Status Action
+func StatusListener(status event.Status)(bool, error){
+    fmt.Printf("StatusListener Fired: %s \n", status.Sha)
     return true, nil
 }
 
 // Issue Action
-func IssueListener(issue event.Issue)(bool, error){
-    fmt.Printf("IssueListener Fired")
+func IssuesListener(issues event.Issues)(bool, error){
+    fmt.Printf("IssuesListener Fired")
     return true, nil
 }
 
