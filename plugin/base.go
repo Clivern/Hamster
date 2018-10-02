@@ -14,6 +14,12 @@ func StatusListener(status event.Status)(bool, error){
     return true, nil
 }
 
+// Watch Action
+func WatchListener(watch event.Watch)(bool, error){
+    fmt.Printf("WatchListener Fired: %s \n", watch.Action)
+    return true, nil
+}
+
 // Issue Action
 func IssuesListener(issues event.Issues)(bool, error){
     fmt.Printf("IssuesListener Fired")
@@ -228,11 +234,5 @@ func TeamListener(team event.Team)(bool, error){
 // Not Supported Yet
 func TeamAddListener(team_add event.TeamAdd)(bool, error){
     fmt.Printf("TeamAddListener Fired")
-    return true, nil
-}
-
-// Not Supported Yet
-func WatchListener(watch event.Watch)(bool, error){
-    fmt.Printf("WatchListener Fired")
     return true, nil
 }

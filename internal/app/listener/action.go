@@ -6,9 +6,10 @@ import (
 )
 
 type Action struct {
-    Status          []func(status event.Status)(bool, error)
-    Issues           []func(issue event.Issues)(bool, error)
-    IssueComment    []func(issue_comment event.IssueComment)(bool, error)
+    Status              []func(status event.Status)(bool, error)
+    Issues              []func(issue event.Issues)(bool, error)
+    IssueComment        []func(issue_comment event.IssueComment)(bool, error)
+    Watch               []func(watch event.Watch)(bool, error)
 }
 
 func (e *Action) LoadFromJSON (data []byte) (bool, error) {
@@ -39,6 +40,10 @@ func (e *Action) RegisterIssueCommentAction (f func(issue_comment event.IssueCom
     e.IssueComment = append(e.IssueComment, f)
 }
 
+func (e *Action) RegisterWatchAction (f func(watch event.Watch)(bool, error)) {
+    e.Watch = append(e.Watch, f)
+}
+
 func (e *Action) ExecuteStatusActions (status event.Status) (bool, error) {
     for _, fun := range e.Status{
         ok, err := fun(status)
@@ -62,6 +67,16 @@ func (e *Action) ExecuteIssuesActions (issue event.Issues) (bool, error) {
 func (e *Action) ExecuteIssueCommentActions (issue_comment event.IssueComment) (bool, error) {
     for _, fun := range e.IssueComment{
         ok, err := fun(issue_comment)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
+}
+
+func (e *Action) ExecuteWatchActions (watch event.Watch) (bool, error) {
+    for _, fun := range e.Watch{
+        ok, err := fun(watch)
         if !ok {
             return false, err
         }

@@ -6,6 +6,7 @@ import (
     "github.com/clivern/hamster/plugin"
     "github.com/gin-gonic/gin"
     "os"
+    "fmt"
 )
 
 func Listen(c *gin.Context) {
@@ -24,11 +25,19 @@ func Listen(c *gin.Context) {
     ok := parser.VerifySignature(os.Getenv("GithubWebhookSecret"))
 
     if ok {
-        if parser.GetGitHubEvent() == "status" {
+        switch evt := parser.GetGitHubEvent(); evt {
+        case "status":
             var status event.Status
             status.LoadFromJSON(rawBody)
             actions.RegisterStatusAction(plugin.StatusListener)
             actions.ExecuteStatusActions(status)
+        case "watch":
+            var watch event.Watch
+            watch.LoadFromJSON(rawBody)
+            actions.RegisterWatchAction(plugin.WatchListener)
+            actions.ExecuteWatchActions(watch)
+        default:
+            fmt.Printf("Unknown or Unsupported Event %s", evt)
         }
         c.JSON(200, gin.H{
             "status": "Nice!",
