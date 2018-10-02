@@ -1,5 +1,5 @@
 <p align="center">
-  <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/feature/listen/logo/logo.png" height="80" />
+  <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/logo/logo.png" height="80" />
   <h3 align="center">Hamster</h3>
   <p align="center">A Bot Toolkit for Github!</p>
 </p>
