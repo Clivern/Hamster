@@ -6,7 +6,6 @@ import (
     "github.com/clivern/hamster/plugin"
     "github.com/gin-gonic/gin"
     "os"
-    "fmt"
 )
 
 func Listen(c *gin.Context) {
@@ -26,20 +25,16 @@ func Listen(c *gin.Context) {
     ok := parser.VerifySignature(os.Getenv("GithubWebhookSecret"))
 
     if ok {
-        fmt.Println("Nice!")
-
-        if parser.GetGitHubEvent() == "push" {
+        if parser.GetGitHubEvent() == "status" {
             var commit receiver.Commit
             commit.LoadFromJSON(rawBody)
             actions.RegisterCommitAction(plugin.CommitListener)
             actions.ExecuteCommitActions(commit)
         }
-
         c.JSON(200, gin.H{
             "status": "Nice!",
         })
     }else{
-        fmt.Println("Oops!")
         c.JSON(200, gin.H{
             "status": "Oops!",
         })
