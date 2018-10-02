@@ -6,11 +6,24 @@
 
 ## Documentation
 
-### Create a Comment:
+### Config The Application:
 
 ```bash
-$ export GITHUB_TOKEN=b1...
+$ cp config.json config.dist.json
 ```
+
+Then add your `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
+
+```json
+{
+    "github_token": "...",
+    "github_webhook_secret": "...",
+    "repository_author": "Clivern",
+    "repository_name": "Hamster"
+}
+```
+
+### Create a Comment:
 
 ```go
 // for more info https://developer.github.com/v3/issues/comments/#create-a-comment
