@@ -24,6 +24,8 @@ Then add your `app_mode`, `github_token`, `github_webhook_secret`, `repository_a
 }
 ```
 
+Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https://hamster.com/listen`, `Content type` as `JSON` and Add Your Webhook Secret.
+
 ### Customize the Default Event Listeners:
 
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
