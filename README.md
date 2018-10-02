@@ -46,14 +46,14 @@ In order to create custom github listeners, please check the following
 
 ```go
 import (
-    "github.com/clivern/hamster/internal/app/receiver"
+    "github.com/clivern/hamster/internal/app/event"
     "github.com/clivern/hamster/internal/app/listener"
     "fmt"
 )
 
 
 // Let's assume we get the following commit object with ID=1 and SHA is "Hi"
-var commit receiver.Commit
+var commit event.Commit
 
 commit.ID = 1
 commit.Sha = "Hi"
@@ -61,7 +61,7 @@ commit.Sha = "Hi"
 
 var actions listener.Action
 
-actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
+actions.RegisterCommitAction(func(commit event.Commit)(bool, error){
     // Interact with commit object
     fmt.Printf("Action 1 ID: %d\n", commit.ID) // ~ returns 1
     fmt.Printf("Action 1 SHA: %s\n", commit.Sha) // ~ returns Hi
@@ -69,7 +69,7 @@ actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
 })
 
 
-actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
+actions.RegisterCommitAction(func(commit event.Commit)(bool, error){
     // Interact with commit object
     fmt.Printf("Action 2 ID: %d\n", commit.ID) // ~ returns 1
     fmt.Printf("Action 2 SHA: %s\n", commit.Sha) // ~ returns Hi

@@ -2,7 +2,7 @@ package controller
 
 import (
     "github.com/clivern/hamster/internal/app/listener"
-    "github.com/clivern/hamster/internal/app/receiver"
+    "github.com/clivern/hamster/internal/app/event"
     "github.com/clivern/hamster/plugin"
     "github.com/gin-gonic/gin"
     "os"
@@ -26,7 +26,7 @@ func Listen(c *gin.Context) {
 
     if ok {
         if parser.GetGitHubEvent() == "status" {
-            var commit receiver.Commit
+            var commit event.Commit
             commit.LoadFromJSON(rawBody)
             actions.RegisterCommitAction(plugin.CommitListener)
             actions.ExecuteCommitActions(commit)

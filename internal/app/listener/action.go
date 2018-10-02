@@ -1,14 +1,14 @@
 package listener
 
 import (
-    "github.com/clivern/hamster/internal/app/receiver"
+    "github.com/clivern/hamster/internal/app/event"
     "encoding/json"
 )
 
 type Action struct {
-    Commit          []func(commit receiver.Commit)(bool, error)
-    Issue           []func(issue receiver.Issue)(bool, error)
-    IssueComment    []func(issue_comment receiver.IssueComment)(bool, error)
+    Commit          []func(commit event.Commit)(bool, error)
+    Issue           []func(issue event.Issue)(bool, error)
+    IssueComment    []func(issue_comment event.IssueComment)(bool, error)
 }
 
 func (e *Action) LoadFromJSON (data []byte) (bool, error) {
@@ -27,19 +27,19 @@ func (e *Action) ConvertToJSON () (string, error) {
     return string(data), nil
 }
 
-func (e *Action) RegisterCommitAction (f func(commit receiver.Commit)(bool, error)) {
+func (e *Action) RegisterCommitAction (f func(commit event.Commit)(bool, error)) {
     e.Commit = append(e.Commit, f)
 }
 
-func (e *Action) RegisterIssueAction (f func(issue receiver.Issue)(bool, error)) {
+func (e *Action) RegisterIssueAction (f func(issue event.Issue)(bool, error)) {
     e.Issue = append(e.Issue, f)
 }
 
-func (e *Action) RegisterIssueCommentAction (f func(issue_comment receiver.IssueComment)(bool, error)) {
+func (e *Action) RegisterIssueCommentAction (f func(issue_comment event.IssueComment)(bool, error)) {
     e.IssueComment = append(e.IssueComment, f)
 }
 
-func (e *Action) ExecuteCommitActions (commit receiver.Commit) (bool, error) {
+func (e *Action) ExecuteCommitActions (commit event.Commit) (bool, error) {
     for _, fun := range e.Commit{
         ok, err := fun(commit)
         if !ok {
@@ -49,7 +49,7 @@ func (e *Action) ExecuteCommitActions (commit receiver.Commit) (bool, error) {
     return true, nil
 }
 
-func (e *Action) ExecuteIssueActions (issue receiver.Issue) (bool, error) {
+func (e *Action) ExecuteIssueActions (issue event.Issue) (bool, error) {
     for _, fun := range e.Issue{
         ok, err := fun(issue)
         if !ok {
@@ -59,7 +59,7 @@ func (e *Action) ExecuteIssueActions (issue receiver.Issue) (bool, error) {
     return true, nil
 }
 
-func (e *Action) ExecuteIssueCommentActions (issue_comment receiver.IssueComment) (bool, error) {
+func (e *Action) ExecuteIssueCommentActions (issue_comment event.IssueComment) (bool, error) {
     for _, fun := range e.IssueComment{
         ok, err := fun(issue_comment)
         if !ok {

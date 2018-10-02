@@ -3,7 +3,7 @@ package controller
 import (
     "github.com/gin-gonic/gin"
     "github.com/clivern/hamster/pkg"
-    "github.com/clivern/hamster/internal/app/receiver"
+    "github.com/clivern/hamster/internal/app/event"
     "github.com/clivern/hamster/internal/app/listener"
     "os"
     "fmt"
@@ -35,19 +35,19 @@ func CreateCommentTest(c *gin.Context) {
 
 func ActionsTest(c *gin.Context) {
 
-    var commit receiver.Commit
+    var commit event.Commit
     var actions listener.Action
 
     commit.ID = 1
     commit.Sha = "Hi"
 
-    actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
+    actions.RegisterCommitAction(func(commit event.Commit)(bool, error){
         fmt.Printf("Action 1 ID: %d\n", commit.ID)
         fmt.Printf("Action 1 SHA: %s\n", commit.Sha)
         return true, nil
     })
 
-    actions.RegisterCommitAction(func(commit receiver.Commit)(bool, error){
+    actions.RegisterCommitAction(func(commit event.Commit)(bool, error){
         fmt.Printf("Action 2 ID: %d\n", commit.ID)
         fmt.Printf("Action 3 SHA: %s\n", commit.Sha)
         return true, nil
