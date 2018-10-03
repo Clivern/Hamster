@@ -42,9 +42,9 @@ func (e *Config) Cache () {
         os.Setenv("RepositoryName", e.RepositoryName)
         os.Setenv("AppMode", e.AppMode)
         os.Setenv("AppPort", e.AppPort)
-        // Used by gin framework
-        // https://github.com/gin-gonic/gin/blob/d510595aa58c2417373d89a8d8ffa21cf58673cb/utils.go#L140
-        os.Setenv("PORT", e.AppPort)
-
     }
+
+    // Used by gin framework
+    // https://github.com/gin-gonic/gin/blob/d510595aa58c2417373d89a8d8ffa21cf58673cb/utils.go#L140
+    os.Setenv("PORT", os.Getenv("AppPort"))
 }
