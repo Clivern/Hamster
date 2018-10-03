@@ -1,32 +1,32 @@
 version: '3'
 services:
+   db:
+      image: "mysql:5.7"
+      environment:
+         - MYSQL_ROOT_PASSWORD=root
+         - MYSQL_DATABASE=hamster
+         - MYSQL_USER=hamster
+         - MYSQL_PASSWORD=secret
+         - MYSQL_ALLOW_EMPTY_PASSWORD=yes
+      restart: always
+      healthcheck:
+         test: '/usr/bin/mysql --user=hamster --password=secret --execute "SHOW DATABASES;"'
+         interval: 3s
+         timeout: 1s
+         retries: 5
    web:
-      db:
-         image: "mysql:5.7"
-         environment:
-            - MYSQL_ROOT_PASSWORD=root
-            - MYSQL_DATABASE=hamster
-            - MYSQL_USER=hamster
-            - MYSQL_PASSWORD=secret
-            - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-         restart: always
-         healthcheck:
-            test: '/usr/bin/mysql --user=hamster --password=secret --execute "SHOW DATABASES;"'
-            interval: 3s
-            timeout: 1s
-            retries: 5
-      web:
-         build: .
-         command: 'squeal'
-         ports:
-            - "8000:8000"
-         depends_on:
-            - db
-         restart: always
-         environment:
-            - GithubToken=YourTokenHere
-            - GithubWebhookSecret=YourSecretHere
-            - RepositoryAuthor=Clivern
-            - RepositoryName=Hamster
-            - AppMode=prod
-            - AppPort=8000
+      image: "clivern_hamster:1.0.0"
+      build: .
+      command: './squeal'
+      ports:
+         - "8080:8080"
+      depends_on:
+         - db
+      restart: always
+      environment:
+         - GithubToken=YourTokenHere
+         - GithubWebhookSecret=YourSecretHere
+         - RepositoryAuthor=Clivern
+         - RepositoryName=Hamster
+         - AppMode=prod
+         - AppPort=8080
