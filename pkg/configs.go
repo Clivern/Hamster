@@ -13,6 +13,7 @@ type Config struct {
     RepositoryAuthor string `json:"repository_author"`
     RepositoryName string `json:"repository_name"`
     AppMode string `json:"app_mode"`
+    AppPort string `json:"app_port"`
 }
 
 
@@ -39,4 +40,8 @@ func (e *Config) Cache () {
     os.Setenv("RepositoryAuthor", e.RepositoryAuthor)
     os.Setenv("RepositoryName", e.RepositoryName)
     os.Setenv("AppMode", e.AppMode)
+    os.Setenv("AppPort", e.AppPort)
+    // Used by gin framework
+    // https://github.com/gin-gonic/gin/blob/d510595aa58c2417373d89a8d8ffa21cf58673cb/utils.go#L140
+    os.Setenv("PORT", e.AppPort)
 }

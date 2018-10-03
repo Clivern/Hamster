@@ -12,11 +12,12 @@
 $ cp config.json config.dist.json
 ```
 
-Then add your `app_mode`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
+Then add your `app_mode`, `app_port`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
 
 ```json
 {
     "app_mode": "prod",
+    "app_port": "8080",
     "github_token": "...",
     "github_webhook_secret": "...",
     "repository_author": "Clivern",
@@ -30,6 +31,8 @@ Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https
 
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
 
+
+**Status Event:** Any time a Repository has a status update from the API, The following callback get called.
 ```go
 // plugin/base.go
 
@@ -40,7 +43,20 @@ func StatusListener(status event.Status)(bool, error){
 }
 ```
 
+**Watch Event:** Any time a User stars a Repository.
+```go
+// plugin/base.go
+
+// Watch Action
+func WatchListener(watch event.Watch)(bool, error){
+    fmt.Printf("WatchListener Fired: %s \n", watch.Action)
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
+
+Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
 
 ### Create a Comment:
 
