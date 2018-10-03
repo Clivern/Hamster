@@ -22,13 +22,13 @@ func WatchListener(watch event.Watch)(bool, error){
 
 // Issue Action
 func IssuesListener(issues event.Issues)(bool, error){
-    fmt.Printf("IssuesListener Fired")
+    fmt.Printf("IssuesListener Fired: %s \n", issues.Action)
     return true, nil
 }
 
 // Issue Comment Action
 func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
-    fmt.Printf("IssueCommentListener Fired")
+    fmt.Printf("IssueCommentListener Fired: %s \n", issue_comment.Action)
     return true, nil
 }
 

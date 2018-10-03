@@ -36,6 +36,16 @@ func Listen(c *gin.Context) {
             watch.LoadFromJSON(rawBody)
             actions.RegisterWatchAction(plugin.WatchListener)
             actions.ExecuteWatchActions(watch)
+        case "issues":
+            var issues event.Issues
+            issues.LoadFromJSON(rawBody)
+            actions.RegisterIssuesAction(plugin.IssuesListener)
+            actions.ExecuteIssuesActions(issues)
+        case "issue_comment":
+            var issue_comment event.IssueComment
+            issue_comment.LoadFromJSON(rawBody)
+            actions.RegisterIssueCommentAction(plugin.IssueCommentListener)
+            actions.ExecuteIssueCommentActions(issue_comment)
         default:
             fmt.Printf("Unknown or Unsupported Event %s", evt)
         }

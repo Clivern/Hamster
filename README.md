@@ -1,7 +1,7 @@
 <p align="center">
-  <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/logo/logo.png" height="80" />
-  <h3 align="center">Hamster</h3>
-  <p align="center">A Bot Toolkit for Github!</p>
+    <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/logo/logo.png" height="80" />
+    <h3 align="center">Hamster</h3>
+    <p align="center">A Bot Toolkit for Github!</p>
 </p>
 
 ## Documentation
@@ -32,7 +32,7 @@ Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
 
 
-**Status Event:** Any time a Repository has a status update from the API, The following callback get called.
+**status event:** any time a Repository has a status update from the API, The following callback get called.
 ```go
 // plugin/base.go
 
@@ -43,13 +43,35 @@ func StatusListener(status event.Status)(bool, error){
 }
 ```
 
-**Watch Event:** Any time a User stars a Repository.
+**watch event:** any time a User stars a Repository.
 ```go
 // plugin/base.go
 
 // Watch Action
 func WatchListener(watch event.Watch)(bool, error){
     fmt.Printf("WatchListener Fired: %s \n", watch.Action)
+    return true, nil
+}
+```
+
+**issues event:** any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
+```go
+// plugin/base.go
+
+// Issue Action
+func IssuesListener(issues event.Issues)(bool, error){
+    fmt.Printf("IssuesListener Fired: %s \n", issues.Action)
+    return true, nil
+}
+```
+
+**issue_comment event:** any time a comment on an issue is created, edited, or deleted.
+```go
+// plugin/base.go
+
+// Issue Comment Action
+func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
+    fmt.Printf("IssueCommentListener Fired: %s \n", issue_comment.Action)
     return true, nil
 }
 ```
