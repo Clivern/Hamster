@@ -22,6 +22,8 @@ services:
          - "8080:8080"
       depends_on:
          - db
+      volumes:
+         - './var:/go/src/github.com/clivern/hamster/var'
       restart: always
       environment:
          - GithubToken=YourTokenHere
@@ -30,3 +32,4 @@ services:
          - RepositoryName=Hamster
          - AppMode=prod
          - AppPort=8080
+         - AppLogLevel=info

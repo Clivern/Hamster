@@ -16,6 +16,7 @@ type Config struct {
     RepositoryName string `json:"repository_name"`
     AppMode string `json:"app_mode"`
     AppPort string `json:"app_port"`
+    AppLogLevel string `json:"app_log_level"`
 }
 
 
@@ -49,6 +50,7 @@ func (e *Config) Cache () {
         os.Setenv("RepositoryAuthor", e.RepositoryAuthor)
         os.Setenv("RepositoryName", e.RepositoryName)
         os.Setenv("AppMode", e.AppMode)
+        os.Setenv("AppLogLevel", e.AppLogLevel)
         os.Setenv("AppPort", e.AppPort)
     }
 }

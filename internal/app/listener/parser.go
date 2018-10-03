@@ -1,7 +1,6 @@
 package listener
 
 import (
-    _"github.com/clivern/hamster/internal/app/event"
     "encoding/json"
     "crypto/hmac"
     "crypto/sha1"
