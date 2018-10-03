@@ -15,7 +15,7 @@ services:
          timeout: 1s
          retries: 5
    web:
-      image: "clivern_hamster:1.1.0"
+      image: "clivern_hamster:1.1.1"
       build: .
       command: './squeal'
       ports:

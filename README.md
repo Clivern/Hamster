@@ -151,6 +151,11 @@ pkg.Fatal("Fatal Error Goes Here!")
 
 ## Changelog
 
+* Version 1.1.1:
+```
+Add Logger Package.
+```
+
 * Version 1.1.0:
 ```
 Add new events watch, issues and issue_comment.
