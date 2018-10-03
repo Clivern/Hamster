@@ -1,7 +1,7 @@
 <p align="center">
-  <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/logo/logo.png" height="80" />
-  <h3 align="center">Hamster</h3>
-  <p align="center">A Bot Toolkit for Github!</p>
+    <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/logo/logo.png" height="80" />
+    <h3 align="center">Hamster</h3>
+    <p align="center">A Bot Toolkit for Github!</p>
 </p>
 
 ## Documentation
@@ -12,11 +12,12 @@
 $ cp config.json config.dist.json
 ```
 
-Then add your `app_mode`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
+Then add your `app_mode`, `app_port`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
 
 ```json
 {
     "app_mode": "prod",
+    "app_port": "8080",
     "github_token": "...",
     "github_webhook_secret": "...",
     "repository_author": "Clivern",
@@ -26,10 +27,30 @@ Then add your `app_mode`, `github_token`, `github_webhook_secret`, `repository_a
 
 Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https://hamster.com/listen`, `Content type` as `JSON` and Add Your Webhook Secret.
 
+And then run the application
+
+```bash
+$ go build squeal.go
+$ ./squeal
+
+// OR
+
+$ go run squeal.go
+```
+
+Also running hamster with docker still an option. Just don't forget to update `GithubToken`, `GithubWebhookSecret`, `RepositoryAuthor` and `RepositoryName` inside `docker-compose.yml` file. Then run the following stuff
+
+```bash
+$ docker-compose build
+$ docker-compose up -d
+```
+
 ### Customize the Default Event Listeners:
 
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
 
+
+**[status event:](https://developer.github.com/v3/activity/events/types/#statusevent)** any time a Repository has a status update from the API, The following callback get called.
 ```go
 // plugin/base.go
 
@@ -40,7 +61,42 @@ func StatusListener(status event.Status)(bool, error){
 }
 ```
 
+**[watch event:](https://developer.github.com/v3/activity/events/types/#watchevent)** any time a User stars a Repository.
+```go
+// plugin/base.go
+
+// Watch Action
+func WatchListener(watch event.Watch)(bool, error){
+    fmt.Printf("WatchListener Fired: %s \n", watch.Action)
+    return true, nil
+}
+```
+
+**[issues event:](https://developer.github.com/v3/activity/events/types/#issuesevent)** any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
+```go
+// plugin/base.go
+
+// Issue Action
+func IssuesListener(issues event.Issues)(bool, error){
+    fmt.Printf("IssuesListener Fired: %s \n", issues.Action)
+    return true, nil
+}
+```
+
+**[issue_comment event:](https://developer.github.com/v3/activity/events/types/#issuecommentevent)** any time a comment on an issue is created, edited, or deleted.
+```go
+// plugin/base.go
+
+// Issue Comment Action
+func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
+    fmt.Printf("IssueCommentListener Fired: %s \n", issue_comment.Action)
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
+
+Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
 
 ### Create a Comment:
 
@@ -70,8 +126,6 @@ if err == nil {
 }
 ```
 
-### Working Examples
-
 
 ## Badges
 
@@ -80,6 +134,12 @@ if err == nil {
 
 
 ## Changelog
+
+* Version 1.1.0:
+```
+Add new events watch, issues and issue_comment.
+Fix dockerfile & docker-compose.
+```
 
 * Version 1.0.0:
 ```

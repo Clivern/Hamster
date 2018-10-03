@@ -1,9 +1,11 @@
-FROM golang:latest
+FROM golang:1.11.1
 
-ADD . /go/
+RUN mkdir -p /go/src/github.com/clivern/hamster/
 
-WORKDIR /go
+ADD . /go/src/github.com/clivern/hamster/
+
+WORKDIR /go/src/github.com/clivern/hamster
 
 RUN go build squeal.go
 
-CMD ["squeal.go"]
+CMD ["./squeal"]
