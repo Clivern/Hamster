@@ -32,7 +32,7 @@ Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
 
 
-**status event:** any time a Repository has a status update from the API, The following callback get called.
+**[status event:](https://developer.github.com/v3/activity/events/types/#statusevent)** any time a Repository has a status update from the API, The following callback get called.
 ```go
 // plugin/base.go
 
@@ -43,7 +43,7 @@ func StatusListener(status event.Status)(bool, error){
 }
 ```
 
-**watch event:** any time a User stars a Repository.
+**[watch event:](https://developer.github.com/v3/activity/events/types/#watchevent)** any time a User stars a Repository.
 ```go
 // plugin/base.go
 
@@ -54,7 +54,7 @@ func WatchListener(watch event.Watch)(bool, error){
 }
 ```
 
-**issues event:** any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
+**[issues event:](https://developer.github.com/v3/activity/events/types/#issuesevent)** any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
 ```go
 // plugin/base.go
 
@@ -65,7 +65,7 @@ func IssuesListener(issues event.Issues)(bool, error){
 }
 ```
 
-**issue_comment event:** any time a comment on an issue is created, edited, or deleted.
+**[issue_comment event:](https://developer.github.com/v3/activity/events/types/#issuecommentevent)** any time a comment on an issue is created, edited, or deleted.
 ```go
 // plugin/base.go
 
