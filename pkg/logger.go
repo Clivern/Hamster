@@ -25,7 +25,7 @@ func Info(msg string) {
 
         defer lf.Close()
 
-        out := logger.Init("Hamster", false, true, lf)
+        out := logger.Init("Hamster", false, false, lf)
         defer out.Close()
 
         out.Info(msg)
@@ -48,7 +48,7 @@ func Warning(msg string) {
 
         defer lf.Close()
 
-        out := logger.Init("Hamster", false, true, lf)
+        out := logger.Init("Hamster", false, false, lf)
         defer out.Close()
 
         out.Warning(msg)
@@ -71,7 +71,7 @@ func Error(msg string) {
 
         defer lf.Close()
 
-        out := logger.Init("Hamster", false, true, lf)
+        out := logger.Init("Hamster", false, false, lf)
         defer out.Close()
 
         out.Error(msg)
@@ -94,7 +94,7 @@ func Fatal(msg string) {
 
         defer lf.Close()
 
-        out := logger.Init("Hamster", false, true, lf)
+        out := logger.Init("Hamster", false, false, lf)
         defer out.Close()
 
         out.Fatal(msg)

@@ -136,7 +136,6 @@ import (
     "github.com/clivern/hamster/pkg"
 )
 
-
 pkg.Info("Info Goes Here!")
 pkg.Warning("Warning Goes Here!")
 pkg.Error("Error Goes Here!")
