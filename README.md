@@ -12,12 +12,13 @@
 $ cp config.json config.dist.json
 ```
 
-Then add your `app_mode`, `app_port`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
+Then add your `app_mode`, `app_port`, `app_log_level`, `github_token`, `github_webhook_secret`, `repository_author` and `repository_name`
 
 ```json
 {
     "app_mode": "prod",
     "app_port": "8080",
+    "app_log_level": "info",
     "github_token": "...",
     "github_webhook_secret": "...",
     "repository_author": "Clivern",
@@ -124,6 +125,21 @@ if err == nil {
 }else{
     // err.Error()
 }
+```
+
+### Logging
+
+We use [google/logger](https://github.com/google/logger) under the hood, make use of it or use these simple functions:
+
+```go
+import (
+    "github.com/clivern/hamster/pkg"
+)
+
+pkg.Info("Info Goes Here!")
+pkg.Warning("Warning Goes Here!")
+pkg.Error("Error Goes Here!")
+pkg.Fatal("Fatal Error Goes Here!")
 ```
 
 

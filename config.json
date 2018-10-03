@@ -1,6 +1,7 @@
 {
     "app_mode": "dev",
     "app_port": "8080",
+    "app_log_level": "info",
     "github_token": "..",
     "github_webhook_secret": "..",
     "repository_author": "..",
