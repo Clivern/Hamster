@@ -126,8 +126,6 @@ if err == nil {
 }
 ```
 
-### Working Examples
-
 
 ## Badges
 
@@ -136,6 +134,12 @@ if err == nil {
 
 
 ## Changelog
+
+* Version 1.1.0:
+```
+Add new events watch, issues and issue_comment.
+Fix dockerfile & docker-compose.
+```
 
 * Version 1.0.0:
 ```
