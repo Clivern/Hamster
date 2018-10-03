@@ -12,7 +12,9 @@ func main() {
     // Load config.json file and store on env
     config := &pkg.Config{}
     config.Load("config.dist.json")
+    // This will never override ENV Vars if exists
     config.Cache()
+    config.GinEnv()
 
     if os.Getenv("AppMode") == "prod" {
         gin.SetMode(gin.ReleaseMode)

@@ -5,6 +5,8 @@ import (
     "io/ioutil"
     "os"
     "encoding/json"
+    "errors"
+    "fmt"
 )
 
 type Config struct {
@@ -18,6 +20,12 @@ type Config struct {
 
 
 func (e *Config) Load(file string) (bool, error) {
+
+    _, err := os.Stat(file)
+
+    if err != nil{
+        return false, errors.New(fmt.Sprintf("Config file %s not found, Hamster will read Env variables!", file))
+    }
 
     data, err := ioutil.ReadFile(file)
 
@@ -43,7 +51,9 @@ func (e *Config) Cache () {
         os.Setenv("AppMode", e.AppMode)
         os.Setenv("AppPort", e.AppPort)
     }
+}
 
+func (e *Config) GinEnv () {
     // Used by gin framework
     // https://github.com/gin-gonic/gin/blob/d510595aa58c2417373d89a8d8ffa21cf58673cb/utils.go#L140
     os.Setenv("PORT", os.Getenv("AppPort"))
