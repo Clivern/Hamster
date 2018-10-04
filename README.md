@@ -50,6 +50,17 @@ $ docker-compose up -d
 
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
 
+**any event:** any time listen endpoint get a call, the following callback get called.
+
+```go
+// plugin/base.go
+
+// Any Action
+func RawListener(raw event.Raw)(bool, error){
+    pkg.Info("Raw event listener fired!")
+    return true, nil
+}
+```
 
 **[status event:](https://developer.github.com/v3/activity/events/types/#statusevent)** any time a Repository has a status update from the API, The following callback get called.
 ```go
@@ -57,7 +68,7 @@ Anytime github call hamster listen endpoint, there will be a callback that get c
 
 // Status Action
 func StatusListener(status event.Status)(bool, error){
-    fmt.Printf("StatusListener Fired: %s \n", status.Sha)
+    pkg.Info("Status event listener fired!")
     return true, nil
 }
 ```
@@ -68,7 +79,7 @@ func StatusListener(status event.Status)(bool, error){
 
 // Watch Action
 func WatchListener(watch event.Watch)(bool, error){
-    fmt.Printf("WatchListener Fired: %s \n", watch.Action)
+    pkg.Info("Watch event listener fired!")
     return true, nil
 }
 ```
@@ -79,7 +90,7 @@ func WatchListener(watch event.Watch)(bool, error){
 
 // Issue Action
 func IssuesListener(issues event.Issues)(bool, error){
-    fmt.Printf("IssuesListener Fired: %s \n", issues.Action)
+    pkg.Info("Issues event listener fired!")
     return true, nil
 }
 ```
@@ -90,7 +101,7 @@ func IssuesListener(issues event.Issues)(bool, error){
 
 // Issue Comment Action
 func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
-    fmt.Printf("IssueCommentListener Fired: %s \n", issue_comment.Action)
+    pkg.Info("IssueComment event listener fired!")
     return true, nil
 }
 ```

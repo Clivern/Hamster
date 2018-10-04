@@ -10,6 +10,7 @@ type Action struct {
     Issues              []func(issue event.Issues)(bool, error)
     IssueComment        []func(issue_comment event.IssueComment)(bool, error)
     Watch               []func(watch event.Watch)(bool, error)
+    Raw                 []func(raw event.Raw)(bool, error)
 }
 
 func (e *Action) LoadFromJSON (data []byte) (bool, error) {
@@ -28,6 +29,10 @@ func (e *Action) ConvertToJSON () (string, error) {
     return string(data), nil
 }
 
+func (e *Action) RegisterRawAction (f func(raw event.Raw)(bool, error)) {
+    e.Raw = append(e.Raw, f)
+}
+
 func (e *Action) RegisterStatusAction (f func(status event.Status)(bool, error)) {
     e.Status = append(e.Status, f)
 }
@@ -42,6 +47,16 @@ func (e *Action) RegisterIssueCommentAction (f func(issue_comment event.IssueCom
 
 func (e *Action) RegisterWatchAction (f func(watch event.Watch)(bool, error)) {
     e.Watch = append(e.Watch, f)
+}
+
+func (e *Action) ExecuteRawActions (raw event.Raw) (bool, error) {
+    for _, fun := range e.Raw{
+        ok, err := fun(raw)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
 }
 
 func (e *Action) ExecuteStatusActions (status event.Status) (bool, error) {
