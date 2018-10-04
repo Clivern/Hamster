@@ -45,6 +45,11 @@ func Listen(c *gin.Context) {
             issues.LoadFromJSON(rawBody)
             actions.RegisterIssuesAction(plugin.IssuesListener)
             actions.ExecuteIssuesActions(issues)
+        case "push":
+            var push event.Push
+            push.LoadFromJSON(rawBody)
+            actions.RegisterPushAction(plugin.PushListener)
+            actions.ExecutePushActions(push)
         case "issue_comment":
             var issue_comment event.IssueComment
             issue_comment.LoadFromJSON(rawBody)

@@ -106,6 +106,17 @@ func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
 }
 ```
 
+**[push event:](https://developer.github.com/v3/activity/events/types/#pushevent)** Any Git push to a Repository, including editing tags or branches. Commits via API actions that update references are also counted. This is the default event.
+```go
+// plugin/base.go
+
+// Push Action
+func PushListener(push event.Push)(bool, error){
+    pkg.Info("Push event listener fired!")
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
