@@ -44,6 +44,12 @@ func CreateListener(create event.Create)(bool, error){
     return true, nil
 }
 
+// Label Action
+func LabelListener(label event.Label)(bool, error){
+    pkg.Info("Label event listener fired!")
+    return true, nil
+}
+
 // Not Supported Yet
 func CheckRunListener(check_run event.CheckRun)(bool, error){
     pkg.Info("CheckRun event listener fired!")
@@ -107,12 +113,6 @@ func InstallationListener(installation event.Installation)(bool, error){
 // Not Supported Yet
 func InstallationRepositoriesListener(installation_repositories event.InstallationRepositories)(bool, error){
     pkg.Info("InstallationRepositories event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func LabelListener(label event.Label)(bool, error){
-    pkg.Info("Label event listener fired!")
     return true, nil
 }
 

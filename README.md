@@ -129,6 +129,20 @@ func CreateListener(create event.Create)(bool, error){
 }
 ```
 
+**[label event:](https://developer.github.com/v3/activity/events/types/#labelevent)** Any time a Label is created, edited, or deleted.
+
+```go
+// plugin/base.go
+
+// Label Action
+func LabelListener(label event.Label)(bool, error){
+    pkg.Info("Label event listener fired!")
+    return true, nil
+}
+```
+
+
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).

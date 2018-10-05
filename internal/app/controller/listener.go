@@ -60,6 +60,11 @@ func Listen(c *gin.Context) {
             create.LoadFromJSON(rawBody)
             actions.RegisterCreateAction(plugin.CreateListener)
             actions.ExecuteCreateActions(create)
+        case "label":
+            var label event.Label
+            label.LoadFromJSON(rawBody)
+            actions.RegisterLabelAction(plugin.LabelListener)
+            actions.ExecuteLabelActions(label)
         default:
             pkg.Info(fmt.Sprintf("Unknown or unsupported event %s!", evt))
         }
