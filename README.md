@@ -117,6 +117,18 @@ func PushListener(push event.Push)(bool, error){
 }
 ```
 
+**[create event:](https://developer.github.com/v3/activity/events/types/#createevent)** Any time a Branch or Tag is created.
+
+```go
+// plugin/base.go
+
+// Create Action
+func CreateListener(create event.Create)(bool, error){
+    pkg.Info("Create event listener fired!")
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).

@@ -38,6 +38,11 @@ func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
     return true, nil
 }
 
+// Create Action
+func CreateListener(create event.Create)(bool, error){
+    pkg.Info("Create event listener fired!")
+    return true, nil
+}
 
 // Not Supported Yet
 func CheckRunListener(check_run event.CheckRun)(bool, error){
@@ -54,12 +59,6 @@ func CheckSuiteListener(check_suite event.CheckSuite)(bool, error){
 // Not Supported Yet
 func CommitCommentListener(commit_comment event.CommitComment)(bool, error){
     pkg.Info("CommitComment event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func CreateListener(create event.Create)(bool, error){
-    pkg.Info("Create event listener fired!")
     return true, nil
 }
 

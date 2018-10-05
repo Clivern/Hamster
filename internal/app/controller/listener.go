@@ -55,6 +55,11 @@ func Listen(c *gin.Context) {
             issue_comment.LoadFromJSON(rawBody)
             actions.RegisterIssueCommentAction(plugin.IssueCommentListener)
             actions.ExecuteIssueCommentActions(issue_comment)
+        case "create":
+            var create event.Create
+            create.LoadFromJSON(rawBody)
+            actions.RegisterCreateAction(plugin.CreateListener)
+            actions.ExecuteCreateActions(create)
         default:
             pkg.Info(fmt.Sprintf("Unknown or unsupported event %s!", evt))
         }

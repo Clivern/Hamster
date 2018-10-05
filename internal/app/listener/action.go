@@ -11,6 +11,7 @@ type Action struct {
     IssueComment        []func(issue_comment event.IssueComment)(bool, error)
     Watch               []func(watch event.Watch)(bool, error)
     Push                []func(watch event.Push)(bool, error)
+    Create              []func(watch event.Create)(bool, error)
     Raw                 []func(raw event.Raw)(bool, error)
 }
 
@@ -52,6 +53,10 @@ func (e *Action) RegisterWatchAction (f func(watch event.Watch)(bool, error)) {
 
 func (e *Action) RegisterPushAction (f func(watch event.Push)(bool, error)) {
     e.Push = append(e.Push, f)
+}
+
+func (e *Action) RegisterCreateAction (f func(create event.Create)(bool, error)) {
+    e.Create = append(e.Create, f)
 }
 
 func (e *Action) ExecuteRawActions (raw event.Raw) (bool, error) {
@@ -107,6 +112,16 @@ func (e *Action) ExecuteWatchActions (watch event.Watch) (bool, error) {
 func (e *Action) ExecutePushActions (push event.Push) (bool, error) {
     for _, fun := range e.Push{
         ok, err := fun(push)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
+}
+
+func (e *Action) ExecuteCreateActions (create event.Create) (bool, error) {
+    for _, fun := range e.Create{
+        ok, err := fun(create)
         if !ok {
             return false, err
         }
