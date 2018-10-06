@@ -14,6 +14,7 @@ type Action struct {
     Create              []func(watch event.Create)(bool, error)
     Label               []func(label event.Label)(bool, error)
     Delete              []func(delete event.Delete)(bool, error)
+    Milestone           []func(milestone event.Milestone)(bool, error)
     Raw                 []func(raw event.Raw)(bool, error)
 }
 
@@ -67,6 +68,10 @@ func (e *Action) RegisterLabelAction (f func(label event.Label)(bool, error)) {
 
 func (e *Action) RegisterDeleteAction (f func(delete event.Delete)(bool, error)) {
     e.Delete = append(e.Delete, f)
+}
+
+func (e *Action) RegisterMilestoneAction (f func(milestone event.Milestone)(bool, error)) {
+    e.Milestone = append(e.Milestone, f)
 }
 
 func (e *Action) ExecuteRawActions (raw event.Raw) (bool, error) {
@@ -152,6 +157,16 @@ func (e *Action) ExecuteLabelActions (label event.Label) (bool, error) {
 func (e *Action) ExecuteDeleteActions (delete event.Delete) (bool, error) {
     for _, fun := range e.Delete{
         ok, err := fun(delete)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
+}
+
+func (e *Action) ExecuteMilestoneActions (milestone event.Milestone) (bool, error) {
+    for _, fun := range e.Milestone{
+        ok, err := fun(milestone)
         if !ok {
             return false, err
         }

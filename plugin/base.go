@@ -56,6 +56,12 @@ func DeleteListener(delete event.Delete)(bool, error){
     return true, nil
 }
 
+// Milestone Action
+func MilestoneListener(milestone event.Milestone)(bool, error){
+    pkg.Info("Milestone event listener fired!")
+    return true, nil
+}
+
 // Not Supported Yet
 func CheckRunListener(check_run event.CheckRun)(bool, error){
     pkg.Info("CheckRun event listener fired!")
@@ -131,12 +137,6 @@ func MemberListener(member event.Member)(bool, error){
 // Not Supported Yet
 func MembershipListener(membership event.Membership)(bool, error){
     pkg.Info("Membership event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func MilestoneListener(milestone event.Milestone)(bool, error){
-    pkg.Info("Milestone event listener fired!")
     return true, nil
 }
 

@@ -70,6 +70,11 @@ func Listen(c *gin.Context) {
             delete.LoadFromJSON(rawBody)
             actions.RegisterDeleteAction(plugin.DeleteListener)
             actions.ExecuteDeleteActions(delete)
+        case "milestone":
+            var milestone event.Milestone
+            milestone.LoadFromJSON(rawBody)
+            actions.RegisterMilestoneAction(plugin.MilestoneListener)
+            actions.ExecuteMilestoneActions(milestone)
         default:
             pkg.Info(fmt.Sprintf("Unknown or unsupported event %s!", evt))
         }

@@ -153,6 +153,18 @@ func DeleteListener(delete event.Delete)(bool, error){
 }
 ```
 
+**[milestone event:](https://developer.github.com/v3/activity/events/types/#milestoneevent)** Any time a Milestone is created, closed, opened, edited, or deleted.
+
+```go
+// plugin/base.go
+
+// Milestone Action
+func MilestoneListener(milestone event.Milestone)(bool, error){
+    pkg.Info("Milestone event listener fired!")
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
