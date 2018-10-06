@@ -65,6 +65,11 @@ func Listen(c *gin.Context) {
             label.LoadFromJSON(rawBody)
             actions.RegisterLabelAction(plugin.LabelListener)
             actions.ExecuteLabelActions(label)
+        case "delete":
+            var delete event.Delete
+            delete.LoadFromJSON(rawBody)
+            actions.RegisterDeleteAction(plugin.DeleteListener)
+            actions.ExecuteDeleteActions(delete)
         default:
             pkg.Info(fmt.Sprintf("Unknown or unsupported event %s!", evt))
         }

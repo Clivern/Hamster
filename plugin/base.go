@@ -50,6 +50,12 @@ func LabelListener(label event.Label)(bool, error){
     return true, nil
 }
 
+// Delete Action
+func DeleteListener(delete event.Delete)(bool, error){
+    pkg.Info("Delete event listener fired!")
+    return true, nil
+}
+
 // Not Supported Yet
 func CheckRunListener(check_run event.CheckRun)(bool, error){
     pkg.Info("CheckRun event listener fired!")
@@ -65,12 +71,6 @@ func CheckSuiteListener(check_suite event.CheckSuite)(bool, error){
 // Not Supported Yet
 func CommitCommentListener(commit_comment event.CommitComment)(bool, error){
     pkg.Info("CommitComment event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func DeleteListener(delete event.Delete)(bool, error){
-    pkg.Info("Delete event listener fired!")
     return true, nil
 }
 
