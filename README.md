@@ -286,9 +286,20 @@ import (
 )
 
 pkg.Info("Info Goes Here!")
+pkg.Infoln("Infoln Goes Here!")
+pkg.Infof("Infof %s Here!", "Goes")
+
 pkg.Warning("Warning Goes Here!")
+pkg.Warningln("Warningln Goes Here!")
+pkg.Warningf("Warningf %s Here!", "Goes")
+
 pkg.Error("Error Goes Here!")
-pkg.Fatal("Fatal Error Goes Here!")
+pkg.Errorln("Errorln Goes Here!")
+pkg.Errorf("Errorf %s Here!", "Goes")
+
+pkg.Fatal("Fatal Goes Here!")
+pkg.Fatalln("Fatalln Goes Here!")
+pkg.Fatalf("Fatalf %s Here!", "Goes")
 ```
 
 
