@@ -6,7 +6,7 @@
 
 ## Documentation
 
-### Config The Application:
+### Config & Run The Application:
 
 ```bash
 $ cp config.json config.dist.json
@@ -170,7 +170,7 @@ All current supported events and the future events will be available on `plugin/
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
 
 
-### Custom Commands
+### Build a Custom Commands
 
 In order to build an interactive bot, you will need to listen to a pre-defined commands that once your repo users type on an issue or a comment, your application get notified. Github don't support this by default but it is still possible to achieve this manually.
 
@@ -248,7 +248,7 @@ event.Command{Name=run, Parameters=[option1 option2]}
 event.Command{Name=run, Parameters=[option1 option2 option3]}
 ```
 
-### Create a Comment:
+### Create a Github Comment:
 
 ```go
 // for more info https://developer.github.com/v3/issues/comments/#create-a-comment
