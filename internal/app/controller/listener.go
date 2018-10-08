@@ -28,7 +28,7 @@ func Listen(c *gin.Context) {
     ok := parser.VerifySignature(os.Getenv("GithubWebhookSecret"))
     evt := parser.GetGitHubEvent()
 
-    pkg.Info(fmt.Sprintf("Incoming event %s with payload %s!", evt, body))
+    pkg.Infof("Incoming event %s with payload %s!", evt, body)
 
     if ok {
         switch evt {
@@ -86,7 +86,7 @@ func Listen(c *gin.Context) {
             actions.RegisterMilestoneAction(plugin.MilestoneListener)
             actions.ExecuteMilestoneActions(milestone)
         default:
-            pkg.Info(fmt.Sprintf("Unknown or unsupported event %s!", evt))
+            pkg.Infof("Unknown or unsupported event %s!", evt)
         }
 
         var raw event.Raw
