@@ -7,7 +7,6 @@ import (
     "github.com/gin-gonic/gin"
     "github.com/clivern/hamster/pkg"
     "os"
-    "fmt"
 )
 
 func Listen(c *gin.Context) {
