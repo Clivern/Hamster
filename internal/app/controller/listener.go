@@ -84,6 +84,21 @@ func Listen(c *gin.Context) {
             milestone.LoadFromJSON(rawBody)
             actions.RegisterMilestoneAction(plugin.MilestoneListener)
             actions.ExecuteMilestoneActions(milestone)
+        case "pull_request":
+            var pull_request event.PullRequest
+            pull_request.LoadFromJSON(rawBody)
+            actions.RegisterPullRequestAction(plugin.PullRequestListener)
+            actions.ExecutePullRequestActions(pull_request)
+        case "pull_request_review":
+            var pull_request_review event.PullRequestReview
+            pull_request_review.LoadFromJSON(rawBody)
+            actions.RegisterPullRequestReviewAction(plugin.PullRequestReviewListener)
+            actions.ExecutePullRequestReviewActions(pull_request_review)
+        case "pull_request_review_comment":
+            var pull_request_review_comment event.PullRequestReviewComment
+            pull_request_review_comment.LoadFromJSON(rawBody)
+            actions.RegisterPullRequestReviewCommentAction(plugin.PullRequestReviewCommentListener)
+            actions.ExecutePullRequestReviewCommentActions(pull_request_review_comment)
         default:
             pkg.Infof("Unknown or unsupported event %s!", evt)
         }

@@ -165,6 +165,42 @@ func MilestoneListener(milestone event.Milestone)(bool, error){
 }
 ```
 
+**[pull_request event:](https://developer.github.com/v3/activity/events/types/#pullrequestevent)** Any time a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized (updated due to a new push in the branch that the pull request is tracking). Also any time a pull request review is requested, or a review request is removed.
+
+```go
+// plugin/base.go
+
+// Pull Request Action
+func PullRequestListener(pull_request event.PullRequest)(bool, error){
+    pkg.Info("PullRequest event listener fired!")
+    return true, nil
+}
+```
+
+**[pull_request_review event:](https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent)** Any time a pull request review is submitted, edited, or dismissed.
+
+```go
+// plugin/base.go
+
+// Pull Request Review Action
+func PullRequestReviewListener(pull_request_review event.PullRequestReview)(bool, error){
+    pkg.Info("PullRequestReview event listener fired!")
+    return true, nil
+}
+```
+
+**[pull_request_review_comment event:](https://developer.github.com/v3/activity/events/types/#pullrequestreviewcommentevent)** Any time a comment on a pull request's unified diff is created, edited, or deleted (in the Files Changed tab).
+
+```go
+// plugin/base.go
+
+// Pull Request Review Comment Action
+func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment)(bool, error){
+    pkg.Info("PullRequestReviewComment event listener fired!")
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).

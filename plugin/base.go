@@ -62,6 +62,24 @@ func MilestoneListener(milestone event.Milestone)(bool, error){
     return true, nil
 }
 
+// Pull Request Action
+func PullRequestListener(pull_request event.PullRequest)(bool, error){
+    pkg.Info("PullRequest event listener fired!")
+    return true, nil
+}
+
+// Pull Request Review Action
+func PullRequestReviewListener(pull_request_review event.PullRequestReview)(bool, error){
+    pkg.Info("PullRequestReview event listener fired!")
+    return true, nil
+}
+
+// Pull Request Review Comment Action
+func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment)(bool, error){
+    pkg.Info("PullRequestReviewComment event listener fired!")
+    return true, nil
+}
+
 // Not Supported Yet
 func CheckRunListener(check_run event.CheckRun)(bool, error){
     pkg.Info("CheckRun event listener fired!")
@@ -179,24 +197,6 @@ func ProjectColumnListener(project_column event.ProjectColumn)(bool, error){
 // Not Supported Yet
 func PublicListener(public event.Public)(bool, error){
     pkg.Info("Public event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func PullRequestListener(pull_request event.PullRequest)(bool, error){
-    pkg.Info("PullRequest event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func PullRequestReviewListener(pull_request_review event.PullRequestReview)(bool, error){
-    pkg.Info("PullRequestReview event listener fired!")
-    return true, nil
-}
-
-// Not Supported Yet
-func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment)(bool, error){
-    pkg.Info("PullRequestReviewComment event listener fired!")
     return true, nil
 }
 

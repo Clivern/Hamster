@@ -6,16 +6,19 @@ import (
 )
 
 type Action struct {
-    Status              []func(status event.Status)(bool, error)
-    Issues              []func(issue event.Issues)(bool, error)
-    IssueComment        []func(issue_comment event.IssueComment)(bool, error)
-    Watch               []func(watch event.Watch)(bool, error)
-    Push                []func(watch event.Push)(bool, error)
-    Create              []func(watch event.Create)(bool, error)
-    Label               []func(label event.Label)(bool, error)
-    Delete              []func(delete event.Delete)(bool, error)
-    Milestone           []func(milestone event.Milestone)(bool, error)
-    Raw                 []func(raw event.Raw)(bool, error)
+    Status                              []func(status event.Status)(bool, error)
+    Issues                              []func(issue event.Issues)(bool, error)
+    IssueComment                        []func(issue_comment event.IssueComment)(bool, error)
+    Watch                               []func(watch event.Watch)(bool, error)
+    Push                                []func(watch event.Push)(bool, error)
+    Create                              []func(watch event.Create)(bool, error)
+    Label                               []func(label event.Label)(bool, error)
+    Delete                              []func(delete event.Delete)(bool, error)
+    Milestone                           []func(milestone event.Milestone)(bool, error)
+    PullRequest                         []func(pull_request event.PullRequest)(bool, error)
+    PullRequestReview                   []func(pull_request_review event.PullRequestReview)(bool, error)
+    PullRequestReviewComment            []func(pull_request_review_comment event.PullRequestReviewComment)(bool, error)
+    Raw                                 []func(raw event.Raw)(bool, error)
 }
 
 func (e *Action) LoadFromJSON (data []byte) (bool, error) {
@@ -72,6 +75,18 @@ func (e *Action) RegisterDeleteAction (f func(delete event.Delete)(bool, error))
 
 func (e *Action) RegisterMilestoneAction (f func(milestone event.Milestone)(bool, error)) {
     e.Milestone = append(e.Milestone, f)
+}
+
+func (e *Action) RegisterPullRequestAction (f func(pull_request event.PullRequest)(bool, error)) {
+    e.PullRequest = append(e.PullRequest, f)
+}
+
+func (e *Action) RegisterPullRequestReviewAction (f func(pull_request_review event.PullRequestReview)(bool, error)) {
+    e.PullRequestReview = append(e.PullRequestReview, f)
+}
+
+func (e *Action) RegisterPullRequestReviewCommentAction (f func(pull_request_review_comment event.PullRequestReviewComment)(bool, error)) {
+    e.PullRequestReviewComment = append(e.PullRequestReviewComment, f)
 }
 
 func (e *Action) ExecuteRawActions (raw event.Raw) (bool, error) {
@@ -167,6 +182,36 @@ func (e *Action) ExecuteDeleteActions (delete event.Delete) (bool, error) {
 func (e *Action) ExecuteMilestoneActions (milestone event.Milestone) (bool, error) {
     for _, fun := range e.Milestone{
         ok, err := fun(milestone)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
+}
+
+func (e *Action) ExecutePullRequestActions (pull_request event.PullRequest) (bool, error) {
+    for _, fun := range e.PullRequest{
+        ok, err := fun(pull_request)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
+}
+
+func (e *Action) ExecutePullRequestReviewActions (pull_request_review event.PullRequestReview) (bool, error) {
+    for _, fun := range e.PullRequestReview{
+        ok, err := fun(pull_request_review)
+        if !ok {
+            return false, err
+        }
+    }
+    return true, nil
+}
+
+func (e *Action) ExecutePullRequestReviewCommentActions (pull_request_review_comment event.PullRequestReviewComment) (bool, error) {
+    for _, fun := range e.PullRequestReviewComment{
+        ok, err := fun(pull_request_review_comment)
         if !ok {
             return false, err
         }
