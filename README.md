@@ -6,7 +6,7 @@
 
 ## Documentation
 
-### Config & Run The Application:
+### Config & Run The Application
 
 ```bash
 $ cp config.json config.dist.json
@@ -46,7 +46,7 @@ $ docker-compose build
 $ docker-compose up -d
 ```
 
-### Customize the Default Event Listeners:
+### Customize the Default Event Listeners
 
 Anytime github call hamster listen endpoint, there will be a callback that get called with incoming data. For example when you get a status change call from github, the `StatusListener(status event.Status)` will get called. So do whatever you need inside this callback.
 
@@ -248,7 +248,7 @@ event.Command{Name=run, Parameters=[option1 option2]}
 event.Command{Name=run, Parameters=[option1 option2 option3]}
 ```
 
-### Create a Github Comment:
+### Create a Github Comment
 
 ```go
 // for more info https://developer.github.com/v3/issues/comments/#create-a-comment
