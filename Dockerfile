@@ -6,6 +6,6 @@ ADD . /go/src/github.com/clivern/hamster/
 
 WORKDIR /go/src/github.com/clivern/hamster
 
-RUN go build squeal.go
+RUN go build -o hamster squeal.go
 
-CMD ["./squeal"]
+CMD ["./hamster"]

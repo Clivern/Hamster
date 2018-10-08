@@ -13,3 +13,6 @@
 
 # Config file
 config.dist.json
+
+# App build
+hamster

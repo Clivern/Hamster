@@ -19,13 +19,10 @@ func main() {
 
     if os.Getenv("AppMode") == "prod" {
         gin.SetMode(gin.ReleaseMode)
+        gin.DisableConsoleColor()
+        f, _ := os.Create("var/logs/gin.log")
+        gin.DefaultWriter = io.MultiWriter(f)
     }
-
-
-    gin.DisableConsoleColor()
-    f, _ := os.Create("var/logs/gin.log")
-    gin.DefaultWriter = io.MultiWriter(f)
-
 
     r := gin.Default()
     r.GET("/", controller.Index)

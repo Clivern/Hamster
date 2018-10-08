@@ -17,7 +17,7 @@ services:
    web:
       image: "clivern_hamster:1.1.1"
       build: .
-      command: './squeal'
+      command: './hamster'
       ports:
          - "8080:8080"
       depends_on:
