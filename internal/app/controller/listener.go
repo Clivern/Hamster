@@ -12,6 +12,8 @@ import (
 
 func Listen(c *gin.Context) {
     var actions listener.Action
+    var commands listener.Commands
+
     rawBody, _ := c.GetRawData()
     body := string(rawBody)
 
@@ -45,6 +47,10 @@ func Listen(c *gin.Context) {
             issues.LoadFromJSON(rawBody)
             actions.RegisterIssuesAction(plugin.IssuesListener)
             actions.ExecuteIssuesActions(issues)
+
+            // Commands Listeners
+            commands.RegisterIssuesAction("test", plugin.IssuesTestCommandListener)
+            commands.ExecuteIssuesActions(issues)
         case "push":
             var push event.Push
             push.LoadFromJSON(rawBody)
@@ -55,6 +61,10 @@ func Listen(c *gin.Context) {
             issue_comment.LoadFromJSON(rawBody)
             actions.RegisterIssueCommentAction(plugin.IssueCommentListener)
             actions.ExecuteIssueCommentActions(issue_comment)
+
+            // Commands Listeners
+            commands.RegisterIssueCommentAction("test", plugin.IssueCommentTestCommandListener)
+            commands.ExecuteIssueCommentActions(issue_comment)
         case "create":
             var create event.Create
             create.LoadFromJSON(rawBody)

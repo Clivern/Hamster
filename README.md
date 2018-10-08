@@ -169,6 +169,85 @@ All current supported events and the future events will be available on `plugin/
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
 
+
+### Custom Commands
+
+In order to build an interactive bot, you will need to listen to a pre-defined commands that once your repo users type on an issue or a comment, your application get notified. Github don't support this by default but it is still possible to achieve this manually.
+
+First you need to define you command and the callback on `internal/app/controller/listener.go`, exactly like the `test` command:
+
+```go
+// The default test command for issue comments
+commands.RegisterIssueCommentAction("test", plugin.IssueCommentTestCommandListener)
+
+//The new run command for issue comments
+commands.RegisterIssueCommentAction("run", plugin.IssueCommentRunCommandListener)
+```
+
+```go
+// The default test command for issues
+commands.RegisterIssuesAction("test", plugin.IssuesTestCommandListener)
+
+//The new run command for issues
+commands.RegisterIssuesAction("run", plugin.IssuesRunCommandListener)
+```
+
+Then define the callbacks on `plugin/base.go` same as `test` commands callbacks:
+
+```go
+// Test Command Callbacks
+// Test Command Listener for Issues
+func IssuesTestCommandListener(command event.Command, issues event.Issues)(bool, error){
+    pkg.Info("IssuesTestCommandListener event listener fired!")
+    return true, nil
+}
+
+// Test Command Listener for Issues Comments
+func IssueCommentTestCommandListener(command event.Command, issue_comment event.IssueComment)(bool, error){
+    pkg.Info("IssueCommentTestCommandListener event listener fired!")
+    return true, nil
+}
+
+// Run Command Callbacks
+// Run Command Listener for Issues
+func IssuesRunCommandListener(command event.Command, issues event.Issues)(bool, error){
+    pkg.Info("IssuesTestCommandListener event listener fired!")
+    return true, nil
+}
+
+// Run Command Listener for Issues Comments
+func IssueCommentRunCommandListener(command event.Command, issue_comment event.IssueComment)(bool, error){
+    pkg.Info("IssueCommentTestCommandListener event listener fired!")
+    return true, nil
+}
+```
+
+Now if you create a new issue or issue comment, the related callbacks will get notified with command object:
+
+```go
+/test
+/test{option1}
+/test{option1,option2}
+/test{option1,option2,option3
+
+/run
+/run{option1}
+/run{option1,option2}
+/run{option1,option2,option3
+
+The command object will be
+
+event.Command{Name=test, Parameters=[]}
+event.Command{Name=test, Parameters=[option1]}
+event.Command{Name=test, Parameters=[option1 option2]}
+event.Command{Name=test, Parameters=[option1 option2 option3]}
+
+event.Command{Name=run, Parameters=[]}
+event.Command{Name=run, Parameters=[option1]}
+event.Command{Name=run, Parameters=[option1 option2]}
+event.Command{Name=run, Parameters=[option1 option2 option3]}
+```
+
 ### Create a Comment:
 
 ```go

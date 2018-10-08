@@ -241,3 +241,15 @@ func TeamAddListener(team_add event.TeamAdd)(bool, error){
     pkg.Info("TeamAdd event listener fired!")
     return true, nil
 }
+
+// Test Command Listener for Issues
+func IssuesTestCommandListener(command event.Command, issues event.Issues)(bool, error){
+    pkg.Info("IssuesTestCommandListener event listener fired!")
+    return true, nil
+}
+
+// Test Command Listener for Issues Comments
+func IssueCommentTestCommandListener(command event.Command, issue_comment event.IssueComment)(bool, error){
+    pkg.Info("IssueCommentTestCommandListener event listener fired!")
+    return true, nil
+}
