@@ -312,6 +312,61 @@ if err == nil {
 }
 ```
 
+### Get Label
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#get-a-single-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository label with name
+label, err := github_api.GetLabel("Bug")
+
+if err == nil {
+    // label of type response.Label
+}else{
+    // err.Error()
+}
+```
+
+
+### Get Repository Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository labels
+labels, err := github_api.GetRepositoryLabels()
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
 ### Logging
 
 We use [google/logger](https://github.com/google/logger) under the hood, make use of it or use these simple functions:
