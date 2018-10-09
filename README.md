@@ -264,12 +264,12 @@ Now if you create a new issue or issue comment, the related callbacks will get n
 /test
 /test{option1}
 /test{option1,option2}
-/test{option1,option2,option3
+/test{option1,option2,option3}
 
 /run
 /run{option1}
 /run{option1,option2}
-/run{option1,option2,option3
+/run{option1,option2,option3}
 
 The command object will be
 
