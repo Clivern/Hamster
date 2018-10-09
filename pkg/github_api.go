@@ -367,8 +367,44 @@ func (e *GithubAPI) AddLabelsToIssue () (bool, error) {
 }
 
 // Remove a label from an issue
-func (e *GithubAPI) RemoveLabelFromIssue () (bool, error) {
-    return true, nil
+func (e *GithubAPI) RemoveLabelFromIssue (issue_id int, label_name string) (bool, error) {
+    client := &http.Client{}
+
+    req, err := http.NewRequest(
+        "DELETE",
+        fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels/%s", GithubURL, e.Author, e.Repository, issue_id, label_name),
+        nil,
+    )
+
+    if err != nil{
+        return false, err
+    }
+
+    req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+    resp, err := client.Do(req)
+
+    if err != nil{
+        return false, err
+    }
+
+    defer resp.Body.Close()
+
+    body_byte, err := ioutil.ReadAll(resp.Body)
+
+    if err != nil{
+        return false, err
+    }
+
+    if resp.StatusCode == 400 {
+        return false, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+    }
+
+    if resp.StatusCode == 204 {
+        return true, nil
+    }else{
+        return false, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
+    }
 }
 
 // Replace all labels for an issue
@@ -377,8 +413,44 @@ func (e *GithubAPI) ReplaceAllLabelForIssue () (bool, error) {
 }
 
 // Remove all labels from an issue
-func (e *GithubAPI) RemoveAllLabelForIssue () (bool, error) {
-    return true, nil
+func (e *GithubAPI) RemoveAllLabelForIssue (issue_id int) (bool, error) {
+    client := &http.Client{}
+
+    req, err := http.NewRequest(
+        "DELETE",
+        fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issue_id),
+        nil,
+    )
+
+    if err != nil{
+        return false, err
+    }
+
+    req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+    resp, err := client.Do(req)
+
+    if err != nil{
+        return false, err
+    }
+
+    defer resp.Body.Close()
+
+    body_byte, err := ioutil.ReadAll(resp.Body)
+
+    if err != nil{
+        return false, err
+    }
+
+    if resp.StatusCode == 400 {
+        return false, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+    }
+
+    if resp.StatusCode == 204 {
+        return true, nil
+    }else{
+        return false, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
+    }
 }
 
 // Get labels for every issue in a milestone
