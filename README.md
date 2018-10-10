@@ -312,7 +312,35 @@ if err == nil {
 }
 ```
 
-### Get Label
+### Create a Label
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#create-a-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository label with name
+// github_api.CreateLabel (name string, color string) (response.Label, error)
+label, err := github_api.GetLabel("Bug", "f29513")
+
+if err == nil {
+    // label of type response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Get a Label
 
 ```go
 // for more info https://developer.github.com/v3/issues/labels/#get-a-single-label
@@ -330,6 +358,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Get Repository label with name
+// github_api.GetLabel (name string) (response.Label, error)
 label, err := github_api.GetLabel("Bug")
 
 if err == nil {
@@ -339,6 +368,61 @@ if err == nil {
 }
 ```
 
+### Update a Label with Name
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#update-a-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Update label name and color
+// github_api.UpdateLabel (current_name string, name string, color string) (response.Label, error)
+label, err := github_api.UpdateLabel("CurrentName", "NewName", "b01f26")
+
+if err == nil {
+    // label of type response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Delete a Label with Name
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#delete-a-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Delete label with name
+// github_api.DeleteLabel (name string) (bool, error)
+ok, err := github_api.DeleteLabel("CurrentName")
+
+if ok && err == nil {
+    // label deleted
+}else{
+    // err.Error()
+}
+```
 
 ### Get Repository Labels List
 
@@ -358,7 +442,179 @@ github_api := &pkg.GithubAPI{
 }
 
 // Get Repository labels
+// github_api.GetRepositoryLabels () ([]response.Label, error)
 labels, err := github_api.GetRepositoryLabels()
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Get Issue Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository issue labels with issue_id
+// github_api.GetRepositoryIssueLabels (issue_id int) ([]response.Label, error)
+labels, err := github_api.GetRepositoryIssueLabels(9)
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Remove Label from an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Remove a Label from an Issue
+// github_api.RemoveLabelFromIssue (issue_id int, label_name string) (bool, error)
+ok, err := github_api.RemoveLabelFromIssue(9, "bug")
+
+if ok && err == nil {
+    // Label Removed
+}else{
+    // err.Error()
+}
+```
+
+
+### Remove All Labels from an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Remove a Label from an Issue
+// github_api.RemoveAllLabelForIssue (issue_id int) (bool, error)
+ok, err := github_api.RemoveAllLabelForIssue(9)
+
+if ok && err == nil {
+    // All Labels Removed
+}else{
+    // err.Error()
+}
+```
+
+
+### Get Milestone Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#get-labels-for-every-issue-in-a-milestone
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Milestone Labels List
+// github_api.GetRepositoryMilestoneLabels (milestone_id int) ([]response.Label, error)
+labels, err := github_api.GetRepositoryMilestoneLabels(9)
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+
+### Add Labels to an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Add Labels to an Issue
+// github_api.AddLabelsToIssue (issue_id int, labels []string) ([]response.Label, error)
+labels, err := github_api.AddLabelsToIssue(9, []string{"new-label", "another-label"})
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Replace all Labels for an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Replace all Labels for an Issue
+// github_api.ReplaceAllLabelsForIssue (issue_id int, labels []string) ([]response.Label, error)
+labels, err := github_api.ReplaceAllLabelsForIssue(9, []string{"new-label", "another-label"})
 
 if err == nil {
     // labels of type []response.Label

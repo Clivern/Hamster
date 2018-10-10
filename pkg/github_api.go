@@ -9,6 +9,7 @@ import (
     "io/ioutil"
     "errors"
     "encoding/json"
+    "strings"
 )
 
 const GithubURL = "https://api.github.com"
@@ -59,7 +60,7 @@ func (e *GithubAPI) NewComment (body string, issueId int) (response.CreatedComme
     }
 
     if resp.StatusCode == 400 {
-        return created_comment, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return created_comment, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     ok, err := created_comment.LoadFromJSON(body_byte)
@@ -116,7 +117,7 @@ func (e *GithubAPI) CreateLabel (name string, color string) (response.Label, err
     }
 
     if resp.StatusCode == 400 {
-        return created_label, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return created_label, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     ok, err := created_label.LoadFromJSON(body_byte)
@@ -169,7 +170,7 @@ func (e *GithubAPI) UpdateLabel (current_name string, name string, color string)
     }
 
     if resp.StatusCode == 400 {
-        return updated_label, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return updated_label, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     ok, err := updated_label.LoadFromJSON(body_byte)
@@ -213,7 +214,7 @@ func (e *GithubAPI) DeleteLabel (name string) (bool, error) {
     }
 
     if resp.StatusCode == 400 {
-        return false, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return false, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     if resp.StatusCode == 204 {
@@ -257,12 +258,12 @@ func (e *GithubAPI) GetRepositoryLabels () ([]response.Label, error) {
     }
 
     if resp.StatusCode == 401 {
-        return labels, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return labels, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     err = json.Unmarshal(body_byte, &labels)
 
-    if err != nil && resp.StatusCode == 200 {
+    if err == nil && resp.StatusCode == 200 {
         return labels, nil
     }else{
         return labels, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
@@ -303,12 +304,12 @@ func (e *GithubAPI) GetRepositoryIssueLabels (issue_id int) ([]response.Label, e
     }
 
     if resp.StatusCode == 401 {
-        return labels, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return labels, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     err = json.Unmarshal(body_byte, &labels)
 
-    if err != nil && resp.StatusCode == 200 {
+    if err == nil && resp.StatusCode == 200 {
         return labels, nil
     }else{
         return labels, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
@@ -349,7 +350,7 @@ func (e *GithubAPI) GetLabel (name string) (response.Label, error) {
     }
 
     if resp.StatusCode == 401 {
-        return label, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return label, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     ok, err := label.LoadFromJSON(body_byte)
@@ -359,11 +360,6 @@ func (e *GithubAPI) GetLabel (name string) (response.Label, error) {
     }else{
         return label, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
     }
-}
-
-// Add labels to an issue
-func (e *GithubAPI) AddLabelsToIssue () (bool, error) {
-    return true, nil
 }
 
 // Remove a label from an issue
@@ -397,7 +393,7 @@ func (e *GithubAPI) RemoveLabelFromIssue (issue_id int, label_name string) (bool
     }
 
     if resp.StatusCode == 400 {
-        return false, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return false, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     if resp.StatusCode == 204 {
@@ -405,11 +401,6 @@ func (e *GithubAPI) RemoveLabelFromIssue (issue_id int, label_name string) (bool
     }else{
         return false, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
     }
-}
-
-// Replace all labels for an issue
-func (e *GithubAPI) ReplaceAllLabelForIssue () (bool, error) {
-    return true, nil
 }
 
 // Remove all labels from an issue
@@ -443,7 +434,7 @@ func (e *GithubAPI) RemoveAllLabelForIssue (issue_id int) (bool, error) {
     }
 
     if resp.StatusCode == 400 {
-        return false, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return false, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     if resp.StatusCode == 204 {
@@ -487,14 +478,106 @@ func (e *GithubAPI) GetRepositoryMilestoneLabels (milestone_id int) ([]response.
     }
 
     if resp.StatusCode == 401 {
-        return labels, errors.New(fmt.Sprintf("Unauthorized Access: %s", string(body_byte)))
+        return labels, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
     }
 
     err = json.Unmarshal(body_byte, &labels)
 
-    if err != nil && resp.StatusCode == 200 {
+    if err == nil && resp.StatusCode == 200 {
         return labels, nil
     }else{
         return labels, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
+    }
+}
+
+// Add labels to an issue
+func (e *GithubAPI) AddLabelsToIssue (issue_id int, labels []string) ([]response.Label, error) {
+
+    var assigned_labels []response.Label
+
+    client := &http.Client{}
+
+    req, err := http.NewRequest(
+        "POST",
+        fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issue_id),
+        bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels,`","`))),
+    )
+
+    if err != nil{
+        return assigned_labels, err
+    }
+
+    req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+    resp, err := client.Do(req)
+
+    if err != nil{
+        return assigned_labels, err
+    }
+
+    defer resp.Body.Close()
+
+    body_byte, err := ioutil.ReadAll(resp.Body)
+
+    if err != nil{
+        return assigned_labels, err
+    }
+
+    if resp.StatusCode == 400 {
+        return assigned_labels, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
+    }
+
+    err = json.Unmarshal(body_byte, &assigned_labels)
+
+    if err == nil && resp.StatusCode == 200 {
+        return assigned_labels, nil
+    }else{
+        return assigned_labels, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
+    }
+}
+
+// Replace all labels for an issue
+func (e *GithubAPI) ReplaceAllLabelsForIssue (issue_id int, labels []string) ([]response.Label, error) {
+
+    var assigned_labels []response.Label
+
+    client := &http.Client{}
+
+    req, err := http.NewRequest(
+        "PUT",
+        fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issue_id),
+        bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels,`","`))),
+    )
+
+    if err != nil{
+        return assigned_labels, err
+    }
+
+    req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+    resp, err := client.Do(req)
+
+    if err != nil{
+        return assigned_labels, err
+    }
+
+    defer resp.Body.Close()
+
+    body_byte, err := ioutil.ReadAll(resp.Body)
+
+    if err != nil{
+        return assigned_labels, err
+    }
+
+    if resp.StatusCode == 400 {
+        return assigned_labels, errors.New(fmt.Sprintf("Oops: %s", string(body_byte)))
+    }
+
+    err = json.Unmarshal(body_byte, &assigned_labels)
+
+    if err == nil && resp.StatusCode == 200 {
+        return assigned_labels, nil
+    }else{
+        return assigned_labels, errors.New(fmt.Sprintf("Error: %s", string(body_byte)))
     }
 }
