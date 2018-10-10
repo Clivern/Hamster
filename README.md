@@ -31,12 +31,12 @@ Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https
 And then run the application
 
 ```bash
-$ go build squeal.go
-$ ./squeal
+$ go build hamster.go
+$ ./hamster
 
 // OR
 
-$ go run squeal.go
+$ go run hamster.go
 ```
 
 Also running hamster with docker still an option. Just don't forget to update `GithubToken`, `GithubWebhookSecret`, `RepositoryAuthor` and `RepositoryName` inside `docker-compose.yml` file. Then run the following stuff

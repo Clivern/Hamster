@@ -37,7 +37,7 @@
         "internal/app/controller/listener.go",
         "internal/app/listener/action.go",
         "plugin/base.go",
-        "squeal.go"
+        "hamster.go"
       ]
     }
   ],
@@ -70,7 +70,7 @@
       "internal/app/controller/listener.go",
       "internal/app/listener/action.go",
       "plugin/base.go",
-      "squeal.go"
+      "hamster.go"
     ]
   },
   "repository": {
