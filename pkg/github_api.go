@@ -9,7 +9,6 @@ package pkg
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/clivern/hamster/internal/app/response"
 	"github.com/clivern/hamster/internal/app/sender"
