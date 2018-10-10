@@ -31,12 +31,12 @@ Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https
 And then run the application
 
 ```bash
-$ go build squeal.go
-$ ./squeal
+$ go build hamster.go
+$ ./hamster
 
 // OR
 
-$ go run squeal.go
+$ go run hamster.go
 ```
 
 Also running hamster with docker still an option. Just don't forget to update `GithubToken`, `GithubWebhookSecret`, `RepositoryAuthor` and `RepositoryName` inside `docker-compose.yml` file. Then run the following stuff
@@ -165,6 +165,42 @@ func MilestoneListener(milestone event.Milestone)(bool, error){
 }
 ```
 
+**[pull_request event:](https://developer.github.com/v3/activity/events/types/#pullrequestevent)** Any time a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized (updated due to a new push in the branch that the pull request is tracking). Also any time a pull request review is requested, or a review request is removed.
+
+```go
+// plugin/base.go
+
+// Pull Request Action
+func PullRequestListener(pull_request event.PullRequest)(bool, error){
+    pkg.Info("PullRequest event listener fired!")
+    return true, nil
+}
+```
+
+**[pull_request_review event:](https://developer.github.com/v3/activity/events/types/#pullrequestreviewevent)** Any time a pull request review is submitted, edited, or dismissed.
+
+```go
+// plugin/base.go
+
+// Pull Request Review Action
+func PullRequestReviewListener(pull_request_review event.PullRequestReview)(bool, error){
+    pkg.Info("PullRequestReview event listener fired!")
+    return true, nil
+}
+```
+
+**[pull_request_review_comment event:](https://developer.github.com/v3/activity/events/types/#pullrequestreviewcommentevent)** Any time a comment on a pull request's unified diff is created, edited, or deleted (in the Files Changed tab).
+
+```go
+// plugin/base.go
+
+// Pull Request Review Comment Action
+func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment)(bool, error){
+    pkg.Info("PullRequestReviewComment event listener fired!")
+    return true, nil
+}
+```
+
 All current supported events and the future events will be available on `plugin/base.go`. Also it is handy to add aditional callbacks so each event can have any number of callbacks.
 
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
@@ -228,12 +264,12 @@ Now if you create a new issue or issue comment, the related callbacks will get n
 /test
 /test{option1}
 /test{option1,option2}
-/test{option1,option2,option3
+/test{option1,option2,option3}
 
 /run
 /run{option1}
 /run{option1,option2}
-/run{option1,option2,option3
+/run{option1,option2,option3}
 
 The command object will be
 
@@ -276,6 +312,314 @@ if err == nil {
 }
 ```
 
+### Create a Label
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#create-a-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository label with name
+// github_api.CreateLabel (name string, color string) (response.Label, error)
+label, err := github_api.GetLabel("Bug", "f29513")
+
+if err == nil {
+    // label of type response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Get a Label
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#get-a-single-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository label with name
+// github_api.GetLabel (name string) (response.Label, error)
+label, err := github_api.GetLabel("Bug")
+
+if err == nil {
+    // label of type response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Update a Label with Name
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#update-a-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Update label name and color
+// github_api.UpdateLabel (currentName string, name string, color string) (response.Label, error)
+label, err := github_api.UpdateLabel("CurrentName", "NewName", "b01f26")
+
+if err == nil {
+    // label of type response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Delete a Label with Name
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#delete-a-label
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Delete label with name
+// github_api.DeleteLabel (name string) (bool, error)
+ok, err := github_api.DeleteLabel("CurrentName")
+
+if ok && err == nil {
+    // label deleted
+}else{
+    // err.Error()
+}
+```
+
+### Get Repository Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository labels
+// github_api.GetRepositoryLabels () ([]response.Label, error)
+labels, err := github_api.GetRepositoryLabels()
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Get Issue Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository issue labels with issue_id
+// github_api.GetRepositoryIssueLabels (issueId int) ([]response.Label, error)
+labels, err := github_api.GetRepositoryIssueLabels(9)
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Remove Label from an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Remove a Label from an Issue
+// github_api.RemoveLabelFromIssue (issueId int, labelName string) (bool, error)
+ok, err := github_api.RemoveLabelFromIssue(9, "bug")
+
+if ok && err == nil {
+    // Label Removed
+}else{
+    // err.Error()
+}
+```
+
+### Remove All Labels from an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Remove a Label from an Issue
+// github_api.RemoveAllLabelForIssue (issueId int) (bool, error)
+ok, err := github_api.RemoveAllLabelForIssue(9)
+
+if ok && err == nil {
+    // All Labels Removed
+}else{
+    // err.Error()
+}
+```
+
+### Get Milestone Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#get-labels-for-every-issue-in-a-milestone
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Milestone Labels List
+// github_api.GetRepositoryMilestoneLabels (milestoneId int) ([]response.Label, error)
+labels, err := github_api.GetRepositoryMilestoneLabels(9)
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Add Labels to an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Add Labels to an Issue
+// github_api.AddLabelsToIssue (issueId int, labels []string) ([]response.Label, error)
+labels, err := github_api.AddLabelsToIssue(9, []string{"new-label", "another-label"})
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Replace all Labels for an Issue
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Replace all Labels for an Issue
+// github_api.ReplaceAllLabelsForIssue (issueId int, labels []string) ([]response.Label, error)
+labels, err := github_api.ReplaceAllLabelsForIssue(9, []string{"new-label", "another-label"})
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
 ### Logging
 
 We use [google/logger](https://github.com/google/logger) under the hood, make use of it or use these simple functions:
@@ -307,9 +651,16 @@ pkg.Fatalf("Fatalf %s Here!", "Goes")
 
 [![Build Status](https://travis-ci.org/Clivern/Hamster.svg?branch=master)](https://travis-ci.org/Clivern/Hamster)
 [![GitHub license](https://img.shields.io/github/license/Clivern/Hamster.svg)](https://github.com/Clivern/Hamster/blob/master/LICENSE)
+[![Version](https://img.shields.io/badge/Version-2.0.0-red.svg)](https://github.com/Clivern/Hamster/releases)
 
 
 ## Changelog
+
+* Version 2.0.0:
+```
+Add More Events.
+Add Labels & Comments API to Github pkg.
+```
 
 * Version 1.1.1:
 ```
