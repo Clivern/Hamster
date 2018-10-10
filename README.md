@@ -100,7 +100,7 @@ func IssuesListener(issues event.Issues) (bool, error) {
 // plugin/base.go
 
 // Issue Comment Action
-func IssueCommentListener(issue_comment event.IssueComment) (bool, error) {
+func IssueCommentListener(issueComment event.IssueComment) (bool, error) {
     pkg.Info("IssueComment event listener fired!")
     return true, nil
 }
@@ -171,7 +171,7 @@ func MilestoneListener(milestone event.Milestone) (bool, error) {
 // plugin/base.go
 
 // Pull Request Action
-func PullRequestListener(pull_request event.PullRequest) (bool, error) {
+func PullRequestListener(pullRequest event.PullRequest) (bool, error) {
     pkg.Info("PullRequest event listener fired!")
     return true, nil
 }
@@ -183,7 +183,7 @@ func PullRequestListener(pull_request event.PullRequest) (bool, error) {
 // plugin/base.go
 
 // Pull Request Review Action
-func PullRequestReviewListener(pull_request_review event.PullRequestReview) (bool, error) {
+func PullRequestReviewListener(pullRequestReview event.PullRequestReview) (bool, error) {
     pkg.Info("PullRequestReview event listener fired!")
     return true, nil
 }
@@ -195,7 +195,7 @@ func PullRequestReviewListener(pull_request_review event.PullRequestReview) (boo
 // plugin/base.go
 
 // Pull Request Review Comment Action
-func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment) (bool, error) {
+func PullRequestReviewCommentListener(pullRequestReviewComment event.PullRequestReviewComment) (bool, error) {
     pkg.Info("PullRequestReviewComment event listener fired!")
     return true, nil
 }

@@ -12,7 +12,7 @@ import (
 type Commands struct {
 	Incoming     []event.Command
 	Issues       map[string]func(command event.Command, issues event.Issues) (bool, error)
-	IssueComment map[string]func(command event.Command, issue_comment event.IssueComment) (bool, error)
+	IssueComment map[string]func(command event.Command, issueComment event.IssueComment) (bool, error)
 }
 
 // This will fetch all commands and parameters within the issue or issue comment
@@ -37,9 +37,9 @@ func (e *Commands) RegisterIssuesAction(command string, callback func(command ev
 	e.Issues[command] = callback
 }
 
-func (e *Commands) RegisterIssueCommentAction(command string, callback func(command event.Command, issue_comment event.IssueComment) (bool, error)) {
+func (e *Commands) RegisterIssueCommentAction(command string, callback func(command event.Command, issueComment event.IssueComment) (bool, error)) {
 	if e.IssueComment == nil {
-		e.IssueComment = make(map[string]func(command event.Command, issue_comment event.IssueComment) (bool, error))
+		e.IssueComment = make(map[string]func(command event.Command, issueComment event.IssueComment) (bool, error))
 	}
 	e.IssueComment[command] = callback
 }
@@ -58,11 +58,11 @@ func (e *Commands) ExecuteIssuesActions(issues event.Issues) (bool, error) {
 	return true, nil
 }
 
-func (e *Commands) ExecuteIssueCommentActions(issue_comment event.IssueComment) (bool, error) {
-	e.Fetch(issue_comment.Comment.Body)
+func (e *Commands) ExecuteIssueCommentActions(issueComment event.IssueComment) (bool, error) {
+	e.Fetch(issueComment.Comment.Body)
 	for _, command := range e.Incoming {
 		if fun, ok := e.IssueComment[command.Name]; ok {
-			ok, err := fun(command, issue_comment)
+			ok, err := fun(command, issueComment)
 			if !ok {
 				return false, err
 			}

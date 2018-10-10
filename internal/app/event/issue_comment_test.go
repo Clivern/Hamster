@@ -11,7 +11,7 @@ import (
 
 func TestIssueComment(t *testing.T) {
 
-	var issue_comment IssueComment
+	var issueComment IssueComment
 
 	dat, err := ioutil.ReadFile("../../../samples/issue_comment.json")
 
@@ -19,13 +19,13 @@ func TestIssueComment(t *testing.T) {
 		t.Errorf("File samples/issue_comment.json is invalid!")
 	}
 
-	ok, _ := issue_comment.LoadFromJSON(dat)
+	ok, _ := issueComment.LoadFromJSON(dat)
 
 	if !ok {
 		t.Errorf("Testing with file samples/issue_comment.json is invalid")
 	}
 
-	got := issue_comment.Issue.User.Login
+	got := issueComment.Issue.User.Login
 	want := "Clivern"
 
 	if !ok || got != want {
