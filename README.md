@@ -651,9 +651,16 @@ pkg.Fatalf("Fatalf %s Here!", "Goes")
 
 [![Build Status](https://travis-ci.org/Clivern/Hamster.svg?branch=master)](https://travis-ci.org/Clivern/Hamster)
 [![GitHub license](https://img.shields.io/github/license/Clivern/Hamster.svg)](https://github.com/Clivern/Hamster/blob/master/LICENSE)
+[![Version](https://img.shields.io/badge/Version-2.0.0-red.svg)](https://github.com/Clivern/Hamster/releases)
 
 
 ## Changelog
+
+* Version 2.0.0:
+```
+Add More Events.
+Add Labels & Comments API to Github pkg.
+```
 
 * Version 1.1.1:
 ```
