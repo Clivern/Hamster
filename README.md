@@ -386,7 +386,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Update label name and color
-// github_api.UpdateLabel (current_name string, name string, color string) (response.Label, error)
+// github_api.UpdateLabel (currentName string, name string, color string) (response.Label, error)
 label, err := github_api.UpdateLabel("CurrentName", "NewName", "b01f26")
 
 if err == nil {
@@ -470,7 +470,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Get Repository issue labels with issue_id
-// github_api.GetRepositoryIssueLabels (issue_id int) ([]response.Label, error)
+// github_api.GetRepositoryIssueLabels (issueId int) ([]response.Label, error)
 labels, err := github_api.GetRepositoryIssueLabels(9)
 
 if err == nil {
@@ -498,7 +498,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Remove a Label from an Issue
-// github_api.RemoveLabelFromIssue (issue_id int, label_name string) (bool, error)
+// github_api.RemoveLabelFromIssue (issueId int, labelName string) (bool, error)
 ok, err := github_api.RemoveLabelFromIssue(9, "bug")
 
 if ok && err == nil {
@@ -507,7 +507,6 @@ if ok && err == nil {
     // err.Error()
 }
 ```
-
 
 ### Remove All Labels from an Issue
 
@@ -527,7 +526,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Remove a Label from an Issue
-// github_api.RemoveAllLabelForIssue (issue_id int) (bool, error)
+// github_api.RemoveAllLabelForIssue (issueId int) (bool, error)
 ok, err := github_api.RemoveAllLabelForIssue(9)
 
 if ok && err == nil {
@@ -536,7 +535,6 @@ if ok && err == nil {
     // err.Error()
 }
 ```
-
 
 ### Get Milestone Labels List
 
@@ -556,7 +554,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Get Milestone Labels List
-// github_api.GetRepositoryMilestoneLabels (milestone_id int) ([]response.Label, error)
+// github_api.GetRepositoryMilestoneLabels (milestoneId int) ([]response.Label, error)
 labels, err := github_api.GetRepositoryMilestoneLabels(9)
 
 if err == nil {
@@ -565,7 +563,6 @@ if err == nil {
     // err.Error()
 }
 ```
-
 
 ### Add Labels to an Issue
 
@@ -585,7 +582,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Add Labels to an Issue
-// github_api.AddLabelsToIssue (issue_id int, labels []string) ([]response.Label, error)
+// github_api.AddLabelsToIssue (issueId int, labels []string) ([]response.Label, error)
 labels, err := github_api.AddLabelsToIssue(9, []string{"new-label", "another-label"})
 
 if err == nil {
@@ -613,7 +610,7 @@ github_api := &pkg.GithubAPI{
 }
 
 // Replace all Labels for an Issue
-// github_api.ReplaceAllLabelsForIssue (issue_id int, labels []string) ([]response.Label, error)
+// github_api.ReplaceAllLabelsForIssue (issueId int, labels []string) ([]response.Label, error)
 labels, err := github_api.ReplaceAllLabelsForIssue(9, []string{"new-label", "another-label"})
 
 if err == nil {
