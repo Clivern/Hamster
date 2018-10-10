@@ -56,7 +56,7 @@ Anytime github call hamster listen endpoint, there will be a callback that get c
 // plugin/base.go
 
 // Any Action
-func RawListener(raw event.Raw)(bool, error){
+func RawListener(raw event.Raw) (bool, error) {
     pkg.Info("Raw event listener fired!")
     return true, nil
 }
@@ -67,7 +67,7 @@ func RawListener(raw event.Raw)(bool, error){
 // plugin/base.go
 
 // Status Action
-func StatusListener(status event.Status)(bool, error){
+func StatusListener(status event.Status) (bool, error) {
     pkg.Info("Status event listener fired!")
     return true, nil
 }
@@ -78,7 +78,7 @@ func StatusListener(status event.Status)(bool, error){
 // plugin/base.go
 
 // Watch Action
-func WatchListener(watch event.Watch)(bool, error){
+func WatchListener(watch event.Watch) (bool, error) {
     pkg.Info("Watch event listener fired!")
     return true, nil
 }
@@ -89,7 +89,7 @@ func WatchListener(watch event.Watch)(bool, error){
 // plugin/base.go
 
 // Issue Action
-func IssuesListener(issues event.Issues)(bool, error){
+func IssuesListener(issues event.Issues) (bool, error) {
     pkg.Info("Issues event listener fired!")
     return true, nil
 }
@@ -100,7 +100,7 @@ func IssuesListener(issues event.Issues)(bool, error){
 // plugin/base.go
 
 // Issue Comment Action
-func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
+func IssueCommentListener(issue_comment event.IssueComment) (bool, error) {
     pkg.Info("IssueComment event listener fired!")
     return true, nil
 }
@@ -111,7 +111,7 @@ func IssueCommentListener(issue_comment event.IssueComment)(bool, error){
 // plugin/base.go
 
 // Push Action
-func PushListener(push event.Push)(bool, error){
+func PushListener(push event.Push) (bool, error) {
     pkg.Info("Push event listener fired!")
     return true, nil
 }
@@ -123,7 +123,7 @@ func PushListener(push event.Push)(bool, error){
 // plugin/base.go
 
 // Create Action
-func CreateListener(create event.Create)(bool, error){
+func CreateListener(create event.Create) (bool, error) {
     pkg.Info("Create event listener fired!")
     return true, nil
 }
@@ -135,7 +135,7 @@ func CreateListener(create event.Create)(bool, error){
 // plugin/base.go
 
 // Label Action
-func LabelListener(label event.Label)(bool, error){
+func LabelListener(label event.Label) (bool, error) {
     pkg.Info("Label event listener fired!")
     return true, nil
 }
@@ -147,7 +147,7 @@ func LabelListener(label event.Label)(bool, error){
 // plugin/base.go
 
 // Delete Action
-func DeleteListener(delete event.Delete)(bool, error){
+func DeleteListener(delete event.Delete) (bool, error) {
     pkg.Info("Delete event listener fired!")
     return true, nil
 }
@@ -159,7 +159,7 @@ func DeleteListener(delete event.Delete)(bool, error){
 // plugin/base.go
 
 // Milestone Action
-func MilestoneListener(milestone event.Milestone)(bool, error){
+func MilestoneListener(milestone event.Milestone) (bool, error) {
     pkg.Info("Milestone event listener fired!")
     return true, nil
 }
@@ -171,7 +171,7 @@ func MilestoneListener(milestone event.Milestone)(bool, error){
 // plugin/base.go
 
 // Pull Request Action
-func PullRequestListener(pull_request event.PullRequest)(bool, error){
+func PullRequestListener(pull_request event.PullRequest) (bool, error) {
     pkg.Info("PullRequest event listener fired!")
     return true, nil
 }
@@ -183,7 +183,7 @@ func PullRequestListener(pull_request event.PullRequest)(bool, error){
 // plugin/base.go
 
 // Pull Request Review Action
-func PullRequestReviewListener(pull_request_review event.PullRequestReview)(bool, error){
+func PullRequestReviewListener(pull_request_review event.PullRequestReview) (bool, error) {
     pkg.Info("PullRequestReview event listener fired!")
     return true, nil
 }
@@ -195,7 +195,7 @@ func PullRequestReviewListener(pull_request_review event.PullRequestReview)(bool
 // plugin/base.go
 
 // Pull Request Review Comment Action
-func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment)(bool, error){
+func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment) (bool, error) {
     pkg.Info("PullRequestReviewComment event listener fired!")
     return true, nil
 }
@@ -233,26 +233,26 @@ Then define the callbacks on `plugin/base.go` same as `test` commands callbacks:
 ```go
 // Test Command Callbacks
 // Test Command Listener for Issues
-func IssuesTestCommandListener(command event.Command, issues event.Issues)(bool, error){
+func IssuesTestCommandListener(command event.Command, issues event.Issues) (bool, error) {
     pkg.Info("IssuesTestCommandListener event listener fired!")
     return true, nil
 }
 
 // Test Command Listener for Issues Comments
-func IssueCommentTestCommandListener(command event.Command, issue_comment event.IssueComment)(bool, error){
+func IssueCommentTestCommandListener(command event.Command, issue_comment event.IssueComment) (bool, error) {
     pkg.Info("IssueCommentTestCommandListener event listener fired!")
     return true, nil
 }
 
 // Run Command Callbacks
 // Run Command Listener for Issues
-func IssuesRunCommandListener(command event.Command, issues event.Issues)(bool, error){
+func IssuesRunCommandListener(command event.Command, issues event.Issues) (bool, error) {
     pkg.Info("IssuesTestCommandListener event listener fired!")
     return true, nil
 }
 
 // Run Command Listener for Issues Comments
-func IssueCommentRunCommandListener(command event.Command, issue_comment event.IssueComment)(bool, error){
+func IssueCommentRunCommandListener(command event.Command, issue_comment event.IssueComment) (bool, error) {
     pkg.Info("IssueCommentTestCommandListener event listener fired!")
     return true, nil
 }

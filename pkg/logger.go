@@ -1,287 +1,290 @@
+// Copyright 2018 Clivern. All rights reserved.
+// Use of this source code is governed by the MIT
+// license that can be found in the LICENSE file.
+
 package pkg
 
 import (
-    "os"
-    "fmt"
-    "time"
-    "github.com/google/logger"
+	"fmt"
+	"github.com/google/logger"
+	"os"
+	"time"
 )
 
 const LOGS_PATH = "var/logs"
 
 func Info(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Info(v...)
-    }
+		out.Info(v...)
+	}
 }
 
 func Infoln(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Infoln(v...)
-    }
+		out.Infoln(v...)
+	}
 }
 
 func Infof(format string, v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Infof(format, v...)
-    }
+		out.Infof(format, v...)
+	}
 }
 
 func Warning(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Warning(v...)
-    }
+		out.Warning(v...)
+	}
 }
 
 func Warningln(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Warningln(v...)
-    }
+		out.Warningln(v...)
+	}
 }
-
 
 func Warningf(format string, v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Warningf(format, v...)
-    }
+		out.Warningf(format, v...)
+	}
 }
 
 func Error(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning" || logLevel == "error"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning" || logLevel == "error"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Error(v...)
-    }
+		out.Error(v...)
+	}
 }
 
 func Errorln(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning" || logLevel == "error"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning" || logLevel == "error"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Errorln(v...)
-    }
+		out.Errorln(v...)
+	}
 }
 
 func Errorf(format string, v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning" || logLevel == "error"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning" || logLevel == "error"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Errorf(format, v...)
-    }
+		out.Errorf(format, v...)
+	}
 }
 
 func Fatal(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning" || logLevel == "error" || logLevel == "fatal"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning" || logLevel == "error" || logLevel == "fatal"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Fatal(v...)
-    }
+		out.Fatal(v...)
+	}
 }
 
 func Fatalln(v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning" || logLevel == "error" || logLevel == "fatal"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning" || logLevel == "error" || logLevel == "fatal"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Fatalln(v...)
-    }
+		out.Fatalln(v...)
+	}
 }
 
 func Fatalf(format string, v ...interface{}) {
 
-    logLevel := os.Getenv("AppLogLevel")
-    ok := logLevel == "info" || logLevel == "warning" || logLevel == "error" || logLevel == "fatal"
+	logLevel := os.Getenv("AppLogLevel")
+	ok := logLevel == "info" || logLevel == "warning" || logLevel == "error" || logLevel == "fatal"
 
-    if ok {
-        current_time := time.Now().Local()
-        file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
-        lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
+	if ok {
+		current_time := time.Now().Local()
+		file := fmt.Sprintf("%s/%s.log", LOGS_PATH, current_time.Format("2006-01-02"))
+		lf, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0660)
 
-        if err != nil {
-            logger.Fatalf("Failed to open log file: %v", err)
-        }
+		if err != nil {
+			logger.Fatalf("Failed to open log file: %v", err)
+		}
 
-        defer lf.Close()
+		defer lf.Close()
 
-        out := logger.Init("Hamster", false, false, lf)
-        defer out.Close()
+		out := logger.Init("Hamster", false, false, lf)
+		defer out.Close()
 
-        out.Fatalf(format, v...)
-    }
+		out.Fatalf(format, v...)
+	}
 }
