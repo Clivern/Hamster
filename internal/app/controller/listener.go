@@ -4,8 +4,6 @@
 
 package controller
 
-//revive:disable:exported
-
 import (
 	"github.com/clivern/hamster/internal/app/event"
 	"github.com/clivern/hamster/internal/app/listener"

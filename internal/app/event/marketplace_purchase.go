@@ -4,8 +4,6 @@
 
 package event
 
-//revive:disable:exported
-
 import (
 	"encoding/json"
 )

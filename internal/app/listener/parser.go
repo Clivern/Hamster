@@ -4,8 +4,6 @@
 
 package listener
 
-//revive:disable:exported
-
 import (
 	"crypto/hmac"
 	"crypto/sha1"

@@ -4,8 +4,6 @@
 
 package controller
 
-//revive:disable:exported
-
 import (
 	"github.com/gin-gonic/gin"
 )

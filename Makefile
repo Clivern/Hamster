@@ -46,7 +46,7 @@ test:
 ## lint: Lint the code.
 lint:
 	@echo ">> Lint all files"
-	revive -exclude vendor/... -formatter friendly ./...
+	revive -config config.toml -exclude vendor/... -formatter friendly ./...
 
 
 ## format: Format the code.

@@ -4,8 +4,6 @@
 
 package sender
 
-//revive:disable:exported
-
 import (
 	"encoding/json"
 )

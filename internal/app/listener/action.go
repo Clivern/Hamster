@@ -4,8 +4,6 @@
 
 package listener
 
-//revive:disable:exported
-
 import (
 	"encoding/json"
 	"github.com/clivern/hamster/internal/app/event"

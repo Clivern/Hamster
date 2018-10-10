@@ -4,8 +4,6 @@
 
 package pkg
 
-//revive:disable:exported
-
 import (
 	"fmt"
 	"github.com/google/logger"
