@@ -24,6 +24,10 @@ type GithubAPI struct {
 	Repository string `json:"repository"`
 }
 
+/************************************/
+/*********** Comment API ************/
+/************************************/
+
 func (e *GithubAPI) NewComment(body string, issueId int) (response.CreatedComment, error) {
 
 	var createdComment response.CreatedComment
@@ -550,6 +554,230 @@ func (e *GithubAPI) ReplaceAllLabelsForIssue(issueId int, labels []string) ([]re
 	req, err := http.NewRequest(
 		"PUT",
 		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueId),
+		bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels, `","`))),
+	)
+
+	if err != nil {
+		return assignedLabels, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return assignedLabels, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return assignedLabels, err
+	}
+
+	if resp.StatusCode == 400 {
+		return assignedLabels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+	}
+
+	err = json.Unmarshal(bodyByte, &assignedLabels)
+
+	if err == nil && resp.StatusCode == 200 {
+		return assignedLabels, nil
+	} else {
+		return assignedLabels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
+	}
+}
+
+/************************************/
+/************* PR API ***************/
+/************************************/
+
+// Get a List of labels on a PR
+func (e *GithubAPI) GetRepositoryPRLabels(PRId int) ([]response.Label, error) {
+
+	var labels []response.Label
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"GET",
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, PRId),
+		nil,
+	)
+
+	if err != nil {
+		return labels, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return labels, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return labels, err
+	}
+
+	if resp.StatusCode == 401 {
+		return labels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+	}
+
+	err = json.Unmarshal(bodyByte, &labels)
+
+	if err == nil && resp.StatusCode == 200 {
+		return labels, nil
+	} else {
+		return labels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
+	}
+}
+
+// Remove a label from a PR
+func (e *GithubAPI) RemoveLabelFromPR(PRId int, labelName string) (bool, error) {
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"DELETE",
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels/%s", GithubURL, e.Author, e.Repository, PRId, labelName),
+		nil,
+	)
+
+	if err != nil {
+		return false, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return false, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return false, err
+	}
+
+	if resp.StatusCode == 400 {
+		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+	}
+
+	if resp.StatusCode == 204 {
+		return true, nil
+	} else {
+		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
+	}
+}
+
+// Remove all labels from PR
+func (e *GithubAPI) RemoveAllLabelForPR(PRId int) (bool, error) {
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"DELETE",
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, PRId),
+		nil,
+	)
+
+	if err != nil {
+		return false, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return false, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return false, err
+	}
+
+	if resp.StatusCode == 400 {
+		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+	}
+
+	if resp.StatusCode == 204 {
+		return true, nil
+	} else {
+		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
+	}
+}
+
+// Add labels to PR
+func (e *GithubAPI) AddLabelsToPR(PRId int, labels []string) ([]response.Label, error) {
+
+	var assignedLabels []response.Label
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"POST",
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, PRId),
+		bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels, `","`))),
+	)
+
+	if err != nil {
+		return assignedLabels, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return assignedLabels, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return assignedLabels, err
+	}
+
+	if resp.StatusCode == 400 {
+		return assignedLabels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+	}
+
+	err = json.Unmarshal(bodyByte, &assignedLabels)
+
+	if err == nil && resp.StatusCode == 200 {
+		return assignedLabels, nil
+	} else {
+		return assignedLabels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
+	}
+}
+
+// Replace all labels for PR
+func (e *GithubAPI) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response.Label, error) {
+
+	var assignedLabels []response.Label
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"PUT",
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, PRId),
 		bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels, `","`))),
 	)
 

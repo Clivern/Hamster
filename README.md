@@ -620,6 +620,147 @@ if err == nil {
 }
 ```
 
+
+### Get PR Labels List
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Get Repository PR labels with PRId
+// github_api.GetRepositoryPRLabels (PRId int) ([]response.Label, error)
+labels, err := github_api.GetRepositoryPRLabels(9)
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Remove Label from PR
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Remove a Label from PR
+// github_api.RemoveLabelFromPR (PRId int, labelName string) (bool, error)
+ok, err := github_api.RemoveLabelFromPR(9, "bug")
+
+if ok && err == nil {
+    // Label Removed
+}else{
+    // err.Error()
+}
+```
+
+### Remove All Labels from PR
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Remove a Label from PR
+// github_api.RemoveAllLabelForPR (PRId int) (bool, error)
+ok, err := github_api.RemoveAllLabelForPR(9)
+
+if ok && err == nil {
+    // All Labels Removed
+}else{
+    // err.Error()
+}
+```
+
+### Add Labels to PR
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Add Labels to PR
+// github_api.AddLabelsToPR (PRId int, labels []string) ([]response.Label, error)
+labels, err := github_api.AddLabelsToPR(9, []string{"new-label", "another-label"})
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
+### Replace all Labels for PR
+
+```go
+// for more info https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue
+
+import (
+    "github.com/clivern/hamster/pkg"
+    "os"
+)
+
+
+github_api := &pkg.GithubAPI{
+    Token: os.Getenv("GithubToken"),
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// Replace all Labels for PR
+// github_api.ReplaceAllLabelsForPR (PRId int, labels []string) ([]response.Label, error)
+labels, err := github_api.ReplaceAllLabelsForPR(9, []string{"new-label", "another-label"})
+
+if err == nil {
+    // labels of type []response.Label
+}else{
+    // err.Error()
+}
+```
+
 ### Logging
 
 We use [google/logger](https://github.com/google/logger) under the hood, make use of it or use these simple functions:
