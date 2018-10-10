@@ -4,6 +4,8 @@
 
 package event
 
+//revive:disable:exported
+
 // All Events
 type Raw struct {
 	Body  string

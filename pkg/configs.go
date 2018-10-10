@@ -4,6 +4,8 @@
 
 package pkg
 
+//revive:disable:exported
+
 import (
 	"encoding/json"
 	"errors"
@@ -27,7 +29,7 @@ func (e *Config) Load(file string) (bool, error) {
 	_, err := os.Stat(file)
 
 	if err != nil {
-		return false, errors.New(fmt.Sprintf("Config file %s not found, Hamster will read Env variables!", file))
+		return false, fmt.Errorf("config file %s not found", file)
 	}
 
 	data, err := ioutil.ReadFile(file)

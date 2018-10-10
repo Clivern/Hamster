@@ -4,6 +4,8 @@
 
 package pkg
 
+//revive:disable:exported
+
 import (
 	"bytes"
 	"fmt"

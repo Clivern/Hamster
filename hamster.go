@@ -4,6 +4,8 @@
 
 package main
 
+//revive:disable:exported
+
 import (
 	"github.com/clivern/hamster/internal/app/controller"
 	"github.com/clivern/hamster/pkg"

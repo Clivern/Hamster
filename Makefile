@@ -3,6 +3,11 @@ GOFMT        ?= $(GO)fmt
 pkgs          = ./...
 
 
+## config: Config the application.
+config:
+	$(GO) get github.com/mgechev/revive
+
+
 ## style: Check code style.
 style:
 	@echo ">> checking code style"
@@ -38,6 +43,12 @@ test:
 	$(GO) test -race $(pkgs)
 
 
+## lint: Lint the code.
+lint:
+	@echo ">> Lint all files"
+	revive -exclude vendor/... -formatter friendly ./...
+
+
 ## format: Format the code.
 format:
 	@echo ">> formatting code"
@@ -67,7 +78,7 @@ build:
 
 
 ## ci: Run all CI tests.
-ci: style check_license test vet
+ci: config style check_license test vet lint
 	@echo "\n==> All quality checks passed"
 
 

@@ -4,8 +4,8 @@
 
 package plugin
 
-// Here we define all our custom actions and it will
-// get executed once we get a request from github
+//revive:disable:exported
+
 import (
 	"github.com/clivern/hamster/internal/app/event"
 	"github.com/clivern/hamster/pkg"

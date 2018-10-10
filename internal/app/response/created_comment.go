@@ -4,6 +4,8 @@
 
 package response
 
+//revive:disable:exported
+
 import (
 	"encoding/json"
 	"time"
