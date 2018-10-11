@@ -7,7 +7,6 @@ package pkg
 import (
 	"bytes"
 	"encoding/json"
-	"errors"
 	"fmt"
 	"github.com/clivern/hamster/internal/app/response"
 	"github.com/clivern/hamster/internal/app/sender"
@@ -18,6 +17,7 @@ import (
 
 const GithubURL = "https://api.github.com"
 
+// GithubAPI is a representation of a github api
 type GithubAPI struct {
 	Token      string `json:"token"`
 	Author     string `json:"author"`
@@ -28,7 +28,7 @@ type GithubAPI struct {
 /*********** Comment API ************/
 /************************************/
 
-func (e *GithubAPI) NewComment(body string, issueId int) (response.CreatedComment, error) {
+func (e *GithubAPI) NewComment(body string, issueID int) (response.CreatedComment, error) {
 
 	var createdComment response.CreatedComment
 	comment := &sender.Comment{Body: body}
@@ -43,7 +43,7 @@ func (e *GithubAPI) NewComment(body string, issueId int) (response.CreatedCommen
 
 	req, err := http.NewRequest(
 		"POST",
-		fmt.Sprintf("%s/repos/%s/%s/issues/%d/comments", GithubURL, e.Author, e.Repository, issueId),
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/comments", GithubURL, e.Author, e.Repository, issueID),
 		bytes.NewBufferString(jsonBody),
 	)
 
@@ -68,16 +68,15 @@ func (e *GithubAPI) NewComment(body string, issueId int) (response.CreatedCommen
 	}
 
 	if resp.StatusCode == 400 {
-		return createdComment, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return createdComment, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	ok, err := createdComment.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 201 {
 		return createdComment, nil
-	} else {
-		return createdComment, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return createdComment, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 /************************************/
@@ -125,16 +124,15 @@ func (e *GithubAPI) CreateLabel(name string, color string) (response.Label, erro
 	}
 
 	if resp.StatusCode == 400 {
-		return createdLabel, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return createdLabel, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	ok, err := createdLabel.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 201 {
 		return createdLabel, nil
-	} else {
-		return createdLabel, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return createdLabel, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Update a Label
@@ -178,16 +176,16 @@ func (e *GithubAPI) UpdateLabel(currentName string, name string, color string) (
 	}
 
 	if resp.StatusCode == 400 {
-		return updatedLabel, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return updatedLabel, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	ok, err := updatedLabel.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return updatedLabel, nil
-	} else {
-		return updatedLabel, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+
+	return updatedLabel, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Delete a Label
@@ -222,14 +220,13 @@ func (e *GithubAPI) DeleteLabel(name string) (bool, error) {
 	}
 
 	if resp.StatusCode == 400 {
-		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return false, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	if resp.StatusCode == 204 {
 		return true, nil
-	} else {
-		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Get a List of Repository Labels
@@ -266,20 +263,19 @@ func (e *GithubAPI) GetRepositoryLabels() ([]response.Label, error) {
 	}
 
 	if resp.StatusCode == 401 {
-		return labels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return labels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &labels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return labels, nil
-	} else {
-		return labels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Get a List of labels on an issue
-func (e *GithubAPI) GetRepositoryIssueLabels(issueId int) ([]response.Label, error) {
+func (e *GithubAPI) GetRepositoryIssueLabels(issueID int) ([]response.Label, error) {
 
 	var labels []response.Label
 
@@ -287,7 +283,7 @@ func (e *GithubAPI) GetRepositoryIssueLabels(issueId int) ([]response.Label, err
 
 	req, err := http.NewRequest(
 		"GET",
-		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueId),
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueID),
 		nil,
 	)
 
@@ -312,16 +308,15 @@ func (e *GithubAPI) GetRepositoryIssueLabels(issueId int) ([]response.Label, err
 	}
 
 	if resp.StatusCode == 401 {
-		return labels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return labels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &labels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return labels, nil
-	} else {
-		return labels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Get a Label with name
@@ -358,25 +353,24 @@ func (e *GithubAPI) GetLabel(name string) (response.Label, error) {
 	}
 
 	if resp.StatusCode == 401 {
-		return label, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return label, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	ok, err := label.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return label, nil
-	} else {
-		return label, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return label, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Remove a label from an issue
-func (e *GithubAPI) RemoveLabelFromIssue(issueId int, labelName string) (bool, error) {
+func (e *GithubAPI) RemoveLabelFromIssue(issueID int, labelName string) (bool, error) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(
 		"DELETE",
-		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels/%s", GithubURL, e.Author, e.Repository, issueId, labelName),
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels/%s", GithubURL, e.Author, e.Repository, issueID, labelName),
 		nil,
 	)
 
@@ -401,23 +395,22 @@ func (e *GithubAPI) RemoveLabelFromIssue(issueId int, labelName string) (bool, e
 	}
 
 	if resp.StatusCode == 400 {
-		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return false, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	if resp.StatusCode == 204 {
 		return true, nil
-	} else {
-		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Remove all labels from an issue
-func (e *GithubAPI) RemoveAllLabelForIssue(issueId int) (bool, error) {
+func (e *GithubAPI) RemoveAllLabelForIssue(issueID int) (bool, error) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(
 		"DELETE",
-		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueId),
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueID),
 		nil,
 	)
 
@@ -442,18 +435,17 @@ func (e *GithubAPI) RemoveAllLabelForIssue(issueId int) (bool, error) {
 	}
 
 	if resp.StatusCode == 400 {
-		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return false, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	if resp.StatusCode == 204 {
 		return true, nil
-	} else {
-		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Get labels for every issue in a milestone
-func (e *GithubAPI) GetRepositoryMilestoneLabels(milestoneId int) ([]response.Label, error) {
+func (e *GithubAPI) GetRepositoryMilestoneLabels(milestoneID int) ([]response.Label, error) {
 
 	var labels []response.Label
 
@@ -461,7 +453,7 @@ func (e *GithubAPI) GetRepositoryMilestoneLabels(milestoneId int) ([]response.La
 
 	req, err := http.NewRequest(
 		"GET",
-		fmt.Sprintf("%s/repos/%s/%s/milestones/%d/labels", GithubURL, e.Author, e.Repository, milestoneId),
+		fmt.Sprintf("%s/repos/%s/%s/milestones/%d/labels", GithubURL, e.Author, e.Repository, milestoneID),
 		nil,
 	)
 
@@ -486,20 +478,19 @@ func (e *GithubAPI) GetRepositoryMilestoneLabels(milestoneId int) ([]response.La
 	}
 
 	if resp.StatusCode == 401 {
-		return labels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return labels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &labels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return labels, nil
-	} else {
-		return labels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Add labels to an issue
-func (e *GithubAPI) AddLabelsToIssue(issueId int, labels []string) ([]response.Label, error) {
+func (e *GithubAPI) AddLabelsToIssue(issueID int, labels []string) ([]response.Label, error) {
 
 	var assignedLabels []response.Label
 
@@ -507,7 +498,7 @@ func (e *GithubAPI) AddLabelsToIssue(issueId int, labels []string) ([]response.L
 
 	req, err := http.NewRequest(
 		"POST",
-		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueId),
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueID),
 		bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels, `","`))),
 	)
 
@@ -532,20 +523,19 @@ func (e *GithubAPI) AddLabelsToIssue(issueId int, labels []string) ([]response.L
 	}
 
 	if resp.StatusCode == 400 {
-		return assignedLabels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return assignedLabels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &assignedLabels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return assignedLabels, nil
-	} else {
-		return assignedLabels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Replace all labels for an issue
-func (e *GithubAPI) ReplaceAllLabelsForIssue(issueId int, labels []string) ([]response.Label, error) {
+func (e *GithubAPI) ReplaceAllLabelsForIssue(issueID int, labels []string) ([]response.Label, error) {
 
 	var assignedLabels []response.Label
 
@@ -553,7 +543,7 @@ func (e *GithubAPI) ReplaceAllLabelsForIssue(issueId int, labels []string) ([]re
 
 	req, err := http.NewRequest(
 		"PUT",
-		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueId),
+		fmt.Sprintf("%s/repos/%s/%s/issues/%d/labels", GithubURL, e.Author, e.Repository, issueID),
 		bytes.NewBufferString(fmt.Sprintf(`["%s"]`, strings.Join(labels, `","`))),
 	)
 
@@ -578,16 +568,15 @@ func (e *GithubAPI) ReplaceAllLabelsForIssue(issueId int, labels []string) ([]re
 	}
 
 	if resp.StatusCode == 400 {
-		return assignedLabels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return assignedLabels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &assignedLabels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return assignedLabels, nil
-	} else {
-		return assignedLabels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 /************************************/
@@ -628,16 +617,15 @@ func (e *GithubAPI) GetRepositoryPRLabels(PRId int) ([]response.Label, error) {
 	}
 
 	if resp.StatusCode == 401 {
-		return labels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return labels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &labels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return labels, nil
-	} else {
-		return labels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Remove a label from a PR
@@ -671,14 +659,13 @@ func (e *GithubAPI) RemoveLabelFromPR(PRId int, labelName string) (bool, error) 
 	}
 
 	if resp.StatusCode == 400 {
-		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return false, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	if resp.StatusCode == 204 {
 		return true, nil
-	} else {
-		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Remove all labels from PR
@@ -712,14 +699,13 @@ func (e *GithubAPI) RemoveAllLabelForPR(PRId int) (bool, error) {
 	}
 
 	if resp.StatusCode == 400 {
-		return false, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return false, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	if resp.StatusCode == 204 {
 		return true, nil
-	} else {
-		return false, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Add labels to PR
@@ -756,16 +742,15 @@ func (e *GithubAPI) AddLabelsToPR(PRId int, labels []string) ([]response.Label, 
 	}
 
 	if resp.StatusCode == 400 {
-		return assignedLabels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return assignedLabels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &assignedLabels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return assignedLabels, nil
-	} else {
-		return assignedLabels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
 // Replace all labels for PR
@@ -802,14 +787,13 @@ func (e *GithubAPI) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response
 	}
 
 	if resp.StatusCode == 400 {
-		return assignedLabels, errors.New(fmt.Sprintf("Oops: %s", string(bodyByte)))
+		return assignedLabels, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
 	err = json.Unmarshal(bodyByte, &assignedLabels)
 
 	if err == nil && resp.StatusCode == 200 {
 		return assignedLabels, nil
-	} else {
-		return assignedLabels, errors.New(fmt.Sprintf("Error: %s", string(bodyByte)))
 	}
+	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }

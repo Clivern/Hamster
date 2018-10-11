@@ -11,6 +11,8 @@ install: true
 # Fix this by renaming the directory before testing.
 # https://github.com/travis-ci/travis-ci/issues/4573
 script:
+  - export GOBIN="$GOPATH/bin"
+  - export PATH="$PATH:$GOBIN"
   - cd $GOPATH/src/github.com/
   - mv Clivern/Hamster Clivern/hamster
   - mv Clivern clivern

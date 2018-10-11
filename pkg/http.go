@@ -30,11 +30,11 @@ func Request(method string, url string, body string, token string) (string, erro
 
 	defer resp.Body.Close()
 
-	body_byte, err := ioutil.ReadAll(resp.Body)
+	bodyByte, err := ioutil.ReadAll(resp.Body)
 
 	if err != nil {
 		return "", err
 	}
 
-	return string(body_byte), nil
+	return string(bodyByte), nil
 }

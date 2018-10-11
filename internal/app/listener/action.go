@@ -12,16 +12,16 @@ import (
 type Action struct {
 	Status                   []func(status event.Status) (bool, error)
 	Issues                   []func(issue event.Issues) (bool, error)
-	IssueComment             []func(issue_comment event.IssueComment) (bool, error)
+	IssueComment             []func(issueComment event.IssueComment) (bool, error)
 	Watch                    []func(watch event.Watch) (bool, error)
 	Push                     []func(watch event.Push) (bool, error)
 	Create                   []func(watch event.Create) (bool, error)
 	Label                    []func(label event.Label) (bool, error)
 	Delete                   []func(delete event.Delete) (bool, error)
 	Milestone                []func(milestone event.Milestone) (bool, error)
-	PullRequest              []func(pull_request event.PullRequest) (bool, error)
-	PullRequestReview        []func(pull_request_review event.PullRequestReview) (bool, error)
-	PullRequestReviewComment []func(pull_request_review_comment event.PullRequestReviewComment) (bool, error)
+	PullRequest              []func(pullRequest event.PullRequest) (bool, error)
+	PullRequestReview        []func(pullRequestReview event.PullRequestReview) (bool, error)
+	PullRequestReviewComment []func(pullRequestReviewComment event.PullRequestReviewComment) (bool, error)
 	Raw                      []func(raw event.Raw) (bool, error)
 }
 
@@ -53,7 +53,7 @@ func (e *Action) RegisterIssuesAction(f func(issue event.Issues) (bool, error)) 
 	e.Issues = append(e.Issues, f)
 }
 
-func (e *Action) RegisterIssueCommentAction(f func(issue_comment event.IssueComment) (bool, error)) {
+func (e *Action) RegisterIssueCommentAction(f func(issueComment event.IssueComment) (bool, error)) {
 	e.IssueComment = append(e.IssueComment, f)
 }
 
@@ -81,15 +81,15 @@ func (e *Action) RegisterMilestoneAction(f func(milestone event.Milestone) (bool
 	e.Milestone = append(e.Milestone, f)
 }
 
-func (e *Action) RegisterPullRequestAction(f func(pull_request event.PullRequest) (bool, error)) {
+func (e *Action) RegisterPullRequestAction(f func(pullRequest event.PullRequest) (bool, error)) {
 	e.PullRequest = append(e.PullRequest, f)
 }
 
-func (e *Action) RegisterPullRequestReviewAction(f func(pull_request_review event.PullRequestReview) (bool, error)) {
+func (e *Action) RegisterPullRequestReviewAction(f func(pullRequestReview event.PullRequestReview) (bool, error)) {
 	e.PullRequestReview = append(e.PullRequestReview, f)
 }
 
-func (e *Action) RegisterPullRequestReviewCommentAction(f func(pull_request_review_comment event.PullRequestReviewComment) (bool, error)) {
+func (e *Action) RegisterPullRequestReviewCommentAction(f func(pullRequestReviewComment event.PullRequestReviewComment) (bool, error)) {
 	e.PullRequestReviewComment = append(e.PullRequestReviewComment, f)
 }
 
@@ -123,9 +123,9 @@ func (e *Action) ExecuteIssuesActions(issue event.Issues) (bool, error) {
 	return true, nil
 }
 
-func (e *Action) ExecuteIssueCommentActions(issue_comment event.IssueComment) (bool, error) {
+func (e *Action) ExecuteIssueCommentActions(issueComment event.IssueComment) (bool, error) {
 	for _, fun := range e.IssueComment {
-		ok, err := fun(issue_comment)
+		ok, err := fun(issueComment)
 		if !ok {
 			return false, err
 		}
@@ -193,9 +193,9 @@ func (e *Action) ExecuteMilestoneActions(milestone event.Milestone) (bool, error
 	return true, nil
 }
 
-func (e *Action) ExecutePullRequestActions(pull_request event.PullRequest) (bool, error) {
+func (e *Action) ExecutePullRequestActions(pullRequest event.PullRequest) (bool, error) {
 	for _, fun := range e.PullRequest {
-		ok, err := fun(pull_request)
+		ok, err := fun(pullRequest)
 		if !ok {
 			return false, err
 		}
@@ -203,9 +203,9 @@ func (e *Action) ExecutePullRequestActions(pull_request event.PullRequest) (bool
 	return true, nil
 }
 
-func (e *Action) ExecutePullRequestReviewActions(pull_request_review event.PullRequestReview) (bool, error) {
+func (e *Action) ExecutePullRequestReviewActions(pullRequestReview event.PullRequestReview) (bool, error) {
 	for _, fun := range e.PullRequestReview {
-		ok, err := fun(pull_request_review)
+		ok, err := fun(pullRequestReview)
 		if !ok {
 			return false, err
 		}
@@ -213,9 +213,9 @@ func (e *Action) ExecutePullRequestReviewActions(pull_request_review event.PullR
 	return true, nil
 }
 
-func (e *Action) ExecutePullRequestReviewCommentActions(pull_request_review_comment event.PullRequestReviewComment) (bool, error) {
+func (e *Action) ExecutePullRequestReviewCommentActions(pullRequestReviewComment event.PullRequestReviewComment) (bool, error) {
 	for _, fun := range e.PullRequestReviewComment {
-		ok, err := fun(pull_request_review_comment)
+		ok, err := fun(pullRequestReviewComment)
 		if !ok {
 			return false, err
 		}

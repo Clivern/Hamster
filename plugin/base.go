@@ -4,8 +4,8 @@
 
 package plugin
 
-// Here we define all our custom actions and it will
-// get executed once we get a request from github
+//revive:disable:unused-parameter
+
 import (
 	"github.com/clivern/hamster/internal/app/event"
 	"github.com/clivern/hamster/pkg"
@@ -36,7 +36,7 @@ func IssuesListener(issues event.Issues) (bool, error) {
 }
 
 // Issue Comment Action
-func IssueCommentListener(issue_comment event.IssueComment) (bool, error) {
+func IssueCommentListener(issueComment event.IssueComment) (bool, error) {
 	pkg.Info("IssueComment event listener fired!")
 	return true, nil
 }
@@ -66,37 +66,37 @@ func MilestoneListener(milestone event.Milestone) (bool, error) {
 }
 
 // Pull Request Action
-func PullRequestListener(pull_request event.PullRequest) (bool, error) {
+func PullRequestListener(pullRequest event.PullRequest) (bool, error) {
 	pkg.Info("PullRequest event listener fired!")
 	return true, nil
 }
 
 // Pull Request Review Action
-func PullRequestReviewListener(pull_request_review event.PullRequestReview) (bool, error) {
+func PullRequestReviewListener(pullRequestReview event.PullRequestReview) (bool, error) {
 	pkg.Info("PullRequestReview event listener fired!")
 	return true, nil
 }
 
 // Pull Request Review Comment Action
-func PullRequestReviewCommentListener(pull_request_review_comment event.PullRequestReviewComment) (bool, error) {
+func PullRequestReviewCommentListener(pullRequestReviewComment event.PullRequestReviewComment) (bool, error) {
 	pkg.Info("PullRequestReviewComment event listener fired!")
 	return true, nil
 }
 
 // Not Supported Yet
-func CheckRunListener(check_run event.CheckRun) (bool, error) {
+func CheckRunListener(checkRun event.CheckRun) (bool, error) {
 	pkg.Info("CheckRun event listener fired!")
 	return true, nil
 }
 
 // Not Supported Yet
-func CheckSuiteListener(check_suite event.CheckSuite) (bool, error) {
+func CheckSuiteListener(checkSuite event.CheckSuite) (bool, error) {
 	pkg.Info("CheckSuite event listener fired!")
 	return true, nil
 }
 
 // Not Supported Yet
-func CommitCommentListener(commit_comment event.CommitComment) (bool, error) {
+func CommitCommentListener(commitComment event.CommitComment) (bool, error) {
 	pkg.Info("CommitComment event listener fired!")
 	return true, nil
 }
@@ -108,7 +108,7 @@ func DeploymentListener(deployment event.Deployment) (bool, error) {
 }
 
 // Not Supported Yet
-func DeploymentStatusListener(deployment_status event.DeploymentStatus) (bool, error) {
+func DeploymentStatusListener(deploymentStatus event.DeploymentStatus) (bool, error) {
 	pkg.Info("DeploymentStatus event listener fired!")
 	return true, nil
 }
@@ -120,7 +120,7 @@ func ForkListener(fork event.Fork) (bool, error) {
 }
 
 // Not Supported Yet
-func GithubAppAuthorizationListener(github_app_authorization event.GithubAppAuthorization) (bool, error) {
+func GithubAppAuthorizationListener(githubAppAuthorization event.GithubAppAuthorization) (bool, error) {
 	pkg.Info("GithubAppAuthorization event listener fired!")
 	return true, nil
 }
@@ -138,13 +138,13 @@ func InstallationListener(installation event.Installation) (bool, error) {
 }
 
 // Not Supported Yet
-func InstallationRepositoriesListener(installation_repositories event.InstallationRepositories) (bool, error) {
+func InstallationRepositoriesListener(installationRepositories event.InstallationRepositories) (bool, error) {
 	pkg.Info("InstallationRepositories event listener fired!")
 	return true, nil
 }
 
 // Not Supported Yet
-func MarketplacePurchaseListener(marketplace_purchase event.MarketplacePurchase) (bool, error) {
+func MarketplacePurchaseListener(marketplacePurchase event.MarketplacePurchase) (bool, error) {
 	pkg.Info("MarketplacePurchase event listener fired!")
 	return true, nil
 }
@@ -162,7 +162,7 @@ func MembershipListener(membership event.Membership) (bool, error) {
 }
 
 // Not Supported Yet
-func OrgBlockListener(org_block event.OrgBlock) (bool, error) {
+func OrgBlockListener(orgBlock event.OrgBlock) (bool, error) {
 	pkg.Info("OrgBlock event listener fired!")
 	return true, nil
 }
@@ -174,7 +174,7 @@ func OrganizationListener(organization event.Organization) (bool, error) {
 }
 
 // Not Supported Yet
-func PageBuildListener(page_build event.PageBuild) (bool, error) {
+func PageBuildListener(pageBuild event.PageBuild) (bool, error) {
 	pkg.Info("PageBuild event listener fired!")
 	return true, nil
 }
@@ -186,13 +186,13 @@ func ProjectListener(project event.Project) (bool, error) {
 }
 
 // Not Supported Yet
-func ProjectCardListener(project_card event.ProjectCard) (bool, error) {
+func ProjectCardListener(projectCard event.ProjectCard) (bool, error) {
 	pkg.Info("ProjectCard event listener fired!")
 	return true, nil
 }
 
 // Not Supported Yet
-func ProjectColumnListener(project_column event.ProjectColumn) (bool, error) {
+func ProjectColumnListener(projectColumn event.ProjectColumn) (bool, error) {
 	pkg.Info("ProjectColumn event listener fired!")
 	return true, nil
 }
@@ -222,13 +222,13 @@ func RepositoryListener(repository event.Repository) (bool, error) {
 }
 
 // Not Supported Yet
-func RepositoryImportListener(repository_import event.RepositoryImport) (bool, error) {
+func RepositoryImportListener(repositoryImport event.RepositoryImport) (bool, error) {
 	pkg.Info("RepositoryImport event listener fired!")
 	return true, nil
 }
 
 // Not Supported Yet
-func RepositoryVulnerabilityAlertListener(repository_vulnerability_alert event.RepositoryVulnerabilityAlert) (bool, error) {
+func RepositoryVulnerabilityAlertListener(repositoryVulnerabilityAlert event.RepositoryVulnerabilityAlert) (bool, error) {
 	pkg.Info("RepositoryVulnerabilityAlert event listener fired!")
 	return true, nil
 }
@@ -240,7 +240,7 @@ func TeamListener(team event.Team) (bool, error) {
 }
 
 // Not Supported Yet
-func TeamAddListener(team_add event.TeamAdd) (bool, error) {
+func TeamAddListener(teamAdd event.TeamAdd) (bool, error) {
 	pkg.Info("TeamAdd event listener fired!")
 	return true, nil
 }
@@ -252,7 +252,7 @@ func IssuesTestCommandListener(command event.Command, issues event.Issues) (bool
 }
 
 // Test Command Listener for Issues Comments
-func IssueCommentTestCommandListener(command event.Command, issue_comment event.IssueComment) (bool, error) {
+func IssueCommentTestCommandListener(command event.Command, issueComment event.IssueComment) (bool, error) {
 	pkg.Info("IssueCommentTestCommandListener event listener fired!")
 	return true, nil
 }

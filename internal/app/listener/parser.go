@@ -37,32 +37,32 @@ func (e *Parser) ConvertToJSON() (string, error) {
 	return string(data), nil
 }
 
-func (e *Parser) SetUserAgent(user_agent string) {
-	e.UserAgent = user_agent
+func (e *Parser) SetUserAgent(userAgent string) {
+	e.UserAgent = userAgent
 }
 
 func (e *Parser) GetUserAgent() string {
 	return e.UserAgent
 }
 
-func (e *Parser) SetGithubDelivery(github_delivery string) {
-	e.GithubDelivery = github_delivery
+func (e *Parser) SetGithubDelivery(githubDelivery string) {
+	e.GithubDelivery = githubDelivery
 }
 
 func (e *Parser) GetGithubDelivery() string {
 	return e.GithubDelivery
 }
 
-func (e *Parser) SetGitHubEvent(github_event string) {
-	e.GitHubEvent = github_event
+func (e *Parser) SetGitHubEvent(githubEvent string) {
+	e.GitHubEvent = githubEvent
 }
 
 func (e *Parser) GetGitHubEvent() string {
 	return e.GitHubEvent
 }
 
-func (e *Parser) SetHubSignature(hub_signature string) {
-	e.HubSignature = hub_signature
+func (e *Parser) SetHubSignature(hubSignature string) {
+	e.HubSignature = hubSignature
 }
 
 func (e *Parser) GetHubSignature() string {

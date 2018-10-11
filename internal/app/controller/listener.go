@@ -60,14 +60,14 @@ func Listen(c *gin.Context) {
 			actions.RegisterPushAction(plugin.PushListener)
 			actions.ExecutePushActions(push)
 		case "issue_comment":
-			var issue_comment event.IssueComment
-			issue_comment.LoadFromJSON(rawBody)
+			var issueComment event.IssueComment
+			issueComment.LoadFromJSON(rawBody)
 			actions.RegisterIssueCommentAction(plugin.IssueCommentListener)
-			actions.ExecuteIssueCommentActions(issue_comment)
+			actions.ExecuteIssueCommentActions(issueComment)
 
 			// Commands Listeners
 			commands.RegisterIssueCommentAction("test", plugin.IssueCommentTestCommandListener)
-			commands.ExecuteIssueCommentActions(issue_comment)
+			commands.ExecuteIssueCommentActions(issueComment)
 		case "create":
 			var create event.Create
 			create.LoadFromJSON(rawBody)
@@ -89,20 +89,20 @@ func Listen(c *gin.Context) {
 			actions.RegisterMilestoneAction(plugin.MilestoneListener)
 			actions.ExecuteMilestoneActions(milestone)
 		case "pull_request":
-			var pull_request event.PullRequest
-			pull_request.LoadFromJSON(rawBody)
+			var pullRequest event.PullRequest
+			pullRequest.LoadFromJSON(rawBody)
 			actions.RegisterPullRequestAction(plugin.PullRequestListener)
-			actions.ExecutePullRequestActions(pull_request)
+			actions.ExecutePullRequestActions(pullRequest)
 		case "pull_request_review":
-			var pull_request_review event.PullRequestReview
-			pull_request_review.LoadFromJSON(rawBody)
+			var pullRequestReview event.PullRequestReview
+			pullRequestReview.LoadFromJSON(rawBody)
 			actions.RegisterPullRequestReviewAction(plugin.PullRequestReviewListener)
-			actions.ExecutePullRequestReviewActions(pull_request_review)
+			actions.ExecutePullRequestReviewActions(pullRequestReview)
 		case "pull_request_review_comment":
-			var pull_request_review_comment event.PullRequestReviewComment
-			pull_request_review_comment.LoadFromJSON(rawBody)
+			var pullRequestReviewComment event.PullRequestReviewComment
+			pullRequestReviewComment.LoadFromJSON(rawBody)
 			actions.RegisterPullRequestReviewCommentAction(plugin.PullRequestReviewCommentListener)
-			actions.ExecutePullRequestReviewCommentActions(pull_request_review_comment)
+			actions.ExecutePullRequestReviewCommentActions(pullRequestReviewComment)
 		default:
 			pkg.Infof("Unknown or unsupported event %s!", evt)
 		}
