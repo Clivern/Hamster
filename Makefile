@@ -3,9 +3,22 @@ GOFMT        ?= $(GO)fmt
 pkgs          = ./...
 
 
-## config: Config the application.
-config:
+## install_revive: Install revive for linting.
+install_revive:
+	@echo ">> Install revive"
 	$(GO) get github.com/mgechev/revive
+
+
+## install_dep: Install dep v0.5.0.
+install_dep:
+	@echo ">> Install dep v0.5.0"
+	curl https://raw.githubusercontent.com/golang/dep/v0.5.0/install.sh | sh
+
+
+## ensure_dep: Install all dependencies.
+ensure_dep:
+	@echo ">> Install all dependencies"
+	dep ensure
 
 
 ## style: Check code style.
@@ -78,7 +91,7 @@ build:
 
 
 ## ci: Run all CI tests.
-ci: config style check_license test vet lint
+ci: style check_license test vet lint
 	@echo "\n==> All quality checks passed"
 
 
