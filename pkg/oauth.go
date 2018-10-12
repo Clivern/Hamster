@@ -27,9 +27,9 @@ type GithubOAuthApp struct {
 }
 
 type GithubOAuthClient struct {
-	Code  string   `json:"code"`
-	AccessToken  string   `json:"access_token"`
-	TokenType    string   `json:"token_type"`
+	Code        string `json:"code"`
+	AccessToken string `json:"access_token"`
+	TokenType   string `json:"token_type"`
 }
 
 func (e *GithubOAuthApp) GenerateState() {
@@ -77,11 +77,10 @@ func (e *GithubOAuthApp) RandomString(len int) (string, error) {
 
 func (e *GithubOAuthClient) FetchAccessToken(code string, incomingState string, originalState string) (bool, error) {
 	if incomingState != originalState {
-		return	false, fmt.Errorf("Invalid state provided %s, original one is %s", incomingState, originalState)
+		return false, fmt.Errorf("Invalid state provided %s, original one is %s", incomingState, originalState)
 	}
 	return true, nil
 }
-
 
 func (e *GithubOAuthClient) GetAccessToken() string {
 	return e.AccessToken

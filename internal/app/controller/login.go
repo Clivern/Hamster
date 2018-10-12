@@ -5,26 +5,26 @@
 package controller
 
 import (
-    "net/http"
 	"github.com/clivern/hamster/pkg"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Login(c *gin.Context) {
-	githubOauth := &pkg.GithubOAuthApp {
-        ClientID: "ClientID",
-        RedirectURI: "RedirectURI",
-        Scope: "Scope",
-        State: "State",
-        AllowSignup: "AllowSignup",
-    }
+	githubOauth := &pkg.GithubOAuthApp{
+		ClientID:    "ClientID",
+		RedirectURI: "RedirectURI",
+		Scope:       "Scope",
+		State:       "State",
+		AllowSignup: "AllowSignup",
+	}
 	githubOauth.AddScope("scope1")
 	githubOauth.AddScope("scope2")
 	githubOauth.AddScope("scope3")
 	githubOauth.GenerateState()
 
-    c.HTML(http.StatusOK, "login.tmpl", gin.H{
-        "title": "Hamster",
-        "oauthURL": githubOauth.BuildAuthorizeURL(),
-    })
+	c.HTML(http.StatusOK, "login.tmpl", gin.H{
+		"title":    "Hamster",
+		"oauthURL": githubOauth.BuildAuthorizeURL(),
+	})
 }
