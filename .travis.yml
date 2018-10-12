@@ -11,11 +11,13 @@ install: true
 # Fix this by renaming the directory before testing.
 # https://github.com/travis-ci/travis-ci/issues/4573
 script:
+  - curl https://raw.githubusercontent.com/golang/dep/v0.5.0/install.sh | sh
   - export GOBIN="$GOPATH/bin"
   - export PATH="$PATH:$GOBIN"
   - cd $GOPATH/src/github.com/
   - mv Clivern/Hamster Clivern/hamster
   - mv Clivern clivern
   - cd clivern/hamster
+  - dep ensure
   - go get -v ./...
   - make ci
