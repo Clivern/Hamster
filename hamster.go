@@ -29,7 +29,12 @@ func main() {
 	}
 
 	r := gin.Default()
+	r.Static("/assets", "./assets")
+	r.LoadHTMLGlob("templates/*")
 	r.GET("/", controller.Index)
+	r.GET("/_healthcheck", controller.HealthCheck)
+	r.GET("/login", controller.Login)
+	r.GET("/auth", controller.Auth)
 	r.POST("/listen", controller.Listen)
 	r.GET("/favicon.ico", func(c *gin.Context) {
 		c.String(http.StatusNoContent, "")

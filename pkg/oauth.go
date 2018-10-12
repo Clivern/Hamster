@@ -7,7 +7,6 @@ package pkg
 import (
 	"crypto/rand"
 	"encoding/hex"
-	"encoding/json"
 	"fmt"
 	"strings"
 )
@@ -17,8 +16,7 @@ const (
 	OAuthAccessToken = "https://github.com/login/oauth/access_token"
 )
 
-// OAuth is a Representation of a Github OAuth API
-type GithubOAuth struct {
+type GithubOAuthApp struct {
 	ClientID     string   `json:"client_id"`
 	RedirectURI  string   `json:"redirect_uri"`
 	Scope        string   `json:"scope"`
@@ -26,49 +24,38 @@ type GithubOAuth struct {
 	State        string   `json:"state"`
 	AllowSignup  string   `json:"allow_signup"`
 	ClientSecret string   `json:"client_secret"`
-	Code         string   `json:"code"`
+}
+
+type GithubOAuthClient struct {
+	Code  string   `json:"code"`
 	AccessToken  string   `json:"access_token"`
 	TokenType    string   `json:"token_type"`
 }
 
-func (e *GithubOAuth) LoadFromJSON(data []byte) (bool, error) {
-	err := json.Unmarshal(data, &e)
-	if err != nil {
-		return false, err
-	}
-	return true, nil
-}
-
-func (e *GithubOAuth) ConvertToJSON() (string, error) {
-	data, err := json.Marshal(&e)
-	if err != nil {
-		return "", err
-	}
-	return string(data), nil
-}
-
-func (e *GithubOAuth) GenerateState() {
+func (e *GithubOAuthApp) GenerateState() {
 	val, err := e.RandomString(20)
 	if err == nil {
 		e.State = val
 	}
 }
 
-func (e *GithubOAuth) GetState() string {
+func (e *GithubOAuthApp) GetState() string {
 	return e.State
 }
 
-func (e *GithubOAuth) AddScope(scope string) {
+func (e *GithubOAuthApp) AddScope(scope string) {
 	e.Scopes = append(e.Scopes, scope)
-}
-
-func (e *GithubOAuth) AddScopes(scopes []string) {
-	e.Scopes = scopes
-}
-
-// Build github authorization url to send user to
-func (e *GithubOAuth) BuildAuthorizeURL() string {
 	e.Scope = strings.Join(e.Scopes, ",")
+}
+
+func (e *GithubOAuthApp) AddScopes(scopes []string) {
+	e.Scopes = scopes
+	e.Scope = strings.Join(e.Scopes, ",")
+}
+
+func (e *GithubOAuthApp) BuildAuthorizeURL() string {
+	e.Scope = strings.Join(e.Scopes, ",")
+
 	return fmt.Sprintf(
 		"%s?client_id=%s&redirect_uri=%s&scope=%s&state=%s&allow_signup=%s",
 		GithubOAuthURL,
@@ -80,16 +67,22 @@ func (e *GithubOAuth) BuildAuthorizeURL() string {
 	)
 }
 
-// Verify state and fetch the access token with incoming code
-func (e *GithubOAuth) GetAccessToken(code string, state string) (string, error) {
-	return "", nil
-}
-
-// Generate a random string
-func (e *GithubOAuth) RandomString(len int) (string, error) {
+func (e *GithubOAuthApp) RandomString(len int) (string, error) {
 	bytes := make([]byte, len)
 	if _, err := rand.Read(bytes); err != nil {
 		return "", err
 	}
 	return hex.EncodeToString(bytes), nil
+}
+
+func (e *GithubOAuthClient) FetchAccessToken(code string, incomingState string, originalState string) (bool, error) {
+	if incomingState != originalState {
+		return	false, fmt.Errorf("Invalid state provided %s, original one is %s", incomingState, originalState)
+	}
+	return true, nil
+}
+
+
+func (e *GithubOAuthClient) GetAccessToken() string {
+	return e.AccessToken
 }
