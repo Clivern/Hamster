@@ -35,7 +35,7 @@ services:
          - AppLogLevel=info
          - GithubAppClientID=ValueHere
          - GithubAppRedirectURI=ValueHere
-         - GithubAppAllowSignup=false
+         - GithubAppAllowSignup=true
          - GithubAppScope=ValueHere
          - GithubAppClientSecret=ValueHere
          - AppDomain=example.com
