@@ -11,6 +11,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -64,15 +65,21 @@ func (e *GithubOAuthApp) AddScopes(scopes []string) {
 func (e *GithubOAuthApp) BuildAuthorizeURL() string {
 	e.Scope = strings.Join(e.Scopes, ",")
 
-	return fmt.Sprintf(
-		"%s?client_id=%s&redirect_uri=%s&scope=%s&state=%s&allow_signup=%s",
-		GithubOAuthURL,
-		e.ClientID,
-		e.RedirectURI,
-		e.Scope,
-		e.State,
-		e.AllowSignup,
-	)
+	u, err := url.Parse(GithubOAuthURL)
+
+	if err != nil {
+		return ""
+	}
+
+	q := u.Query()
+	q.Set("client_id", e.ClientID)
+	q.Set("redirect_uri", e.RedirectURI)
+	q.Set("scope", e.Scope)
+	q.Set("state", e.State)
+	q.Set("allow_signup", e.AllowSignup)
+	u.RawQuery = q.Encode()
+
+	return u.String()
 }
 
 func (e *GithubOAuthApp) RandomString(len int) (string, error) {
@@ -95,17 +102,22 @@ func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, erro
 		)
 	}
 
-	url := fmt.Sprintf(
-		"%s?client_id=%s&client_secret=%s&code=%s&redirect_uri=%s&state=%s",
-		OAuthAccessToken,
-		e.ClientID,
-		e.ClientSecret,
-		code,
-		e.RedirectURI,
-		e.State,
-	)
+	u, err := url.Parse(OAuthAccessToken)
+
+	if err != nil {
+		return false, err
+	}
+
+	q := u.Query()
+	q.Set("client_id", e.ClientID)
+	q.Set("client_secret", e.ClientSecret)
+	q.Set("code", code)
+	q.Set("redirect_uri", e.RedirectURI)
+	q.Set("state", e.State)
+	u.RawQuery = q.Encode()
+
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", url, nil)
+	req, err := http.NewRequest("POST", u.String(), nil)
 
 	if err != nil {
 		return false, err
