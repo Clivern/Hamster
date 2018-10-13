@@ -5,6 +5,7 @@
 package pkg
 
 import (
+	"bytes"
 	"crypto/rand"
 	"encoding/hex"
 	"encoding/json"
@@ -35,6 +36,13 @@ type GithubOAuthApp struct {
 type GithubOAuthClient struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
+}
+
+type GithubAccessToken struct {
+	ClientID     string `json:"client_id"`
+	ClientSecret string `json:"client_secret"`
+	Code         string `json:"code"`
+	State        string `json:"state"`
 }
 
 func (e *GithubOAuthApp) GenerateState() {
@@ -92,6 +100,19 @@ func (e *GithubOAuthApp) RandomString(len int) (string, error) {
 
 func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, error) {
 
+	accessTokenRequest := &GithubAccessToken{
+		ClientID:     e.ClientID,
+		ClientSecret: e.ClientSecret,
+		Code:         code,
+		State:        e.State,
+	}
+
+	jsonBody, err := accessTokenRequest.ConvertToJSON()
+
+	if err != nil {
+		return false, err
+	}
+
 	githubOAuthClient := &GithubOAuthClient{}
 
 	if state != e.State {
@@ -102,26 +123,19 @@ func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, erro
 		)
 	}
 
-	u, err := url.Parse(OAuthAccessToken)
-
-	if err != nil {
-		return false, err
-	}
-
-	q := u.Query()
-	q.Set("client_id", e.ClientID)
-	q.Set("client_secret", e.ClientSecret)
-	q.Set("code", code)
-	q.Set("redirect_uri", e.RedirectURI)
-	q.Set("state", e.State)
-	u.RawQuery = q.Encode()
-
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", u.String(), nil)
+	req, err := http.NewRequest(
+		"POST",
+		OAuthAccessToken,
+		bytes.NewBufferString(jsonBody),
+	)
 
 	if err != nil {
 		return false, err
 	}
+
+	req.Header.Add("Accept", "application/json")
+	req.Header.Add("Content-type", "application/json")
 
 	resp, err := client.Do(req)
 
@@ -155,4 +169,12 @@ func (e *GithubOAuthApp) GetAccessToken() string {
 
 func (e *GithubOAuthApp) GetTokenType() string {
 	return e.TokenType
+}
+
+func (e *GithubAccessToken) ConvertToJSON() (string, error) {
+	data, err := json.Marshal(&e)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
 }
