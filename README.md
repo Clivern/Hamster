@@ -43,7 +43,7 @@ Then add your `app_mode`, `app_port`, `app_log_level`, `github_token`, `github_w
     "github_app_redirect_uri": "..",
     "github_app_allow_signup": "false",
     "github_app_scope": "..",
-    "github_app_client_secret": "..",
+    "github_app_client_secret": ".."
 }
 ```
 
