@@ -8,20 +8,27 @@ import (
 	"github.com/clivern/hamster/pkg"
 	"github.com/gin-gonic/gin"
 	"net/http"
+	"os"
 )
 
 func Login(c *gin.Context) {
+
 	githubOauth := &pkg.GithubOAuthApp{
-		ClientID:    "ClientID",
-		RedirectURI: "RedirectURI",
-		Scope:       "Scope",
-		State:       "State",
-		AllowSignup: "AllowSignup",
+		ClientID:     os.Getenv("GithubAppClientID"),
+		RedirectURI:  os.Getenv("GithubAppRedirectURI"),
+		AllowSignup:  os.Getenv("GithubAppAllowSignup"),
+		Scope:        os.Getenv("GithubAppScope"),
+		ClientSecret: os.Getenv("GithubAppClientSecret"),
 	}
-	githubOauth.AddScope("scope1")
-	githubOauth.AddScope("scope2")
-	githubOauth.AddScope("scope3")
-	githubOauth.GenerateState()
+
+	state, err := c.Cookie("gh_oauth_state")
+
+	if err != nil || state == "" {
+		githubOauth.GenerateState()
+		c.SetCookie("gh_oauth_state", githubOauth.GetState(), 3600, "/", os.Getenv("AppDomain"), true, true)
+	} else {
+		githubOauth.SetState(state)
+	}
 
 	c.HTML(http.StatusOK, "login.tmpl", gin.H{
 		"title":    "Hamster",

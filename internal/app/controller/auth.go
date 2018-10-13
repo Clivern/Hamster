@@ -5,11 +5,41 @@
 package controller
 
 import (
+	"github.com/clivern/hamster/pkg"
 	"github.com/gin-gonic/gin"
+	"os"
 )
 
 func Auth(c *gin.Context) {
-	c.JSON(200, gin.H{
-		"status": "ok",
-	})
+
+	githubOauth := &pkg.GithubOAuthApp{
+		ClientID:     os.Getenv("GithubAppClientID"),
+		RedirectURI:  os.Getenv("GithubAppRedirectURI"),
+		AllowSignup:  os.Getenv("GithubAppAllowSignup"),
+		Scope:        os.Getenv("GithubAppScope"),
+		ClientSecret: os.Getenv("GithubAppClientSecret"),
+	}
+
+	state, err := c.Cookie("gh_oauth_state")
+
+	if err == nil && state != "" {
+		githubOauth.SetState(state)
+	}
+
+	ok, err := githubOauth.FetchAccessToken(
+		c.DefaultQuery("code", ""),
+		c.DefaultQuery("state", ""),
+	)
+
+	if ok && err == nil {
+		c.JSON(200, gin.H{
+			"status":      "ok",
+			"accessToken": githubOauth.GetAccessToken(),
+		})
+	} else {
+		c.JSON(200, gin.H{
+			"status": "not ok",
+			"error":  err.Error(),
+		})
+	}
 }

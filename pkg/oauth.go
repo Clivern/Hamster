@@ -7,7 +7,10 @@ package pkg
 import (
 	"crypto/rand"
 	"encoding/hex"
+	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"strings"
 )
 
@@ -24,10 +27,11 @@ type GithubOAuthApp struct {
 	State        string   `json:"state"`
 	AllowSignup  string   `json:"allow_signup"`
 	ClientSecret string   `json:"client_secret"`
+	AccessToken  string   `json:"access_token"`
+	TokenType    string   `json:"token_type"`
 }
 
 type GithubOAuthClient struct {
-	Code        string `json:"code"`
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
 }
@@ -41,6 +45,10 @@ func (e *GithubOAuthApp) GenerateState() {
 
 func (e *GithubOAuthApp) GetState() string {
 	return e.State
+}
+
+func (e *GithubOAuthApp) SetState(state string) {
+	e.State = state
 }
 
 func (e *GithubOAuthApp) AddScope(scope string) {
@@ -75,13 +83,64 @@ func (e *GithubOAuthApp) RandomString(len int) (string, error) {
 	return hex.EncodeToString(bytes), nil
 }
 
-func (e *GithubOAuthClient) FetchAccessToken(code string, incomingState string, originalState string) (bool, error) {
-	if incomingState != originalState {
-		return false, fmt.Errorf("Invalid state provided %s, original one is %s", incomingState, originalState)
+func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, error) {
+
+	githubOAuthClient := &GithubOAuthClient{}
+
+	if state != e.State {
+		return false, fmt.Errorf(
+			"Invalid state provided %s, original one is %s",
+			state,
+			e.State,
+		)
 	}
+
+	url := fmt.Sprintf(
+		"%s?client_id=%s&client_secret=%s&code=%s&redirect_uri=%s&state=%s",
+		OAuthAccessToken,
+		e.ClientID,
+		e.ClientSecret,
+		code,
+		e.RedirectURI,
+		e.State,
+	)
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", url, nil)
+
+	if err != nil {
+		return false, err
+	}
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return false, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return false, err
+	}
+
+	err = json.Unmarshal(bodyByte, &githubOAuthClient)
+
+	if err != nil {
+		return false, err
+	}
+
+	e.AccessToken = githubOAuthClient.AccessToken
+	e.TokenType = githubOAuthClient.TokenType
+
 	return true, nil
 }
 
-func (e *GithubOAuthClient) GetAccessToken() string {
+func (e *GithubOAuthApp) GetAccessToken() string {
 	return e.AccessToken
+}
+
+func (e *GithubOAuthApp) GetTokenType() string {
+	return e.TokenType
 }

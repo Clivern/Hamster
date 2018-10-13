@@ -36,9 +36,18 @@ Then add your `app_mode`, `app_port`, `app_log_level`, `github_token`, `github_w
     "github_token": "...",
     "github_webhook_secret": "...",
     "repository_author": "Clivern",
-    "repository_name": "Hamster"
+    "repository_name": "Hamster",
+
+    "app_domain": "example.com",
+    "github_app_client_id": "..",
+    "github_app_redirect_uri": "..",
+    "github_app_allow_signup": "false",
+    "github_app_scope": "..",
+    "github_app_client_secret": "..",
 }
 ```
+
+You can config `app_domain` and the rest of github app configs `github_app_*` in case you need a github app not a personal bot.
 
 Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https://hamster.com/listen`, `Content type` as `JSON` and Add Your Webhook Secret.
 
