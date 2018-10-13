@@ -11,5 +11,5 @@
     "github_app_redirect_uri": "..",
     "github_app_allow_signup": "false",
     "github_app_scope": "..",
-    "github_app_client_secret": "..",
+    "github_app_client_secret": ".."
 }
