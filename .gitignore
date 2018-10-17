@@ -16,3 +16,6 @@ config.dist.json
 
 # App build
 hamster
+
+# Ignore vendor and run dep ensure
+vendor

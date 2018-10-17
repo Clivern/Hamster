@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/logo/logo.png" height="80" />
+    <img alt="Hamster Logo" src="https://raw.githubusercontent.com/Clivern/Hamster/master/assets/img/logo.png" height="80" />
     <h3 align="center">Hamster</h3>
     <p align="center">A Bot Toolkit for Github!</p>
 </p>
@@ -7,6 +7,20 @@
 ## Documentation
 
 ### Config & Run The Application
+
+Hamster uses [dep](https://github.com/golang/dep) to manage dependencies so you need to install it
+
+```bash
+# For latest dep version
+$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
+
+# For latest stable version
+$ curl https://raw.githubusercontent.com/golang/dep/v0.5.0/install.sh | sh
+
+$ dep ensure
+```
+
+Then Create a dist config file
 
 ```bash
 $ cp config.json config.dist.json
@@ -22,9 +36,18 @@ Then add your `app_mode`, `app_port`, `app_log_level`, `github_token`, `github_w
     "github_token": "...",
     "github_webhook_secret": "...",
     "repository_author": "Clivern",
-    "repository_name": "Hamster"
+    "repository_name": "Hamster",
+
+    "app_domain": "example.com",
+    "github_app_client_id": "..",
+    "github_app_redirect_uri": "..",
+    "github_app_allow_signup": "true",
+    "github_app_scope": "..",
+    "github_app_client_secret": ".."
 }
 ```
+
+You can config `app_domain` and the rest of github app configs `github_app_*` in case you need a github app not a personal bot.
 
 Add a new webhook from `Settings > Webhooks`, Set the `Payload URL` to be `https://hamster.com/listen`, `Content type` as `JSON` and Add Your Webhook Secret.
 
@@ -206,7 +229,7 @@ All current supported events and the future events will be available on `plugin/
 Also please check [the latest github webhooks guide](https://developer.github.com/webhooks/).
 
 
-### Build a Custom Commands
+### Build Custom Commands
 
 In order to build an interactive bot, you will need to listen to a pre-defined commands that once your repo users type on an issue or a comment, your application get notified. Github don't support this by default but it is still possible to achieve this manually.
 
@@ -761,6 +784,38 @@ if err == nil {
 }
 ```
 
+### Authorizing OAuth Apps
+
+You can enable other users to authorize your OAuth App. First configure the app credentials on `config.dist.json` or `docker-compose.yml`
+
+```
+// config.dist.json
+    "app_domain": "example.com",
+    "github_app_client_id": "..",
+    "github_app_redirect_uri": "..",
+    "github_app_allow_signup": "false",
+    "github_app_scope": "", // It can be empty
+    "github_app_client_secret": ".."
+```
+```
+// docker-compose.yml
+     - GithubAppClientID=ValueHere
+     - GithubAppRedirectURI=ValueHere
+     - GithubAppAllowSignup=true
+     - GithubAppScope= // It can be empty
+     - GithubAppClientSecret=ValueHere
+     - AppDomain=example.com
+```
+
+The github app should configured to use `http://example.com/auth` as redirect URL.
+
+If you run the application, the authorize URL on `/login` page should be something like that:
+```
+https://github.com/login/oauth/authorize?allow_signup=true&client_id=Iv1.eda..&redirect_uri=https%3A%2F%2F3fa8b997.ngrok.io%2Fauth&scope=&state=5a0a8c973e93ed82820f7896dddb1df70a3dce62
+```
+
+If you click authorize and authorized the app, github will send you back to hamster `/auth` route with a code and the state. Hamster will use that code to fetch the `accessToken` for you or any user. You can use the `accessToken` to do all subsequent github API Calls.
+
 ### Logging
 
 We use [google/logger](https://github.com/google/logger) under the hood, make use of it or use these simple functions:
@@ -802,6 +857,8 @@ pkg.Fatalf("Fatalf %s Here!", "Goes")
 ```
 Add More Events.
 Add Labels & Comments API to Github pkg.
+Custom Commands.
+OAuth Apps Support.
 ```
 
 * Version 1.1.1:

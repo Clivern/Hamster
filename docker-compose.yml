@@ -33,3 +33,9 @@ services:
          - AppMode=prod
          - AppPort=8080
          - AppLogLevel=info
+         - GithubAppClientID=ValueHere
+         - GithubAppRedirectURI=ValueHere
+         - GithubAppAllowSignup=true
+         - GithubAppScope=ValueHere
+         - GithubAppClientSecret=ValueHere
+         - AppDomain=example.com

@@ -9,8 +9,9 @@ import (
 )
 
 type Label struct {
-	Name  string `json:"body"`
-	Color string `json:"color"`
+	Name        string `json:"body"`
+	Description string `json:"description"`
+	Color       string `json:"color"`
 }
 
 func (e *Label) LoadFromJSON(data []byte) (bool, error) {

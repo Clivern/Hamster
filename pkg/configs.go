@@ -12,13 +12,19 @@ import (
 )
 
 type Config struct {
-	GithubToken         string `json:"github_token"`
-	GithubWebhookSecret string `json:"github_webhook_secret"`
-	RepositoryAuthor    string `json:"repository_author"`
-	RepositoryName      string `json:"repository_name"`
-	AppMode             string `json:"app_mode"`
-	AppPort             string `json:"app_port"`
-	AppLogLevel         string `json:"app_log_level"`
+	GithubToken           string `json:"github_token"`
+	GithubWebhookSecret   string `json:"github_webhook_secret"`
+	RepositoryAuthor      string `json:"repository_author"`
+	RepositoryName        string `json:"repository_name"`
+	AppMode               string `json:"app_mode"`
+	AppPort               string `json:"app_port"`
+	AppLogLevel           string `json:"app_log_level"`
+	AppDomain             string `json:"app_domain"`
+	GithubAppClientID     string `json:"github_app_client_id"`
+	GithubAppRedirectURI  string `json:"github_app_redirect_uri"`
+	GithubAppAllowSignup  string `json:"github_app_allow_signup"`
+	GithubAppScope        string `json:"github_app_scope"`
+	GithubAppClientSecret string `json:"github_app_client_secret"`
 }
 
 func (e *Config) Load(file string) (bool, error) {
@@ -53,6 +59,12 @@ func (e *Config) Cache() {
 		os.Setenv("AppMode", e.AppMode)
 		os.Setenv("AppLogLevel", e.AppLogLevel)
 		os.Setenv("AppPort", e.AppPort)
+		os.Setenv("GithubAppClientID", e.GithubAppClientID)
+		os.Setenv("GithubAppRedirectURI", e.GithubAppRedirectURI)
+		os.Setenv("GithubAppAllowSignup", e.GithubAppAllowSignup)
+		os.Setenv("GithubAppScope", e.GithubAppScope)
+		os.Setenv("GithubAppClientSecret", e.GithubAppClientSecret)
+		os.Setenv("AppDomain", e.AppDomain)
 	}
 }
 

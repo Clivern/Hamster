@@ -13,9 +13,14 @@ install: true
 script:
   - export GOBIN="$GOPATH/bin"
   - export PATH="$PATH:$GOBIN"
+  # Fix dir names
   - cd $GOPATH/src/github.com/
   - mv Clivern/Hamster Clivern/hamster
   - mv Clivern clivern
   - cd clivern/hamster
-  - go get -v ./...
+  # Config & execute ci tasks
+  - make install_dep
+  - make install_revive
+  - make ensure_dep
   - make ci
+
