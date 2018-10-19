@@ -797,3 +797,37 @@ func (e *GithubAPI) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response
 	}
 	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }
+
+/************************************/
+/********* Check Runs API ***********/
+/************************************/
+
+// Create a check run (https://developer.github.com/v3/checks/runs/#create-a-check-run)
+func (e *GithubAPI) CreateCheckRun() {
+
+}
+
+// Update a check run (https://developer.github.com/v3/checks/runs/#update-a-check-run)
+func (e *GithubAPI) UpdateCheckRun() {
+
+}
+
+// list check runs for a specific ref (https://developer.github.com/v3/checks/runs/#list-check-runs-for-a-specific-ref)
+func (e *GithubAPI) ListRefCheckRuns() {
+
+}
+
+// list check runs in a check suite (https://developer.github.com/v3/checks/runs/#list-check-runs-in-a-check-suite)
+func (e *GithubAPI) ListSuiteCheckRuns() {
+
+}
+
+// Get a single check run (https://developer.github.com/v3/checks/runs/#get-a-single-check-run)
+func (e *GithubAPI) GetCheckRun() {
+
+}
+
+// List annotations for a check run (https://developer.github.com/v3/checks/runs/#list-annotations-for-a-check-run)
+func (e *GithubAPI) ListCheckRunAnnotations() {
+
+}
