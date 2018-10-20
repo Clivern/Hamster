@@ -12,6 +12,7 @@ import (
 	"github.com/clivern/hamster/internal/app/sender"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -796,4 +797,340 @@ func (e *GithubAPI) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response
 		return assignedLabels, nil
 	}
 	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
+}
+
+/************************************/
+/********* Check Runs API ***********/
+/************************************/
+
+// Create a check run (https://developer.github.com/v3/checks/runs/#create-a-check-run)
+func (e *GithubAPI) CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun, error) {
+
+	var checkRun response.CheckRun
+
+	jsonBody, err := CheckRun.ConvertToJSON()
+	fmt.Println(jsonBody)
+	if err != nil {
+		return checkRun, err
+	}
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"POST",
+		fmt.Sprintf("%s/repos/%s/%s/check-runs", GithubURL, e.Author, e.Repository),
+		bytes.NewBufferString(jsonBody),
+	)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	if resp.StatusCode == 400 {
+		return checkRun, fmt.Errorf("Oops: %s", string(bodyByte))
+	}
+
+	ok, err := checkRun.LoadFromJSON(bodyByte)
+
+	if ok && resp.StatusCode == 201 {
+		return checkRun, nil
+	}
+
+	return checkRun, fmt.Errorf("Error: %s", string(bodyByte))
+}
+
+// Update a check run (https://developer.github.com/v3/checks/runs/#update-a-check-run)
+func (e *GithubAPI) UpdateCheckRun(ID int, CheckRun sender.CheckRun) (response.CheckRun, error) {
+
+	var checkRun response.CheckRun
+
+	jsonBody, err := CheckRun.ConvertToJSON()
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"PATCH",
+		fmt.Sprintf("%s/repos/%s/%s/check-runs/%d", GithubURL, e.Author, e.Repository, ID),
+		bytes.NewBufferString(jsonBody),
+	)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	if resp.StatusCode == 400 {
+		return checkRun, fmt.Errorf("Oops: %s", string(bodyByte))
+	}
+
+	ok, err := checkRun.LoadFromJSON(bodyByte)
+
+	if ok && resp.StatusCode == 200 {
+		return checkRun, nil
+	}
+
+	return checkRun, fmt.Errorf("Error: %s", string(bodyByte))
+}
+
+// list check runs for a specific ref (https://developer.github.com/v3/checks/runs/#list-check-runs-for-a-specific-ref)
+func (e *GithubAPI) ListRefCheckRuns(Ref string, CheckName string, Status string, Filter string) (response.CheckRuns, error) {
+
+	var checkRuns response.CheckRuns
+
+	client := &http.Client{}
+
+	u, err := url.Parse(fmt.Sprintf("%s/repos/%s/%s/commits/%s/check-runs", GithubURL, e.Author, e.Repository, Ref))
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	q := u.Query()
+	if CheckName != "" {
+		q.Set("check_name", CheckName)
+	}
+	if Status != "" {
+		q.Set("status", Status)
+	}
+	if Filter != "" {
+		q.Set("filter", Filter)
+	}
+	u.RawQuery = q.Encode()
+
+	req, err := http.NewRequest(
+		"GET",
+		u.String(),
+		nil,
+	)
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	if resp.StatusCode == 401 {
+		return checkRuns, fmt.Errorf("Oops: %s", string(bodyByte))
+	}
+
+	ok, err := checkRuns.LoadFromJSON(bodyByte)
+
+	if ok && resp.StatusCode == 200 {
+		return checkRuns, nil
+	}
+	return checkRuns, fmt.Errorf("Error: %s", string(bodyByte))
+}
+
+// list check runs in a check suite (https://developer.github.com/v3/checks/runs/#list-check-runs-in-a-check-suite)
+func (e *GithubAPI) ListSuiteCheckRuns(CheckSuiteID int, CheckName string, Status string, Filter string) (response.CheckRuns, error) {
+
+	var checkRuns response.CheckRuns
+
+	client := &http.Client{}
+
+	u, err := url.Parse(fmt.Sprintf("%s/repos/%s/%s/check-suites/%d/check-runs", GithubURL, e.Author, e.Repository, CheckSuiteID))
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	q := u.Query()
+	if CheckName != "" {
+		q.Set("check_name", CheckName)
+	}
+	if Status != "" {
+		q.Set("status", Status)
+	}
+	if Filter != "" {
+		q.Set("filter", Filter)
+	}
+	u.RawQuery = q.Encode()
+
+	req, err := http.NewRequest(
+		"GET",
+		u.String(),
+		nil,
+	)
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return checkRuns, err
+	}
+
+	if resp.StatusCode == 401 {
+		return checkRuns, fmt.Errorf("Oops: %s", string(bodyByte))
+	}
+
+	ok, err := checkRuns.LoadFromJSON(bodyByte)
+
+	if ok && resp.StatusCode == 200 {
+		return checkRuns, nil
+	}
+	return checkRuns, fmt.Errorf("Error: %s", string(bodyByte))
+}
+
+// Get a single check run (https://developer.github.com/v3/checks/runs/#get-a-single-check-run)
+func (e *GithubAPI) GetCheckRun(ID int) (response.CheckRun, error) {
+
+	var checkRun response.CheckRun
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"GET",
+		fmt.Sprintf("%s/repos/%s/%s/check-runs/%d", GithubURL, e.Author, e.Repository, ID),
+		nil,
+	)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return checkRun, err
+	}
+
+	if resp.StatusCode == 401 {
+		return checkRun, fmt.Errorf("Oops: %s", string(bodyByte))
+	}
+
+	ok, err := checkRun.LoadFromJSON(bodyByte)
+
+	if ok && resp.StatusCode == 200 {
+		return checkRun, nil
+	}
+	return checkRun, fmt.Errorf("Error: %s", string(bodyByte))
+}
+
+// List annotations for a check run (https://developer.github.com/v3/checks/runs/#list-annotations-for-a-check-run)
+func (e *GithubAPI) ListCheckRunAnnotations(ID int) (response.Annotations, error) {
+
+	var annotations response.Annotations
+
+	client := &http.Client{}
+
+	req, err := http.NewRequest(
+		"GET",
+		fmt.Sprintf("%s/repos/%s/%s/check-runs/%d/annotations", GithubURL, e.Author, e.Repository, ID),
+		nil,
+	)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	req.Header.Add("Authorization", fmt.Sprintf("token %s", e.Token))
+	req.Header.Add("Content-Type", "application/json")
+	req.Header.Add("Accept", "application/vnd.github.antiope-preview+json")
+
+	resp, err := client.Do(req)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	defer resp.Body.Close()
+
+	bodyByte, err := ioutil.ReadAll(resp.Body)
+
+	if err != nil {
+		return annotations, err
+	}
+
+	if resp.StatusCode == 401 {
+		return annotations, fmt.Errorf("Oops: %s", string(bodyByte))
+	}
+
+	ok, err := annotations.LoadFromJSON(bodyByte)
+
+	if ok && resp.StatusCode == 200 {
+		return annotations, nil
+	}
+	return annotations, fmt.Errorf("Error: %s", string(bodyByte))
 }
