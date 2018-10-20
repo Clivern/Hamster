@@ -985,6 +985,7 @@ Add More Events.
 Add Labels & Comments API to Github pkg.
 Custom Commands.
 OAuth Apps Support.
+Check Runs Support.
 ```
 
 * Version 1.1.1:
