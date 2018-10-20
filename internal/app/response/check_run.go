@@ -65,6 +65,11 @@ type CheckRun struct {
 	PullRequests []interface{} `json:"pull_requests"`
 }
 
+type CheckRuns struct {
+	TotalCount int        `json:"total_count"`
+	CheckRuns  []CheckRun `json:"check_runs"`
+}
+
 func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -74,6 +79,22 @@ func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 }
 
 func (e *CheckRun) ConvertToJSON() (string, error) {
+	data, err := json.Marshal(&e)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
+}
+
+func (e *CheckRuns) LoadFromJSON(data []byte) (bool, error) {
+	err := json.Unmarshal(data, &e)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
+
+func (e *CheckRuns) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
 		return "", err
