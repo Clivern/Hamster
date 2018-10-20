@@ -816,7 +816,7 @@ https://github.com/login/oauth/authorize?allow_signup=true&client_id=Iv1.eda..&r
 
 If you click authorize and authorized the app, github will send you back to hamster `/auth` route with a code and the state. Hamster will use that code to fetch the `accessToken` for you or any user. You can use the `accessToken` to do all subsequent github API Calls.
 
-### Check Runs
+### Github Check Runs
 
 To create a status check:
 
@@ -899,7 +899,7 @@ checkRun := sender.CheckRun{
 var checkRunResponse response.CheckRun
 
 github_api := &pkg.GithubAPI{
-    Token: "5688665c9184800e...", # Token via a GitHub App.
+    Token: "5688665c9184800e...", // Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
 }
@@ -914,7 +914,7 @@ if err == nil{
 }
 ```
 
-To get a status check with id:
+To get a status check with ID:
 
 ```go
 import (
@@ -928,7 +928,7 @@ import (
 var checkRunResponse response.CheckRun
 
 github_api := &pkg.GithubAPI{
-    Token: "5688665c9184800e...", # Token via a GitHub App.
+    Token: "5688665c9184800e...", // Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
 }
