@@ -809,7 +809,7 @@ func (e *GithubAPI) CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun,
 	var checkRun response.CheckRun
 
 	jsonBody, err := CheckRun.ConvertToJSON()
-
+	fmt.Println(jsonBody)
 	if err != nil {
 		return checkRun, err
 	}

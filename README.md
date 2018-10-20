@@ -816,6 +816,132 @@ https://github.com/login/oauth/authorize?allow_signup=true&client_id=Iv1.eda..&r
 
 If you click authorize and authorized the app, github will send you back to hamster `/auth` route with a code and the state. Hamster will use that code to fetch the `accessToken` for you or any user. You can use the `accessToken` to do all subsequent github API Calls.
 
+### Check Runs
+
+To create a status check:
+
+```go
+
+import (
+    "github.com/clivern/hamster/internal/app/response"
+    "github.com/clivern/hamster/internal/app/sender"
+    "github.com/clivern/hamster/pkg"
+
+    "os"
+    "time"
+    "fmt"
+)
+
+output := sender.Output{
+    Title: "CI Report",
+    Summary: "Output Summary",
+    Text: "Some Text Goes Here",
+}
+
+checkRun := sender.CheckRun{
+    Name: "CI Status",
+    HeadSha: "6c46684560f9fed86be6fd87f9dbaa91e4b242c9",
+    Status: "in_progress",
+    DetailsURL: "http://clivern.com/ci/5",
+    ExternalID: "43",
+    StartedAt: time.Now().UTC().Format(time.RFC3339),
+    Output: output,
+}
+
+var checkRunResponse response.CheckRun
+
+github_api := &pkg.GithubAPI{
+    Token: "5688665c9184800e...", # Token via a GitHub App.
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// method CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun, error)
+checkRunResponse, err := github_api.CreateCheckRun(checkRun)
+
+if err == nil{
+    fmt.Println(checkRunResponse.ID)
+}else{
+    fmt.Println(err.Error())
+}
+```
+
+To update a status check:
+
+```go
+import (
+    "github.com/clivern/hamster/internal/app/response"
+    "github.com/clivern/hamster/internal/app/sender"
+    "github.com/clivern/hamster/pkg"
+
+    "os"
+    "time"
+    "fmt"
+)
+
+output := sender.Output{
+    Title: "CI Report",
+    Summary: "Final Output Summary",
+    Text: "Some Final Text Goes Here",
+}
+
+checkRun := sender.CheckRun{
+    Name: "CI Status",
+    HeadSha: "6c46684560f9fed86be6fd87f9dbaa91e4b242c9",
+    Status: "completed",
+    DetailsURL: "http://clivern.com/ci/5",
+    ExternalID: "43",
+    CompletedAt: time.Now().UTC().Format(time.RFC3339),
+    Conclusion: "success",
+    Output: output,
+}
+
+var checkRunResponse response.CheckRun
+
+github_api := &pkg.GithubAPI{
+    Token: "5688665c9184800e...", # Token via a GitHub App.
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+// method UpdateCheckRun(ID int, CheckRun sender.CheckRun) (response.CheckRun, error)
+checkRunResponse, err := github_api.UpdateCheckRun(25165135, checkRun)
+
+if err == nil{
+    fmt.Println(checkRunResponse.ID)
+}else{
+    fmt.Println(err.Error())
+}
+```
+
+To get a status check with id:
+
+```go
+import (
+    "github.com/clivern/hamster/internal/app/response"
+    "github.com/clivern/hamster/pkg"
+
+    "os"
+    "fmt"
+)
+
+var checkRunResponse response.CheckRun
+
+github_api := &pkg.GithubAPI{
+    Token: "5688665c9184800e...", # Token via a GitHub App.
+    Author: os.Getenv("RepositoryAuthor"),
+    Repository: os.Getenv("RepositoryName"),
+}
+
+checkRunResponse, err := github_api.GetCheckRun(25165135)
+
+if err == nil{
+    fmt.Println(checkRunResponse.ID)
+}else{
+    fmt.Println(err.Error())
+}
+```
+
 ### Logging
 
 We use [google/logger](https://github.com/google/logger) under the hood, make use of it or use these simple functions:

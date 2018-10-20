@@ -6,20 +6,19 @@ package sender
 
 import (
 	"encoding/json"
-	"time"
 )
 
 type CheckRun struct {
-	Name        string    `json:"name,omitempty"`
-	HeadSha     string    `json:"head_sha,omitempty"`
-	DetailsURL  string    `json:"details_url,omitempty"`
-	Status      string    `json:"status,omitempty"`
-	ExternalID  string    `json:"external_id,omitempty"`
-	Conclusion  string    `json:"conclusion,omitempty"`
-	StartedAt   time.Time `json:"started_at,omitempty"`
-	CompletedAt time.Time `json:"completed_at,omitempty"`
-	Output      Output    `json:"output,omitempty"`
-	Actions     []Action  `json:"actions,omitempty"`
+	Name        string   `json:"name,omitempty"`
+	HeadSha     string   `json:"head_sha,omitempty"`
+	DetailsURL  string   `json:"details_url,omitempty"`
+	Status      string   `json:"status,omitempty"`
+	ExternalID  string   `json:"external_id,omitempty"`
+	Conclusion  string   `json:"conclusion,omitempty"`
+	StartedAt   string   `json:"started_at,omitempty"`
+	CompletedAt string   `json:"completed_at,omitempty"`
+	Output      Output   `json:"output,omitempty"`
+	Actions     []Action `json:"actions,omitempty"`
 }
 
 type Output struct {
