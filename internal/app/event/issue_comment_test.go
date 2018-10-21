@@ -13,16 +13,16 @@ func TestIssueComment(t *testing.T) {
 
 	var issueComment IssueComment
 
-	dat, err := ioutil.ReadFile("../../../samples/issue_comment.json")
+	dat, err := ioutil.ReadFile("../../../fixtures/issue_comment.json")
 
 	if err != nil {
-		t.Errorf("File samples/issue_comment.json is invalid!")
+		t.Errorf("File fixtures/issue_comment.json is invalid!")
 	}
 
 	ok, _ := issueComment.LoadFromJSON(dat)
 
 	if !ok {
-		t.Errorf("Testing with file samples/issue_comment.json is invalid")
+		t.Errorf("Testing with file fixtures/issue_comment.json is invalid")
 	}
 
 	got := issueComment.Issue.User.Login
