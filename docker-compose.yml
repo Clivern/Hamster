@@ -15,9 +15,9 @@ services:
          timeout: 1s
          retries: 5
    web:
-      image: "clivern_hamster:1.1.1"
+      image: "clivern_hamster:2.0.0"
       build: .
-      command: './squeal'
+      command: './hamster'
       ports:
          - "8080:8080"
       depends_on:
@@ -33,3 +33,9 @@ services:
          - AppMode=prod
          - AppPort=8080
          - AppLogLevel=info
+         - GithubAppClientID=ValueHere
+         - GithubAppRedirectURI=ValueHere
+         - GithubAppAllowSignup=true
+         - GithubAppScope=ValueHere
+         - GithubAppClientSecret=ValueHere
+         - AppDomain=example.com

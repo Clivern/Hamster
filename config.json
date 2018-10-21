@@ -5,5 +5,11 @@
     "github_token": "..",
     "github_webhook_secret": "..",
     "repository_author": "..",
-    "repository_name": ".."
+    "repository_name": "..",
+    "app_domain": "example.com",
+    "github_app_client_id": "..",
+    "github_app_redirect_uri": "..",
+    "github_app_allow_signup": "false",
+    "github_app_scope": "..",
+    "github_app_client_secret": ".."
 }

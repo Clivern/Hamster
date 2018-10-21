@@ -1,30 +1,34 @@
+// Copyright 2018 Clivern. All rights reserved.
+// Use of this source code is governed by the MIT
+// license that can be found in the LICENSE file.
+
 package event
 
 import (
-    "testing"
-    "io/ioutil"
+	"io/ioutil"
+	"testing"
 )
 
 func TestStatus(t *testing.T) {
 
-    var status Status
+	var status Status
 
-    dat, err := ioutil.ReadFile("../../../samples/status.json")
+	dat, err := ioutil.ReadFile("../../../fixtures/status.json")
 
-    if err != nil{
-        t.Errorf("File samples/status.json is invalid!")
-    }
+	if err != nil {
+		t.Errorf("File fixtures/status.json is invalid!")
+	}
 
-    ok, _ := status.LoadFromJSON(dat)
+	ok, _ := status.LoadFromJSON(dat)
 
-    if !ok {
-        t.Errorf("Testing with file samples/status.json is invalid")
-    }
+	if !ok {
+		t.Errorf("Testing with file fixtures/status.json is invalid")
+	}
 
-    got := status.Commit.Commit.Author.Name
-    want := "Clivern"
+	got := status.Commit.Commit.Author.Name
+	want := "Clivern"
 
-    if !ok || got != want {
-        t.Errorf("got '%s' want '%s'", got, want)
-    }
+	if !ok || got != want {
+		t.Errorf("got '%s' want '%s'", got, want)
+	}
 }
