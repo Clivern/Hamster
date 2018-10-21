@@ -13,16 +13,16 @@ func TestWatch(t *testing.T) {
 
 	var watch Watch
 
-	dat, err := ioutil.ReadFile("../../../samples/watch.json")
+	dat, err := ioutil.ReadFile("../../../fixtures/watch.json")
 
 	if err != nil {
-		t.Errorf("File samples/watch.json is invalid!")
+		t.Errorf("File fixtures/watch.json is invalid!")
 	}
 
 	ok, _ := watch.LoadFromJSON(dat)
 
 	if !ok {
-		t.Errorf("Testing with file samples/watch.json is invalid")
+		t.Errorf("Testing with file fixtures/watch.json is invalid")
 	}
 
 	got := watch.Repository.Owner.Login

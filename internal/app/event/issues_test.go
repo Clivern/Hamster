@@ -12,16 +12,16 @@ import (
 func TestIssues(t *testing.T) {
 
 	var issues Issues
-	dat, err := ioutil.ReadFile("../../../samples/issues.json")
+	dat, err := ioutil.ReadFile("../../../fixtures/issues.json")
 
 	if err != nil {
-		t.Errorf("File samples/issues.json is invalid!")
+		t.Errorf("File fixtures/issues.json is invalid!")
 	}
 
 	ok, _ := issues.LoadFromJSON(dat)
 
 	if !ok {
-		t.Errorf("Testing with file samples/issues.json is invalid")
+		t.Errorf("Testing with file fixtures/issues.json is invalid")
 	}
 
 	got := issues.Issue.User.Login
