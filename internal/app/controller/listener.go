@@ -7,7 +7,7 @@ package controller
 import (
 	"github.com/clivern/hamster/internal/app/event"
 	"github.com/clivern/hamster/internal/app/listener"
-	"github.com/clivern/hamster/pkg"
+	"github.com/clivern/hamster/internal/app/pkg/logger"
 	"github.com/clivern/hamster/plugin"
 	"github.com/gin-gonic/gin"
 	"os"
@@ -31,7 +31,7 @@ func Listen(c *gin.Context) {
 	ok := parser.VerifySignature(os.Getenv("GithubWebhookSecret"))
 	evt := parser.GetGitHubEvent()
 
-	pkg.Infof("Incoming event %s with payload %s!", evt, body)
+	logger.Infof("Incoming event %s with payload %s!", evt, body)
 
 	if ok {
 		switch evt {
@@ -104,7 +104,7 @@ func Listen(c *gin.Context) {
 			actions.RegisterPullRequestReviewCommentAction(plugin.PullRequestReviewCommentListener)
 			actions.ExecutePullRequestReviewCommentActions(pullRequestReviewComment)
 		default:
-			pkg.Infof("Unknown or unsupported event %s!", evt)
+			logger.Infof("Unknown or unsupported event %s!", evt)
 		}
 
 		var raw event.Raw

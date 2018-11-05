@@ -5,7 +5,7 @@
 package controller
 
 import (
-	"github.com/clivern/hamster/pkg"
+	"github.com/clivern/hamster/internal/app/pkg/github"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"os"
@@ -13,7 +13,7 @@ import (
 
 func Login(c *gin.Context) {
 
-	githubOauth := &pkg.GithubOAuthApp{
+	githubOauth := &github.GithubOAuthApp{
 		ClientID:     os.Getenv("GithubAppClientID"),
 		RedirectURI:  os.Getenv("GithubAppRedirectURI"),
 		AllowSignup:  os.Getenv("GithubAppAllowSignup"),
