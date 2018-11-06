@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized (updated due to a new push in the branch that the pull request is tracking).
+// PullRequest event received any time a pull request is assigned, unassigned, labeled, unlabeled, opened, edited, closed, reopened, or synchronized (updated due to a new push in the branch that the pull request is tracking).
 // Also any time a pull request review is requested, or a review request is removed.
 type PullRequest struct {
 	Action      string `json:"action"`
@@ -472,6 +472,7 @@ type PullRequest struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *PullRequest) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -480,6 +481,7 @@ func (e *PullRequest) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *PullRequest) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

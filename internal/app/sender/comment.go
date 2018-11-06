@@ -8,10 +8,12 @@ import (
 	"encoding/json"
 )
 
+// Comment struct
 type Comment struct {
 	Body string `json:"body"`
 }
 
+// LoadFromJSON update object from json
 func (e *Comment) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +22,7 @@ func (e *Comment) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Comment) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

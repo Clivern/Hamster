@@ -10,9 +10,10 @@ import (
 	"os"
 )
 
+// Auth controller
 func Auth(c *gin.Context) {
 
-	githubOauth := &github.GithubOAuthApp{
+	githubOauth := &github.OAuthApp{
 		ClientID:     os.Getenv("GithubAppClientID"),
 		RedirectURI:  os.Getenv("GithubAppRedirectURI"),
 		AllowSignup:  os.Getenv("GithubAppAllowSignup"),

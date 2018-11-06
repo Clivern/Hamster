@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a pull request review is submitted, edited, or dismissed.
+// PullRequestReview event received any time a pull request review is submitted, edited, or dismissed.
 type PullRequestReview struct {
 	Action string `json:"action"`
 	Review struct {
@@ -497,6 +497,7 @@ type PullRequestReview struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *PullRequestReview) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -505,6 +506,7 @@ func (e *PullRequestReview) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *PullRequestReview) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Project Column is created, edited, moved, or deleted.
+// ProjectColumn event received any time a Project Column is created, edited, moved, or deleted.
 type ProjectColumn struct {
 }
 
+// LoadFromJSON update object from json
 func (e *ProjectColumn) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *ProjectColumn) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *ProjectColumn) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

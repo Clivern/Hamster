@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a User stars a Repository.
+// Watch event received any time a User stars a Repository.
 type Watch struct {
 	Action     string `json:"action"`
 	Repository struct {
@@ -133,6 +133,7 @@ type Watch struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Watch) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -141,6 +142,7 @@ func (e *Watch) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Watch) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

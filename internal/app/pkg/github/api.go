@@ -16,10 +16,11 @@ import (
 	"strings"
 )
 
+// GithubURL api url
 const GithubURL = "https://api.github.com"
 
-// GithubAPI is a representation of a github api
-type GithubAPI struct {
+// API is a representation of a github api
+type API struct {
 	Token      string `json:"token"`
 	Author     string `json:"author"`
 	Repository string `json:"repository"`
@@ -29,7 +30,8 @@ type GithubAPI struct {
 /*********** Comment API ************/
 /************************************/
 
-func (e *GithubAPI) NewComment(body string, issueID int) (response.CreatedComment, error) {
+// NewComment creates a new issue comment
+func (e *API) NewComment(body string, issueID int) (response.CreatedComment, error) {
 
 	var createdComment response.CreatedComment
 	comment := &sender.Comment{Body: body}
@@ -84,8 +86,8 @@ func (e *GithubAPI) NewComment(body string, issueID int) (response.CreatedCommen
 /*********** LABEL API **************/
 /************************************/
 
-// Create a Label
-func (e *GithubAPI) CreateLabel(name string, color string) (response.Label, error) {
+// CreateLabel creates a label
+func (e *API) CreateLabel(name string, color string) (response.Label, error) {
 
 	var createdLabel response.Label
 	label := &sender.Label{Name: name, Color: color}
@@ -136,8 +138,8 @@ func (e *GithubAPI) CreateLabel(name string, color string) (response.Label, erro
 	return createdLabel, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Update a Label
-func (e *GithubAPI) UpdateLabel(currentName string, name string, color string) (response.Label, error) {
+// UpdateLabel updates a label
+func (e *API) UpdateLabel(currentName string, name string, color string) (response.Label, error) {
 
 	var updatedLabel response.Label
 	label := &sender.Label{Name: name, Color: color}
@@ -189,8 +191,8 @@ func (e *GithubAPI) UpdateLabel(currentName string, name string, color string) (
 	return updatedLabel, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Delete a Label
-func (e *GithubAPI) DeleteLabel(name string) (bool, error) {
+// DeleteLabel deletes a label
+func (e *API) DeleteLabel(name string) (bool, error) {
 
 	client := &http.Client{}
 
@@ -230,8 +232,8 @@ func (e *GithubAPI) DeleteLabel(name string) (bool, error) {
 	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Get a List of Repository Labels
-func (e *GithubAPI) GetRepositoryLabels() ([]response.Label, error) {
+// GetRepositoryLabels lists a repository labels
+func (e *API) GetRepositoryLabels() ([]response.Label, error) {
 
 	var labels []response.Label
 
@@ -275,8 +277,8 @@ func (e *GithubAPI) GetRepositoryLabels() ([]response.Label, error) {
 	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Get a List of labels on an issue
-func (e *GithubAPI) GetRepositoryIssueLabels(issueID int) ([]response.Label, error) {
+// GetRepositoryIssueLabels lists a repository issue labels
+func (e *API) GetRepositoryIssueLabels(issueID int) ([]response.Label, error) {
 
 	var labels []response.Label
 
@@ -320,8 +322,8 @@ func (e *GithubAPI) GetRepositoryIssueLabels(issueID int) ([]response.Label, err
 	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Get a Label with name
-func (e *GithubAPI) GetLabel(name string) (response.Label, error) {
+// GetLabel returns a label data
+func (e *API) GetLabel(name string) (response.Label, error) {
 
 	var label response.Label
 
@@ -365,8 +367,8 @@ func (e *GithubAPI) GetLabel(name string) (response.Label, error) {
 	return label, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Remove a label from an issue
-func (e *GithubAPI) RemoveLabelFromIssue(issueID int, labelName string) (bool, error) {
+// RemoveLabelFromIssue removes a label from issue
+func (e *API) RemoveLabelFromIssue(issueID int, labelName string) (bool, error) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(
@@ -405,8 +407,8 @@ func (e *GithubAPI) RemoveLabelFromIssue(issueID int, labelName string) (bool, e
 	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Remove all labels from an issue
-func (e *GithubAPI) RemoveAllLabelForIssue(issueID int) (bool, error) {
+// RemoveAllLabelForIssue Removes all labels from an issue
+func (e *API) RemoveAllLabelForIssue(issueID int) (bool, error) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(
@@ -445,8 +447,8 @@ func (e *GithubAPI) RemoveAllLabelForIssue(issueID int) (bool, error) {
 	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Get labels for every issue in a milestone
-func (e *GithubAPI) GetRepositoryMilestoneLabels(milestoneID int) ([]response.Label, error) {
+// GetRepositoryMilestoneLabels Gets labels for every issue in a milestone
+func (e *API) GetRepositoryMilestoneLabels(milestoneID int) ([]response.Label, error) {
 
 	var labels []response.Label
 
@@ -490,8 +492,8 @@ func (e *GithubAPI) GetRepositoryMilestoneLabels(milestoneID int) ([]response.La
 	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Add labels to an issue
-func (e *GithubAPI) AddLabelsToIssue(issueID int, labels []string) ([]response.Label, error) {
+// AddLabelsToIssue Adds labels to an issue
+func (e *API) AddLabelsToIssue(issueID int, labels []string) ([]response.Label, error) {
 
 	var assignedLabels []response.Label
 
@@ -535,8 +537,8 @@ func (e *GithubAPI) AddLabelsToIssue(issueID int, labels []string) ([]response.L
 	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Replace all labels for an issue
-func (e *GithubAPI) ReplaceAllLabelsForIssue(issueID int, labels []string) ([]response.Label, error) {
+// ReplaceAllLabelsForIssue Replaces all labels for an issue
+func (e *API) ReplaceAllLabelsForIssue(issueID int, labels []string) ([]response.Label, error) {
 
 	var assignedLabels []response.Label
 
@@ -584,8 +586,8 @@ func (e *GithubAPI) ReplaceAllLabelsForIssue(issueID int, labels []string) ([]re
 /************* PR API ***************/
 /************************************/
 
-// Get a List of labels on a PR
-func (e *GithubAPI) GetRepositoryPRLabels(PRId int) ([]response.Label, error) {
+// GetRepositoryPRLabels Gets a List of labels on a PR
+func (e *API) GetRepositoryPRLabels(PRId int) ([]response.Label, error) {
 
 	var labels []response.Label
 
@@ -629,8 +631,8 @@ func (e *GithubAPI) GetRepositoryPRLabels(PRId int) ([]response.Label, error) {
 	return labels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Remove a label from a PR
-func (e *GithubAPI) RemoveLabelFromPR(PRId int, labelName string) (bool, error) {
+// RemoveLabelFromPR Removes a label from a PR
+func (e *API) RemoveLabelFromPR(PRId int, labelName string) (bool, error) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(
@@ -669,8 +671,8 @@ func (e *GithubAPI) RemoveLabelFromPR(PRId int, labelName string) (bool, error) 
 	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Remove all labels from PR
-func (e *GithubAPI) RemoveAllLabelForPR(PRId int) (bool, error) {
+// RemoveAllLabelForPR Removes all labels from PR
+func (e *API) RemoveAllLabelForPR(PRId int) (bool, error) {
 	client := &http.Client{}
 
 	req, err := http.NewRequest(
@@ -709,8 +711,8 @@ func (e *GithubAPI) RemoveAllLabelForPR(PRId int) (bool, error) {
 	return false, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Add labels to PR
-func (e *GithubAPI) AddLabelsToPR(PRId int, labels []string) ([]response.Label, error) {
+// AddLabelsToPR Adds labels to PR
+func (e *API) AddLabelsToPR(PRId int, labels []string) ([]response.Label, error) {
 
 	var assignedLabels []response.Label
 
@@ -754,8 +756,8 @@ func (e *GithubAPI) AddLabelsToPR(PRId int, labels []string) ([]response.Label, 
 	return assignedLabels, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Replace all labels for PR
-func (e *GithubAPI) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response.Label, error) {
+// ReplaceAllLabelsForPR Replaces all labels for PR
+func (e *API) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response.Label, error) {
 
 	var assignedLabels []response.Label
 
@@ -803,8 +805,8 @@ func (e *GithubAPI) ReplaceAllLabelsForPR(PRId int, labels []string) ([]response
 /********* Check Runs API ***********/
 /************************************/
 
-// Create a check run (https://developer.github.com/v3/checks/runs/#create-a-check-run)
-func (e *GithubAPI) CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun, error) {
+// CreateCheckRun Creates a check run (https://developer.github.com/v3/checks/runs/#create-a-check-run)
+func (e *API) CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun, error) {
 
 	var checkRun response.CheckRun
 
@@ -857,8 +859,8 @@ func (e *GithubAPI) CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun,
 	return checkRun, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Update a check run (https://developer.github.com/v3/checks/runs/#update-a-check-run)
-func (e *GithubAPI) UpdateCheckRun(ID int, CheckRun sender.CheckRun) (response.CheckRun, error) {
+// UpdateCheckRun Updates a check run (https://developer.github.com/v3/checks/runs/#update-a-check-run)
+func (e *API) UpdateCheckRun(ID int, CheckRun sender.CheckRun) (response.CheckRun, error) {
 
 	var checkRun response.CheckRun
 
@@ -911,8 +913,8 @@ func (e *GithubAPI) UpdateCheckRun(ID int, CheckRun sender.CheckRun) (response.C
 	return checkRun, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// list check runs for a specific ref (https://developer.github.com/v3/checks/runs/#list-check-runs-for-a-specific-ref)
-func (e *GithubAPI) ListRefCheckRuns(Ref string, CheckName string, Status string, Filter string) (response.CheckRuns, error) {
+// ListRefCheckRuns lists check runs for a specific ref (https://developer.github.com/v3/checks/runs/#list-check-runs-for-a-specific-ref)
+func (e *API) ListRefCheckRuns(Ref string, CheckName string, Status string, Filter string) (response.CheckRuns, error) {
 
 	var checkRuns response.CheckRuns
 
@@ -976,8 +978,8 @@ func (e *GithubAPI) ListRefCheckRuns(Ref string, CheckName string, Status string
 	return checkRuns, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// list check runs in a check suite (https://developer.github.com/v3/checks/runs/#list-check-runs-in-a-check-suite)
-func (e *GithubAPI) ListSuiteCheckRuns(CheckSuiteID int, CheckName string, Status string, Filter string) (response.CheckRuns, error) {
+// ListSuiteCheckRuns lists check runs in a check suite (https://developer.github.com/v3/checks/runs/#list-check-runs-in-a-check-suite)
+func (e *API) ListSuiteCheckRuns(CheckSuiteID int, CheckName string, Status string, Filter string) (response.CheckRuns, error) {
 
 	var checkRuns response.CheckRuns
 
@@ -1041,8 +1043,8 @@ func (e *GithubAPI) ListSuiteCheckRuns(CheckSuiteID int, CheckName string, Statu
 	return checkRuns, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// Get a single check run (https://developer.github.com/v3/checks/runs/#get-a-single-check-run)
-func (e *GithubAPI) GetCheckRun(ID int) (response.CheckRun, error) {
+// GetCheckRun Gets a single check run (https://developer.github.com/v3/checks/runs/#get-a-single-check-run)
+func (e *API) GetCheckRun(ID int) (response.CheckRun, error) {
 
 	var checkRun response.CheckRun
 
@@ -1088,8 +1090,8 @@ func (e *GithubAPI) GetCheckRun(ID int) (response.CheckRun, error) {
 	return checkRun, fmt.Errorf("Error: %s", string(bodyByte))
 }
 
-// List annotations for a check run (https://developer.github.com/v3/checks/runs/#list-annotations-for-a-check-run)
-func (e *GithubAPI) ListCheckRunAnnotations(ID int) (response.Annotations, error) {
+// ListCheckRunAnnotations Lists annotations for a check run (https://developer.github.com/v3/checks/runs/#list-annotations-for-a-check-run)
+func (e *API) ListCheckRunAnnotations(ID int) (response.Annotations, error) {
 
 	var annotations response.Annotations
 

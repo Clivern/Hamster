@@ -9,15 +9,14 @@ import (
 	"regexp"
 )
 
+// Commands struct
 type Commands struct {
 	Incoming     []event.Command
 	Issues       map[string]func(command event.Command, issues event.Issues) (bool, error)
 	IssueComment map[string]func(command event.Command, issueComment event.IssueComment) (bool, error)
 }
 
-// This will fetch all commands and parameters within the issue or issue comment
-// /fire become fire & []
-// /run{test,cases} become run & [test,cases]
+// Fetch will fetch all commands and parameters within the issue or issue comment
 func (e *Commands) Fetch(body string) {
 	re := regexp.MustCompile(`\S*(/[a-zA-Z0-9])\S*`)
 	re.MatchString(body)
@@ -30,6 +29,7 @@ func (e *Commands) Fetch(body string) {
 	}
 }
 
+// RegisterIssuesAction registers issue action for a specific command
 func (e *Commands) RegisterIssuesAction(command string, callback func(command event.Command, issues event.Issues) (bool, error)) {
 	if e.Issues == nil {
 		e.Issues = make(map[string]func(command event.Command, issues event.Issues) (bool, error))
@@ -37,6 +37,7 @@ func (e *Commands) RegisterIssuesAction(command string, callback func(command ev
 	e.Issues[command] = callback
 }
 
+// RegisterIssueCommentAction registers issue comment action for a specific command
 func (e *Commands) RegisterIssueCommentAction(command string, callback func(command event.Command, issueComment event.IssueComment) (bool, error)) {
 	if e.IssueComment == nil {
 		e.IssueComment = make(map[string]func(command event.Command, issueComment event.IssueComment) (bool, error))
@@ -44,6 +45,7 @@ func (e *Commands) RegisterIssueCommentAction(command string, callback func(comm
 	e.IssueComment[command] = callback
 }
 
+// ExecuteIssuesActions runs issues actions
 func (e *Commands) ExecuteIssuesActions(issues event.Issues) (bool, error) {
 	e.Fetch(issues.Issue.Body)
 	for _, command := range e.Incoming {
@@ -58,6 +60,7 @@ func (e *Commands) ExecuteIssuesActions(issues event.Issues) (bool, error) {
 	return true, nil
 }
 
+// ExecuteIssueCommentActions runs issue comment actions
 func (e *Commands) ExecuteIssueCommentActions(issueComment event.IssueComment) (bool, error) {
 	e.Fetch(issueComment.Comment.Body)
 	for _, command := range e.Incoming {

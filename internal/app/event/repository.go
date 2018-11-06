@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Repository is created, deleted (organization hooks only), archived, unarchived, made public, or made private.
+// Repository event received any time a Repository is created, deleted (organization hooks only), archived, unarchived, made public, or made private.
 type Repository struct {
 }
 
+// LoadFromJSON update object from json
 func (e *Repository) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *Repository) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Repository) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

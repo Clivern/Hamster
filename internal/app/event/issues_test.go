@@ -9,6 +9,7 @@ import (
 	"testing"
 )
 
+// TestIssues test cases
 func TestIssues(t *testing.T) {
 
 	var issues Issues

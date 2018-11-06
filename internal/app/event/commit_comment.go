@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Commit is commented on.
+// CommitComment event received any time a Commit is commented on.
 type CommitComment struct {
 }
 
+// LoadFromJSON update object from json
 func (e *CommitComment) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *CommitComment) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *CommitComment) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

@@ -11,6 +11,7 @@ import (
 	"time"
 )
 
+// LogsPath is the logs path
 const LogsPath = "var/logs"
 
 // Info log function

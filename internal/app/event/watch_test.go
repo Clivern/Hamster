@@ -9,6 +9,7 @@ import (
 	"testing"
 )
 
+// TestWatch test cases
 func TestWatch(t *testing.T) {
 
 	var watch Watch

@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a comment on an issue is created, edited, or deleted.
+// IssueComment event received any time a comment on an issue is created, edited, or deleted.
 type IssueComment struct {
 	Action string `json:"action"`
 	Issue  struct {
@@ -208,6 +208,7 @@ type IssueComment struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *IssueComment) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -216,6 +217,7 @@ func (e *IssueComment) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *IssueComment) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

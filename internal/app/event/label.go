@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a Label is created, edited, or deleted.
+// Label event received any time a Label is created, edited, or deleted.
 type Label struct {
 	Action string `json:"action"`
 	Label  struct {
@@ -141,6 +141,7 @@ type Label struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Label) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -149,6 +150,7 @@ func (e *Label) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Label) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

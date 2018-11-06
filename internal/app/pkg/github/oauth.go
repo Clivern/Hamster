@@ -17,11 +17,14 @@ import (
 )
 
 const (
-	GithubOAuthURL   = "https://github.com/login/oauth/authorize"
+	// GithubOAuthURL url
+	GithubOAuthURL = "https://github.com/login/oauth/authorize"
+	// OAuthAccessToken url
 	OAuthAccessToken = "https://github.com/login/oauth/access_token"
 )
 
-type GithubOAuthApp struct {
+// OAuthApp struct
+type OAuthApp struct {
 	ClientID     string   `json:"client_id"`
 	RedirectURI  string   `json:"redirect_uri"`
 	Scope        string   `json:"scope"`
@@ -33,44 +36,52 @@ type GithubOAuthApp struct {
 	TokenType    string   `json:"token_type"`
 }
 
-type GithubOAuthClient struct {
+// OAuthClient struct
+type OAuthClient struct {
 	AccessToken string `json:"access_token"`
 	TokenType   string `json:"token_type"`
 }
 
-type GithubAccessToken struct {
+// AccessToken struct
+type AccessToken struct {
 	ClientID     string `json:"client_id"`
 	ClientSecret string `json:"client_secret"`
 	Code         string `json:"code"`
 	State        string `json:"state"`
 }
 
-func (e *GithubOAuthApp) GenerateState() {
+// GenerateState creates a random string
+func (e *OAuthApp) GenerateState() {
 	val, err := e.RandomString(20)
 	if err == nil {
 		e.State = val
 	}
 }
 
-func (e *GithubOAuthApp) GetState() string {
+// GetState returns the state
+func (e *OAuthApp) GetState() string {
 	return e.State
 }
 
-func (e *GithubOAuthApp) SetState(state string) {
+// SetState sets the state
+func (e *OAuthApp) SetState(state string) {
 	e.State = state
 }
 
-func (e *GithubOAuthApp) AddScope(scope string) {
+// AddScope adds a scope
+func (e *OAuthApp) AddScope(scope string) {
 	e.Scopes = append(e.Scopes, scope)
 	e.Scope = strings.Join(e.Scopes, ",")
 }
 
-func (e *GithubOAuthApp) AddScopes(scopes []string) {
+// AddScopes adds all scopes
+func (e *OAuthApp) AddScopes(scopes []string) {
 	e.Scopes = scopes
 	e.Scope = strings.Join(e.Scopes, ",")
 }
 
-func (e *GithubOAuthApp) BuildAuthorizeURL() string {
+// BuildAuthorizeURL get the authorize url
+func (e *OAuthApp) BuildAuthorizeURL() string {
 	e.Scope = strings.Join(e.Scopes, ",")
 
 	u, err := url.Parse(GithubOAuthURL)
@@ -90,7 +101,8 @@ func (e *GithubOAuthApp) BuildAuthorizeURL() string {
 	return u.String()
 }
 
-func (e *GithubOAuthApp) RandomString(len int) (string, error) {
+// RandomString creates a random string
+func (e *OAuthApp) RandomString(len int) (string, error) {
 	bytes := make([]byte, len)
 	if _, err := rand.Read(bytes); err != nil {
 		return "", err
@@ -98,9 +110,10 @@ func (e *GithubOAuthApp) RandomString(len int) (string, error) {
 	return hex.EncodeToString(bytes), nil
 }
 
-func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, error) {
+// FetchAccessToken fetches github access token
+func (e *OAuthApp) FetchAccessToken(code string, state string) (bool, error) {
 
-	accessTokenRequest := &GithubAccessToken{
+	accessTokenRequest := &AccessToken{
 		ClientID:     e.ClientID,
 		ClientSecret: e.ClientSecret,
 		Code:         code,
@@ -113,7 +126,7 @@ func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, erro
 		return false, err
 	}
 
-	githubOAuthClient := &GithubOAuthClient{}
+	githubOAuthClient := &OAuthClient{}
 
 	if state != e.State {
 		return false, fmt.Errorf(
@@ -163,15 +176,18 @@ func (e *GithubOAuthApp) FetchAccessToken(code string, state string) (bool, erro
 	return true, nil
 }
 
-func (e *GithubOAuthApp) GetAccessToken() string {
+// GetAccessToken gets access token
+func (e *OAuthApp) GetAccessToken() string {
 	return e.AccessToken
 }
 
-func (e *GithubOAuthApp) GetTokenType() string {
+// GetTokenType gets token type
+func (e *OAuthApp) GetTokenType() string {
 	return e.TokenType
 }
 
-func (e *GithubAccessToken) ConvertToJSON() (string, error) {
+// ConvertToJSON convert object to json
+func (e *AccessToken) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
 		return "", err

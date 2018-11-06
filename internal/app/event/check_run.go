@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a check run is created, requested, or rerequested.
+// CheckRun event received Any time a check run is created, requested, or rerequested.
 type CheckRun struct {
 }
 
+// LoadFromJSON update object from json
 func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *CheckRun) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

@@ -9,6 +9,7 @@ import (
 	"testing"
 )
 
+// TestStatus test cases
 func TestStatus(t *testing.T) {
 
 	var status Status

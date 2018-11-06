@@ -318,7 +318,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -346,7 +346,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -374,7 +374,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -402,7 +402,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -430,7 +430,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -458,7 +458,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -486,7 +486,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -514,7 +514,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -542,7 +542,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -570,7 +570,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -598,7 +598,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -626,7 +626,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -655,7 +655,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -683,7 +683,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -711,7 +711,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -739,7 +739,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -767,7 +767,7 @@ import (
 )
 
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -850,7 +850,7 @@ checkRun := sender.CheckRun{
 
 var checkRunResponse response.CheckRun
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: "5688665c9184800e...", # Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -898,7 +898,7 @@ checkRun := sender.CheckRun{
 
 var checkRunResponse response.CheckRun
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: "5688665c9184800e...", // Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -927,7 +927,7 @@ import (
 
 var checkRunResponse response.CheckRun
 
-github_api := &github.GithubAPI{
+github_api := &github.API{
     Token: "5688665c9184800e...", // Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),

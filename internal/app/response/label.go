@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 )
 
+// Label struct
 type Label struct {
 	ID          int    `json:"id"`
 	NodeID      string `json:"node_id"`
@@ -18,6 +19,7 @@ type Label struct {
 	Default     bool   `json:"default"`
 }
 
+// LoadFromJSON update object from json
 func (e *Label) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -26,6 +28,7 @@ func (e *Label) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Label) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

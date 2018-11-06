@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Release is published in a Repository.
+// Release event received any time a Release is published in a Repository.
 type Release struct {
 }
 
+// LoadFromJSON update object from json
 func (e *Release) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *Release) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Release) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

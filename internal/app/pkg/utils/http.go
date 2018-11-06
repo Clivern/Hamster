@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+// Request do a generic http requests
 func Request(method string, url string, body string, token string) (string, error) {
 
 	client := &http.Client{}

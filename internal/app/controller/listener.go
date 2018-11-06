@@ -13,6 +13,7 @@ import (
 	"os"
 )
 
+// Listen controller
 func Listen(c *gin.Context) {
 	var actions listener.Action
 	var commands listener.Commands
