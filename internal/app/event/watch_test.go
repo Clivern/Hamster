@@ -5,6 +5,7 @@
 package event
 
 import (
+	"github.com/nbio/st"
 	"io/ioutil"
 	"testing"
 )
@@ -26,10 +27,5 @@ func TestWatch(t *testing.T) {
 		t.Errorf("Testing with file fixtures/watch.json is invalid")
 	}
 
-	got := watch.Repository.Owner.Login
-	want := "Clivern"
-
-	if !ok || got != want {
-		t.Errorf("got '%s' want '%s'", got, want)
-	}
+	st.Expect(t, watch.Repository.Owner.Login, "Clivern")
 }

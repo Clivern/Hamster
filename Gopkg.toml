@@ -36,3 +36,11 @@
 [[constraint]]
   branch = "master"
   name = "github.com/google/logger"
+
+[[constraint]]
+  name = "gopkg.in/h2non/gock.v1"
+  version = "v1.0.11"
+
+[[constraint]]
+  branch = "master"
+  name = "github.com/nbio/st"

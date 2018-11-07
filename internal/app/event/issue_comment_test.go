@@ -5,6 +5,7 @@
 package event
 
 import (
+	"github.com/nbio/st"
 	"io/ioutil"
 	"testing"
 )
@@ -26,10 +27,5 @@ func TestIssueComment(t *testing.T) {
 		t.Errorf("Testing with file fixtures/issue_comment.json is invalid")
 	}
 
-	got := issueComment.Issue.User.Login
-	want := "Clivern"
-
-	if !ok || got != want {
-		t.Errorf("got '%s' want '%s'", got, want)
-	}
+	st.Expect(t, issueComment.Issue.User.Login, "Clivern")
 }
