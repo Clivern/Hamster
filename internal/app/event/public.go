@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Repository changes from private to public.
+// Public event received any time a Repository changes from private to public.
 type Public struct {
 }
 
+// LoadFromJSON update object from json
 func (e *Public) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *Public) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Public) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

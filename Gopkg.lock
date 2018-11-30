@@ -53,6 +53,14 @@
   revision = "57fdcb988a5c543893cc61bce354a6e24ab70022"
 
 [[projects]]
+  branch = "master"
+  digest = "1:398b067cd5b79e0a0c067f5b3a23cf369567d93de8e4d9bf364fda4382b51f63"
+  name = "github.com/nbio/st"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "e9e8d9816f3268def6dcbd2dea03301f40e9de94"
+
+[[projects]]
   digest = "1:c268acaa4a4d94a467980e5e91452eb61c460145765293dc0aed48e5e9919cc6"
   name = "github.com/ugorji/go"
   packages = ["codec"]
@@ -81,6 +89,14 @@
   version = "v8.18.1"
 
 [[projects]]
+  digest = "1:36f30acc0fd0a7b34f4a13034c437d1383597070d963dab57cc458251ac1360d"
+  name = "gopkg.in/h2non/gock.v1"
+  packages = ["."]
+  pruneopts = "UT"
+  revision = "150f03e9bc914db1ba8c2a91c8985d4f21dd6005"
+  version = "v1.0.11"
+
+[[projects]]
   digest = "1:cacb98d52c60c337c2ce95a7af83ba0313a93ce5e73fa9e99a96aff70776b9d3"
   name = "gopkg.in/yaml.v2"
   packages = ["."]
@@ -93,6 +109,8 @@
   input-imports = [
     "github.com/gin-gonic/gin",
     "github.com/google/logger",
+    "github.com/nbio/st",
+    "gopkg.in/h2non/gock.v1",
   ]
   solver-name = "gps-cdcl"
   solver-version = 1

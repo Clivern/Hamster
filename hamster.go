@@ -6,7 +6,7 @@ package main
 
 import (
 	"github.com/clivern/hamster/internal/app/controller"
-	"github.com/clivern/hamster/pkg"
+	"github.com/clivern/hamster/internal/app/pkg/utils"
 	"github.com/gin-gonic/gin"
 	"io"
 	"net/http"
@@ -15,7 +15,7 @@ import (
 
 func main() {
 	// Load config.json file and store on env
-	config := &pkg.Config{}
+	config := &utils.Config{}
 	config.Load("config.dist.json")
 	// This will never override ENV Vars if exists
 	config.Cache()

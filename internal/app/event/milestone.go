@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a Milestone is created, closed, opened, edited, or deleted.
+// Milestone event received any time a Milestone is created, closed, opened, edited, or deleted.
 type Milestone struct {
 	Action    string `json:"action"`
 	Milestone struct {
@@ -170,6 +170,7 @@ type Milestone struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Milestone) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -178,6 +179,7 @@ func (e *Milestone) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Milestone) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

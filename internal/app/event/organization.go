@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a user is added, removed, or invited to an Organization. Organization hooks only.
+// Organization event received any time a user is added, removed, or invited to an Organization. Organization hooks only.
 type Organization struct {
 }
 
+// LoadFromJSON update object from json
 func (e *Organization) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *Organization) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Organization) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

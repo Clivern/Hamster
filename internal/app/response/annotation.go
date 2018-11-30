@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 )
 
+// Annotation struct
 type Annotation struct {
 	Path            string `json:"path"`
 	StartLine       int    `json:"start_line"`
@@ -20,8 +21,10 @@ type Annotation struct {
 	RawDetails      string `json:"raw_details"`
 }
 
+// Annotations struct
 type Annotations []Annotation
 
+// LoadFromJSON update object from json
 func (e *Annotation) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -30,6 +33,7 @@ func (e *Annotation) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Annotation) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
@@ -38,6 +42,7 @@ func (e *Annotation) ConvertToJSON() (string, error) {
 	return string(data), nil
 }
 
+// LoadFromJSON update object from json
 func (e *Annotations) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -46,6 +51,7 @@ func (e *Annotations) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Annotations) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

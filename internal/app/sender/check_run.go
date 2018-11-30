@@ -8,6 +8,7 @@ import (
 	"encoding/json"
 )
 
+// CheckRun struct
 type CheckRun struct {
 	Name        string   `json:"name,omitempty"`
 	HeadSha     string   `json:"head_sha,omitempty"`
@@ -21,6 +22,7 @@ type CheckRun struct {
 	Actions     []Action `json:"actions,omitempty"`
 }
 
+// Output struct
 type Output struct {
 	Title       string       `json:"title,omitempty"`
 	Summary     string       `json:"summary,omitempty"`
@@ -29,6 +31,7 @@ type Output struct {
 	Images      []Image      `json:"images,omitempty"`
 }
 
+// Annotation struct
 type Annotation struct {
 	Path            string `json:"path,omitempty"`
 	StartLine       int    `json:"start_line,omitempty"`
@@ -41,18 +44,21 @@ type Annotation struct {
 	RawDetails      string `json:"raw_details,omitempty"`
 }
 
+// Image struct
 type Image struct {
 	Alt      string `json:"alt,omitempty"`
 	ImageURL string `json:"image_url,omitempty"`
 	Caption  string `json:"caption,omitempty"`
 }
 
+// Action struct
 type Action struct {
 	Label       string `json:"label,omitempty"`
 	Description string `json:"description,omitempty"`
 	Identifier  string `json:"identifier,omitempty"`
 }
 
+// LoadFromJSON update object from json
 func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -61,6 +67,7 @@ func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *CheckRun) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

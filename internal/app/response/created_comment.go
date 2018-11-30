@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// CreatedComment struct
 type CreatedComment struct {
 	URL      string `json:"url"`
 	HTMLURL  string `json:"html_url"`
@@ -41,6 +42,7 @@ type CreatedComment struct {
 	Body              string    `json:"body"`
 }
 
+// LoadFromJSON update object from json
 func (e *CreatedComment) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -49,6 +51,7 @@ func (e *CreatedComment) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *CreatedComment) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

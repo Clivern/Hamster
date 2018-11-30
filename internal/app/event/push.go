@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any Git push to a Repository, including editing tags or branches.
+// Push event received any Git push to a Repository, including editing tags or branches.
 // Commits via API actions that update references are also counted. This is the default event.
 type Push struct {
 	Ref     string      `json:"ref"`
@@ -191,6 +191,7 @@ type Push struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Push) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -199,6 +200,7 @@ func (e *Push) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Push) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

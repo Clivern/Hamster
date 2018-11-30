@@ -12,6 +12,7 @@ import (
 	"strings"
 )
 
+// Parser struct
 type Parser struct {
 	UserAgent      string
 	GithubDelivery string
@@ -21,6 +22,7 @@ type Parser struct {
 	Body           string
 }
 
+// LoadFromJSON update object from json
 func (e *Parser) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -29,6 +31,7 @@ func (e *Parser) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Parser) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
@@ -37,54 +40,67 @@ func (e *Parser) ConvertToJSON() (string, error) {
 	return string(data), nil
 }
 
+// SetUserAgent sets user agent
 func (e *Parser) SetUserAgent(userAgent string) {
 	e.UserAgent = userAgent
 }
 
+// GetUserAgent gets user agent
 func (e *Parser) GetUserAgent() string {
 	return e.UserAgent
 }
 
+// SetGithubDelivery sets github delivery
 func (e *Parser) SetGithubDelivery(githubDelivery string) {
 	e.GithubDelivery = githubDelivery
 }
 
+// GetGithubDelivery gets github delivery
 func (e *Parser) GetGithubDelivery() string {
 	return e.GithubDelivery
 }
 
+// SetGitHubEvent sets github event
 func (e *Parser) SetGitHubEvent(githubEvent string) {
 	e.GitHubEvent = githubEvent
 }
 
+// GetGitHubEvent gets github event
 func (e *Parser) GetGitHubEvent() string {
 	return e.GitHubEvent
 }
 
+// SetHubSignature sets hub signature
 func (e *Parser) SetHubSignature(hubSignature string) {
 	e.HubSignature = hubSignature
 }
 
+// GetHubSignature gets hub signature
 func (e *Parser) GetHubSignature() string {
 	return e.HubSignature
 }
 
+// SetBody sets body
 func (e *Parser) SetBody(body string) {
 	e.Body = body
 }
 
+// GetBody gets body
 func (e *Parser) GetBody() string {
 	return e.Body
 }
 
+// SetHeader sets header
 func (e *Parser) SetHeader(key string, value string) {
 	e.Headers[key] = value
 }
 
+// GetHeader gets header
 func (e *Parser) GetHeader(key string) string {
 	return e.Headers[key]
 }
 
+// VerifySignature verify signature
 func (e *Parser) VerifySignature(secret string) bool {
 
 	signature := e.GetHubSignature()
@@ -100,6 +116,7 @@ func (e *Parser) VerifySignature(secret string) bool {
 	return hmac.Equal(e.SignBody([]byte(secret), []byte(body)), actual)
 }
 
+// SignBody signs body
 func (e *Parser) SignBody(secret, body []byte) []byte {
 	computed := hmac.New(sha1.New, secret)
 	computed.Write(body)

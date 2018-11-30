@@ -4,255 +4,253 @@
 
 package plugin
 
-//revive:disable:unused-parameter
-
 import (
 	"github.com/clivern/hamster/internal/app/event"
-	"github.com/clivern/hamster/pkg"
+	"github.com/clivern/hamster/internal/app/pkg/logger"
 )
 
-// Any Action
+// RawListener Action
 func RawListener(raw event.Raw) (bool, error) {
-	pkg.Info("Raw event listener fired!")
+	logger.Infof("Raw event listener fired [%v]!", raw)
 	return true, nil
 }
 
-// Status Action
+// StatusListener Action
 func StatusListener(status event.Status) (bool, error) {
-	pkg.Info("Status event listener fired!")
+	logger.Infof("Status event listener fired [%v]!", status)
 	return true, nil
 }
 
-// Watch Action
+// WatchListener Action
 func WatchListener(watch event.Watch) (bool, error) {
-	pkg.Info("Watch event listener fired!")
+	logger.Infof("Watch event listener fired [%v]!", watch)
 	return true, nil
 }
 
-// Issue Action
+// IssuesListener Action
 func IssuesListener(issues event.Issues) (bool, error) {
-	pkg.Info("Issues event listener fired!")
+	logger.Infof("Issues event listener fired [%v]!", issues)
 	return true, nil
 }
 
-// Issue Comment Action
+// IssueCommentListener Action
 func IssueCommentListener(issueComment event.IssueComment) (bool, error) {
-	pkg.Info("IssueComment event listener fired!")
+	logger.Infof("IssueComment event listener fired [%v]!", issueComment)
 	return true, nil
 }
 
-// Create Action
+// CreateListener Action
 func CreateListener(create event.Create) (bool, error) {
-	pkg.Info("Create event listener fired!")
+	logger.Infof("Create event listener fired [%v]!", create)
 	return true, nil
 }
 
-// Label Action
+// LabelListener Action
 func LabelListener(label event.Label) (bool, error) {
-	pkg.Info("Label event listener fired!")
+	logger.Infof("Label event listener fired [%v]!", label)
 	return true, nil
 }
 
-// Delete Action
+// DeleteListener Action
 func DeleteListener(delete event.Delete) (bool, error) {
-	pkg.Info("Delete event listener fired!")
+	logger.Infof("Delete event listener fired [%v]!", delete)
 	return true, nil
 }
 
-// Milestone Action
+// MilestoneListener Action
 func MilestoneListener(milestone event.Milestone) (bool, error) {
-	pkg.Info("Milestone event listener fired!")
+	logger.Infof("Milestone event listener fired [%v]!", milestone)
 	return true, nil
 }
 
-// Pull Request Action
+// PullRequestListener Action
 func PullRequestListener(pullRequest event.PullRequest) (bool, error) {
-	pkg.Info("PullRequest event listener fired!")
+	logger.Infof("PullRequest event listener fired [%v]!", pullRequest)
 	return true, nil
 }
 
-// Pull Request Review Action
+// PullRequestReviewListener Action
 func PullRequestReviewListener(pullRequestReview event.PullRequestReview) (bool, error) {
-	pkg.Info("PullRequestReview event listener fired!")
+	logger.Infof("PullRequestReview event listener fired [%v]!", pullRequestReview)
 	return true, nil
 }
 
-// Pull Request Review Comment Action
+// PullRequestReviewCommentListener Action
 func PullRequestReviewCommentListener(pullRequestReviewComment event.PullRequestReviewComment) (bool, error) {
-	pkg.Info("PullRequestReviewComment event listener fired!")
+	logger.Infof("PullRequestReviewComment event listener fired [%v]!", pullRequestReviewComment)
 	return true, nil
 }
 
-// Not Supported Yet
+// CheckRunListener Action (Not Supported Yet)
 func CheckRunListener(checkRun event.CheckRun) (bool, error) {
-	pkg.Info("CheckRun event listener fired!")
+	logger.Infof("CheckRun event listener fired [%v]!", checkRun)
 	return true, nil
 }
 
-// Not Supported Yet
+// CheckSuiteListener Action (Not Supported Yet)
 func CheckSuiteListener(checkSuite event.CheckSuite) (bool, error) {
-	pkg.Info("CheckSuite event listener fired!")
+	logger.Infof("CheckSuite event listener fired [%v]!", checkSuite)
 	return true, nil
 }
 
-// Not Supported Yet
+// CommitCommentListener Action (Not Supported Yet)
 func CommitCommentListener(commitComment event.CommitComment) (bool, error) {
-	pkg.Info("CommitComment event listener fired!")
+	logger.Infof("CommitComment event listener fired [%v]!", commitComment)
 	return true, nil
 }
 
-// Not Supported Yet
+// DeploymentListener Action (Not Supported Yet)
 func DeploymentListener(deployment event.Deployment) (bool, error) {
-	pkg.Info("Deployment event listener fired!")
+	logger.Infof("Deployment event listener fired [%v]!", deployment)
 	return true, nil
 }
 
-// Not Supported Yet
+// DeploymentStatusListener Action (Not Supported Yet)
 func DeploymentStatusListener(deploymentStatus event.DeploymentStatus) (bool, error) {
-	pkg.Info("DeploymentStatus event listener fired!")
+	logger.Infof("DeploymentStatus event listener fired [%v]!", deploymentStatus)
 	return true, nil
 }
 
-// Not Supported Yet
+// ForkListener Action (Not Supported Yet)
 func ForkListener(fork event.Fork) (bool, error) {
-	pkg.Info("Fork event listener fired!")
+	logger.Infof("Fork event listener fired [%v]!", fork)
 	return true, nil
 }
 
-// Not Supported Yet
+// GithubAppAuthorizationListener Action (Not Supported Yet)
 func GithubAppAuthorizationListener(githubAppAuthorization event.GithubAppAuthorization) (bool, error) {
-	pkg.Info("GithubAppAuthorization event listener fired!")
+	logger.Infof("GithubAppAuthorization event listener fired [%v]!", githubAppAuthorization)
 	return true, nil
 }
 
-// Not Supported Yet
+// GollumListener Action (Not Supported Yet)
 func GollumListener(gollum event.Gollum) (bool, error) {
-	pkg.Info("Gollum event listener fired!")
+	logger.Infof("Gollum event listener fired [%v]!", gollum)
 	return true, nil
 }
 
-// Not Supported Yet
+// InstallationListener Action (Not Supported Yet)
 func InstallationListener(installation event.Installation) (bool, error) {
-	pkg.Info("Installation event listener fired!")
+	logger.Infof("Installation event listener fired [%v]!", installation)
 	return true, nil
 }
 
-// Not Supported Yet
+// InstallationRepositoriesListener Action (Not Supported Yet)
 func InstallationRepositoriesListener(installationRepositories event.InstallationRepositories) (bool, error) {
-	pkg.Info("InstallationRepositories event listener fired!")
+	logger.Infof("InstallationRepositories event listener fired [%v]!", installationRepositories)
 	return true, nil
 }
 
-// Not Supported Yet
+// MarketplacePurchaseListener Action (Not Supported Yet)
 func MarketplacePurchaseListener(marketplacePurchase event.MarketplacePurchase) (bool, error) {
-	pkg.Info("MarketplacePurchase event listener fired!")
+	logger.Infof("MarketplacePurchase event listener fired [%v]!", marketplacePurchase)
 	return true, nil
 }
 
-// Not Supported Yet
+// MemberListener Action (Not Supported Yet)
 func MemberListener(member event.Member) (bool, error) {
-	pkg.Info("Member event listener fired!")
+	logger.Infof("Member event listener fired [%v]!", member)
 	return true, nil
 }
 
-// Not Supported Yet
+// MembershipListener Action (Not Supported Yet)
 func MembershipListener(membership event.Membership) (bool, error) {
-	pkg.Info("Membership event listener fired!")
+	logger.Infof("Membership event listener fired [%v]!", membership)
 	return true, nil
 }
 
-// Not Supported Yet
+// OrgBlockListener Action (Not Supported Yet)
 func OrgBlockListener(orgBlock event.OrgBlock) (bool, error) {
-	pkg.Info("OrgBlock event listener fired!")
+	logger.Infof("OrgBlock event listener fired [%v]!", orgBlock)
 	return true, nil
 }
 
-// Not Supported Yet
+// OrganizationListener Action (Not Supported Yet)
 func OrganizationListener(organization event.Organization) (bool, error) {
-	pkg.Info("Organization event listener fired!")
+	logger.Infof("Organization event listener fired [%v]!", organization)
 	return true, nil
 }
 
-// Not Supported Yet
+// PageBuildListener Action (Not Supported Yet)
 func PageBuildListener(pageBuild event.PageBuild) (bool, error) {
-	pkg.Info("PageBuild event listener fired!")
+	logger.Infof("PageBuild event listener fired [%v]!", pageBuild)
 	return true, nil
 }
 
-// Not Supported Yet
+// ProjectListener Action (Not Supported Yet)
 func ProjectListener(project event.Project) (bool, error) {
-	pkg.Info("Project event listener fired!")
+	logger.Infof("Project event listener fired [%v]!", project)
 	return true, nil
 }
 
-// Not Supported Yet
+// ProjectCardListener Action (Not Supported Yet)
 func ProjectCardListener(projectCard event.ProjectCard) (bool, error) {
-	pkg.Info("ProjectCard event listener fired!")
+	logger.Infof("ProjectCard event listener fired [%v]!", projectCard)
 	return true, nil
 }
 
-// Not Supported Yet
+// ProjectColumnListener Action (Not Supported Yet)
 func ProjectColumnListener(projectColumn event.ProjectColumn) (bool, error) {
-	pkg.Info("ProjectColumn event listener fired!")
+	logger.Infof("ProjectColumn event listener fired [%v]!", projectColumn)
 	return true, nil
 }
 
-// Not Supported Yet
+// PublicListener Action (Not Supported Yet)
 func PublicListener(public event.Public) (bool, error) {
-	pkg.Info("Public event listener fired!")
+	logger.Infof("Public event listener fired [%v]!", public)
 	return true, nil
 }
 
-// Not Supported Yet
+// PushListener Action (Not Supported Yet)
 func PushListener(push event.Push) (bool, error) {
-	pkg.Info("Push event listener fired!")
+	logger.Infof("Push event listener fired [%v]!", push)
 	return true, nil
 }
 
-// Not Supported Yet
+// ReleaseListener Action (Not Supported Yet)
 func ReleaseListener(release event.Release) (bool, error) {
-	pkg.Info("Release event listener fired!")
+	logger.Infof("Release event listener fired [%v]!", release)
 	return true, nil
 }
 
-// Not Supported Yet
+// RepositoryListener Action (Not Supported Yet)
 func RepositoryListener(repository event.Repository) (bool, error) {
-	pkg.Info("Repository event listener fired!")
+	logger.Infof("Repository event listener fired [%v]!", repository)
 	return true, nil
 }
 
-// Not Supported Yet
+// RepositoryImportListener Action (Not Supported Yet)
 func RepositoryImportListener(repositoryImport event.RepositoryImport) (bool, error) {
-	pkg.Info("RepositoryImport event listener fired!")
+	logger.Infof("RepositoryImport event listener fired [%v]!", repositoryImport)
 	return true, nil
 }
 
-// Not Supported Yet
+// RepositoryVulnerabilityAlertListener Action (Not Supported Yet)
 func RepositoryVulnerabilityAlertListener(repositoryVulnerabilityAlert event.RepositoryVulnerabilityAlert) (bool, error) {
-	pkg.Info("RepositoryVulnerabilityAlert event listener fired!")
+	logger.Infof("RepositoryVulnerabilityAlert event listener fired [%v]!", repositoryVulnerabilityAlert)
 	return true, nil
 }
 
-// Not Supported Yet
+// TeamListener Action (Not Supported Yet)
 func TeamListener(team event.Team) (bool, error) {
-	pkg.Info("Team event listener fired!")
+	logger.Infof("Team event listener fired [%v]!", team)
 	return true, nil
 }
 
-// Not Supported Yet
+// TeamAddListener Action (Not Supported Yet)
 func TeamAddListener(teamAdd event.TeamAdd) (bool, error) {
-	pkg.Info("TeamAdd event listener fired!")
+	logger.Infof("TeamAdd event listener fired [%v]!", teamAdd)
 	return true, nil
 }
 
-// Test Command Listener for Issues
+// IssuesTestCommandListener Command
 func IssuesTestCommandListener(command event.Command, issues event.Issues) (bool, error) {
-	pkg.Info("IssuesTestCommandListener event listener fired!")
+	logger.Infof("IssuesTestCommandListener event listener fired [%v] [%v]!", command, issues)
 	return true, nil
 }
 
-// Test Command Listener for Issues Comments
+// IssueCommentTestCommandListener Command
 func IssueCommentTestCommandListener(command event.Command, issueComment event.IssueComment) (bool, error) {
-	pkg.Info("IssueCommentTestCommandListener event listener fired!")
+	logger.Infof("IssueCommentTestCommandListener event listener fired! [%v] [%v]!", command, issueComment)
 	return true, nil
 }

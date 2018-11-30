@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a comment on a pull request's unified diff is created, edited, or deleted (in the Files Changed tab).
+// PullRequestReviewComment event received any time a comment on a pull request's unified diff is created, edited, or deleted (in the Files Changed tab).
 type PullRequestReviewComment struct {
 	Action  string `json:"action"`
 	Comment struct {
@@ -507,6 +507,7 @@ type PullRequestReviewComment struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *PullRequestReviewComment) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -515,6 +516,7 @@ func (e *PullRequestReviewComment) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *PullRequestReviewComment) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

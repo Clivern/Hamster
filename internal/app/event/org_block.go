@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time an organization blocks or unblocks a user. Organization hooks only.
+// OrgBlock event received any time an organization blocks or unblocks a user. Organization hooks only.
 type OrgBlock struct {
 }
 
+// LoadFromJSON update object from json
 func (e *OrgBlock) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *OrgBlock) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *OrgBlock) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
