@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT
 // license that can be found in the LICENSE file.
 
-package pkg
+package utils
 
 import (
 	"bytes"
@@ -11,6 +11,7 @@ import (
 	"net/http"
 )
 
+// Request do a generic http requests
 func Request(method string, url string, body string, token string) (string, error) {
 
 	client := &http.Client{}

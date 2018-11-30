@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a Repository has a status update from the API.
+// Status event received any time a Repository has a status update from the API.
 type Status struct {
 	ID          int64  `json:"id"`
 	Sha         string `json:"sha"`
@@ -225,6 +225,7 @@ type Status struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Status) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -233,6 +234,7 @@ func (e *Status) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Status) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

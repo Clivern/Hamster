@@ -12,4 +12,6 @@ RUN dep ensure
 
 RUN go build -o hamster hamster.go
 
+EXPOSE 8080
+
 CMD ["./hamster"]

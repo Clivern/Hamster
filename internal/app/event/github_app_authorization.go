@@ -8,11 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time someone revokes their authorization of a GitHub App.
-// GitHub Apps receive this webhook by default and cannot unsubscribe from this event.
+// GithubAppAuthorization event received any time someone revokes their authorization of a GitHub App. GitHub Apps receive this webhook by default and cannot unsubscribe from this event.
 type GithubAppAuthorization struct {
 }
 
+// LoadFromJSON update object from json
 func (e *GithubAppAuthorization) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -21,6 +21,7 @@ func (e *GithubAppAuthorization) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *GithubAppAuthorization) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

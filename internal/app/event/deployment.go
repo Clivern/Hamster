@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Repository has a new deployment created from the API.
+// Deployment event received any time a Repository has a new deployment created from the API.
 type Deployment struct {
 }
 
+// LoadFromJSON update object from json
 func (e *Deployment) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *Deployment) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Deployment) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

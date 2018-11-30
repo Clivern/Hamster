@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
+// Issues event received any time an Issue is assigned, unassigned, labeled, unlabeled, opened, edited, milestoned, demilestoned, closed, or reopened.
 type Issues struct {
 	Action string `json:"action"`
 	Issue  struct {
@@ -177,6 +177,7 @@ type Issues struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Issues) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -185,6 +186,7 @@ func (e *Issues) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Issues) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

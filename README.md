@@ -80,7 +80,7 @@ Anytime github call hamster listen endpoint, there will be a callback that get c
 
 // Any Action
 func RawListener(raw event.Raw) (bool, error) {
-    pkg.Info("Raw event listener fired!")
+    logger.Info("Raw event listener fired!")
     return true, nil
 }
 ```
@@ -91,7 +91,7 @@ func RawListener(raw event.Raw) (bool, error) {
 
 // Status Action
 func StatusListener(status event.Status) (bool, error) {
-    pkg.Info("Status event listener fired!")
+    logger.Info("Status event listener fired!")
     return true, nil
 }
 ```
@@ -102,7 +102,7 @@ func StatusListener(status event.Status) (bool, error) {
 
 // Watch Action
 func WatchListener(watch event.Watch) (bool, error) {
-    pkg.Info("Watch event listener fired!")
+    logger.Info("Watch event listener fired!")
     return true, nil
 }
 ```
@@ -113,7 +113,7 @@ func WatchListener(watch event.Watch) (bool, error) {
 
 // Issue Action
 func IssuesListener(issues event.Issues) (bool, error) {
-    pkg.Info("Issues event listener fired!")
+    logger.Info("Issues event listener fired!")
     return true, nil
 }
 ```
@@ -124,7 +124,7 @@ func IssuesListener(issues event.Issues) (bool, error) {
 
 // Issue Comment Action
 func IssueCommentListener(issueComment event.IssueComment) (bool, error) {
-    pkg.Info("IssueComment event listener fired!")
+    logger.Info("IssueComment event listener fired!")
     return true, nil
 }
 ```
@@ -135,7 +135,7 @@ func IssueCommentListener(issueComment event.IssueComment) (bool, error) {
 
 // Push Action
 func PushListener(push event.Push) (bool, error) {
-    pkg.Info("Push event listener fired!")
+    logger.Info("Push event listener fired!")
     return true, nil
 }
 ```
@@ -147,7 +147,7 @@ func PushListener(push event.Push) (bool, error) {
 
 // Create Action
 func CreateListener(create event.Create) (bool, error) {
-    pkg.Info("Create event listener fired!")
+    logger.Info("Create event listener fired!")
     return true, nil
 }
 ```
@@ -159,7 +159,7 @@ func CreateListener(create event.Create) (bool, error) {
 
 // Label Action
 func LabelListener(label event.Label) (bool, error) {
-    pkg.Info("Label event listener fired!")
+    logger.Info("Label event listener fired!")
     return true, nil
 }
 ```
@@ -171,7 +171,7 @@ func LabelListener(label event.Label) (bool, error) {
 
 // Delete Action
 func DeleteListener(delete event.Delete) (bool, error) {
-    pkg.Info("Delete event listener fired!")
+    logger.Info("Delete event listener fired!")
     return true, nil
 }
 ```
@@ -183,7 +183,7 @@ func DeleteListener(delete event.Delete) (bool, error) {
 
 // Milestone Action
 func MilestoneListener(milestone event.Milestone) (bool, error) {
-    pkg.Info("Milestone event listener fired!")
+    logger.Info("Milestone event listener fired!")
     return true, nil
 }
 ```
@@ -195,7 +195,7 @@ func MilestoneListener(milestone event.Milestone) (bool, error) {
 
 // Pull Request Action
 func PullRequestListener(pullRequest event.PullRequest) (bool, error) {
-    pkg.Info("PullRequest event listener fired!")
+    logger.Info("PullRequest event listener fired!")
     return true, nil
 }
 ```
@@ -207,7 +207,7 @@ func PullRequestListener(pullRequest event.PullRequest) (bool, error) {
 
 // Pull Request Review Action
 func PullRequestReviewListener(pullRequestReview event.PullRequestReview) (bool, error) {
-    pkg.Info("PullRequestReview event listener fired!")
+    logger.Info("PullRequestReview event listener fired!")
     return true, nil
 }
 ```
@@ -219,7 +219,7 @@ func PullRequestReviewListener(pullRequestReview event.PullRequestReview) (bool,
 
 // Pull Request Review Comment Action
 func PullRequestReviewCommentListener(pullRequestReviewComment event.PullRequestReviewComment) (bool, error) {
-    pkg.Info("PullRequestReviewComment event listener fired!")
+    logger.Info("PullRequestReviewComment event listener fired!")
     return true, nil
 }
 ```
@@ -257,26 +257,26 @@ Then define the callbacks on `plugin/base.go` same as `test` commands callbacks:
 // Test Command Callbacks
 // Test Command Listener for Issues
 func IssuesTestCommandListener(command event.Command, issues event.Issues) (bool, error) {
-    pkg.Info("IssuesTestCommandListener event listener fired!")
+    logger.Info("IssuesTestCommandListener event listener fired!")
     return true, nil
 }
 
 // Test Command Listener for Issues Comments
 func IssueCommentTestCommandListener(command event.Command, issue_comment event.IssueComment) (bool, error) {
-    pkg.Info("IssueCommentTestCommandListener event listener fired!")
+    logger.Info("IssueCommentTestCommandListener event listener fired!")
     return true, nil
 }
 
 // Run Command Callbacks
 // Run Command Listener for Issues
 func IssuesRunCommandListener(command event.Command, issues event.Issues) (bool, error) {
-    pkg.Info("IssuesTestCommandListener event listener fired!")
+    logger.Info("IssuesTestCommandListener event listener fired!")
     return true, nil
 }
 
 // Run Command Listener for Issues Comments
 func IssueCommentRunCommandListener(command event.Command, issue_comment event.IssueComment) (bool, error) {
-    pkg.Info("IssueCommentTestCommandListener event listener fired!")
+    logger.Info("IssueCommentTestCommandListener event listener fired!")
     return true, nil
 }
 ```
@@ -313,12 +313,12 @@ event.Command{Name=run, Parameters=[option1 option2 option3]}
 // for more info https://developer.github.com/v3/issues/comments/#create-a-comment
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -341,12 +341,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#create-a-label
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -369,12 +369,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#get-a-single-label
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -397,12 +397,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#update-a-label
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -425,12 +425,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#delete-a-label
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -453,12 +453,12 @@ if ok && err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#list-all-labels-for-this-repository
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -481,12 +481,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -509,12 +509,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -537,12 +537,12 @@ if ok && err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -565,12 +565,12 @@ if ok && err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#get-labels-for-every-issue-in-a-milestone
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -593,12 +593,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -621,12 +621,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -650,12 +650,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#list-labels-on-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -678,12 +678,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#remove-a-label-from-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -706,12 +706,12 @@ if ok && err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#remove-all-labels-from-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -734,12 +734,12 @@ if ok && err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#add-labels-to-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -762,12 +762,12 @@ if err == nil {
 // for more info https://developer.github.com/v3/issues/labels/#replace-all-labels-for-an-issue
 
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
     "os"
 )
 
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: os.Getenv("GithubToken"),
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -825,7 +825,7 @@ To create a status check:
 import (
     "github.com/clivern/hamster/internal/app/response"
     "github.com/clivern/hamster/internal/app/sender"
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
 
     "os"
     "time"
@@ -850,7 +850,7 @@ checkRun := sender.CheckRun{
 
 var checkRunResponse response.CheckRun
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: "5688665c9184800e...", # Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -872,7 +872,7 @@ To update a status check:
 import (
     "github.com/clivern/hamster/internal/app/response"
     "github.com/clivern/hamster/internal/app/sender"
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
 
     "os"
     "time"
@@ -898,7 +898,7 @@ checkRun := sender.CheckRun{
 
 var checkRunResponse response.CheckRun
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: "5688665c9184800e...", // Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -919,7 +919,7 @@ To get a status check with ID:
 ```go
 import (
     "github.com/clivern/hamster/internal/app/response"
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/github"
 
     "os"
     "fmt"
@@ -927,7 +927,7 @@ import (
 
 var checkRunResponse response.CheckRun
 
-github_api := &pkg.GithubAPI{
+github_api := &github.API{
     Token: "5688665c9184800e...", // Token via a GitHub App.
     Author: os.Getenv("RepositoryAuthor"),
     Repository: os.Getenv("RepositoryName"),
@@ -948,24 +948,24 @@ We use [google/logger](https://github.com/google/logger) under the hood, make us
 
 ```go
 import (
-    "github.com/clivern/hamster/pkg"
+    "github.com/clivern/hamster/internal/app/pkg/logger"
 )
 
-pkg.Info("Info Goes Here!")
-pkg.Infoln("Infoln Goes Here!")
-pkg.Infof("Infof %s Here!", "Goes")
+logger.Info("Info Goes Here!")
+logger.Infoln("Infoln Goes Here!")
+logger.Infof("Infof %s Here!", "Goes")
 
-pkg.Warning("Warning Goes Here!")
-pkg.Warningln("Warningln Goes Here!")
-pkg.Warningf("Warningf %s Here!", "Goes")
+logger.Warning("Warning Goes Here!")
+logger.Warningln("Warningln Goes Here!")
+logger.Warningf("Warningf %s Here!", "Goes")
 
-pkg.Error("Error Goes Here!")
-pkg.Errorln("Errorln Goes Here!")
-pkg.Errorf("Errorf %s Here!", "Goes")
+logger.Error("Error Goes Here!")
+logger.Errorln("Errorln Goes Here!")
+logger.Errorf("Errorf %s Here!", "Goes")
 
-pkg.Fatal("Fatal Goes Here!")
-pkg.Fatalln("Fatalln Goes Here!")
-pkg.Fatalf("Fatalf %s Here!", "Goes")
+logger.Fatal("Fatal Goes Here!")
+logger.Fatalln("Fatalln Goes Here!")
+logger.Fatalf("Fatalf %s Here!", "Goes")
 ```
 
 
@@ -973,11 +973,16 @@ pkg.Fatalf("Fatalf %s Here!", "Goes")
 
 [![Build Status](https://travis-ci.org/Clivern/Hamster.svg?branch=master)](https://travis-ci.org/Clivern/Hamster)
 [![GitHub license](https://img.shields.io/github/license/Clivern/Hamster.svg)](https://github.com/Clivern/Hamster/blob/master/LICENSE)
-[![Version](https://img.shields.io/badge/Version-2.0.0-red.svg)](https://github.com/Clivern/Hamster/releases)
+[![Version](https://img.shields.io/badge/Version-3.0.0-red.svg)](https://github.com/Clivern/Hamster/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Clivern/Hamster)](https://goreportcard.com/report/github.com/Clivern/Hamster)
 
 
 ## Changelog
+
+* Version 3.0.0:
+```
+More Enhancements.
+```
 
 * Version 2.0.0:
 ```

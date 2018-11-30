@@ -9,6 +9,7 @@ import (
 	"time"
 )
 
+// CheckRun struct
 type CheckRun struct {
 	ID          int       `json:"id"`
 	NodeID      string    `json:"node_id"`
@@ -65,11 +66,13 @@ type CheckRun struct {
 	PullRequests []interface{} `json:"pull_requests"`
 }
 
+// CheckRuns struct
 type CheckRuns struct {
 	TotalCount int        `json:"total_count"`
 	CheckRuns  []CheckRun `json:"check_runs"`
 }
 
+// LoadFromJSON update object from json
 func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -78,6 +81,7 @@ func (e *CheckRun) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *CheckRun) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
@@ -86,6 +90,7 @@ func (e *CheckRun) ConvertToJSON() (string, error) {
 	return string(data), nil
 }
 
+// LoadFromJSON update object from json
 func (e *CheckRuns) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -94,6 +99,7 @@ func (e *CheckRuns) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *CheckRuns) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

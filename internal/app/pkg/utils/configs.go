@@ -2,7 +2,7 @@
 // Use of this source code is governed by the MIT
 // license that can be found in the LICENSE file.
 
-package pkg
+package utils
 
 import (
 	"encoding/json"
@@ -11,6 +11,7 @@ import (
 	"os"
 )
 
+// Config struct
 type Config struct {
 	GithubToken           string `json:"github_token"`
 	GithubWebhookSecret   string `json:"github_webhook_secret"`
@@ -27,6 +28,7 @@ type Config struct {
 	GithubAppClientSecret string `json:"github_app_client_secret"`
 }
 
+// Load method loads configs from json file
 func (e *Config) Load(file string) (bool, error) {
 
 	_, err := os.Stat(file)
@@ -50,6 +52,7 @@ func (e *Config) Load(file string) (bool, error) {
 	return true, nil
 }
 
+// Cache store the configs as env vars
 func (e *Config) Cache() {
 	if os.Getenv("AppMode") == "" {
 		os.Setenv("GithubToken", e.GithubToken)
@@ -68,6 +71,7 @@ func (e *Config) Cache() {
 	}
 }
 
+// GinEnv set gin env vars
 func (e *Config) GinEnv() {
 	// Used by gin framework
 	// https://github.com/gin-gonic/gin/blob/d510595aa58c2417373d89a8d8ffa21cf58673cb/utils.go#L140

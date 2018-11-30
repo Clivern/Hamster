@@ -9,7 +9,7 @@ import (
 	"time"
 )
 
-// Any time a Branch or Tag is created.
+// Create event received any time a Branch or Tag is created.
 type Create struct {
 	Ref          string `json:"ref"`
 	RefType      string `json:"ref_type"`
@@ -137,6 +137,7 @@ type Create struct {
 	} `json:"sender"`
 }
 
+// LoadFromJSON update object from json
 func (e *Create) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -145,6 +146,7 @@ func (e *Create) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Create) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {

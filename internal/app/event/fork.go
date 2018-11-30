@@ -8,10 +8,11 @@ import (
 	"encoding/json"
 )
 
-// Any time a Repository is forked.
+// Fork event received any time a Repository is forked.
 type Fork struct {
 }
 
+// LoadFromJSON update object from json
 func (e *Fork) LoadFromJSON(data []byte) (bool, error) {
 	err := json.Unmarshal(data, &e)
 	if err != nil {
@@ -20,6 +21,7 @@ func (e *Fork) LoadFromJSON(data []byte) (bool, error) {
 	return true, nil
 }
 
+// ConvertToJSON convert object to json
 func (e *Fork) ConvertToJSON() (string, error) {
 	data, err := json.Marshal(&e)
 	if err != nil {
