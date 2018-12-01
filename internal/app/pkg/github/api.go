@@ -74,7 +74,7 @@ func (e *API) NewComment(body string, issueID int) (response.CreatedComment, err
 		return createdComment, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := createdComment.LoadFromJSON(bodyByte)
+	ok, _ := createdComment.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 201 {
 		return createdComment, nil
@@ -130,7 +130,7 @@ func (e *API) CreateLabel(name string, color string) (response.Label, error) {
 		return createdLabel, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := createdLabel.LoadFromJSON(bodyByte)
+	ok, _ := createdLabel.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 201 {
 		return createdLabel, nil
@@ -182,7 +182,7 @@ func (e *API) UpdateLabel(currentName string, name string, color string) (respon
 		return updatedLabel, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := updatedLabel.LoadFromJSON(bodyByte)
+	ok, _ := updatedLabel.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return updatedLabel, nil
@@ -359,7 +359,7 @@ func (e *API) GetLabel(name string) (response.Label, error) {
 		return label, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := label.LoadFromJSON(bodyByte)
+	ok, _ := label.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return label, nil
@@ -850,7 +850,7 @@ func (e *API) CreateCheckRun(CheckRun sender.CheckRun) (response.CheckRun, error
 		return checkRun, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := checkRun.LoadFromJSON(bodyByte)
+	ok, _ := checkRun.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 201 {
 		return checkRun, nil
@@ -904,7 +904,7 @@ func (e *API) UpdateCheckRun(ID int, CheckRun sender.CheckRun) (response.CheckRu
 		return checkRun, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := checkRun.LoadFromJSON(bodyByte)
+	ok, _ := checkRun.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return checkRun, nil
@@ -970,7 +970,7 @@ func (e *API) ListRefCheckRuns(Ref string, CheckName string, Status string, Filt
 		return checkRuns, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := checkRuns.LoadFromJSON(bodyByte)
+	ok, _ := checkRuns.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return checkRuns, nil
@@ -1035,7 +1035,7 @@ func (e *API) ListSuiteCheckRuns(CheckSuiteID int, CheckName string, Status stri
 		return checkRuns, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := checkRuns.LoadFromJSON(bodyByte)
+	ok, _ := checkRuns.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return checkRuns, nil
@@ -1082,7 +1082,7 @@ func (e *API) GetCheckRun(ID int) (response.CheckRun, error) {
 		return checkRun, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := checkRun.LoadFromJSON(bodyByte)
+	ok, _ := checkRun.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return checkRun, nil
@@ -1129,7 +1129,7 @@ func (e *API) ListCheckRunAnnotations(ID int) (response.Annotations, error) {
 		return annotations, fmt.Errorf("Oops: %s", string(bodyByte))
 	}
 
-	ok, err := annotations.LoadFromJSON(bodyByte)
+	ok, _ := annotations.LoadFromJSON(bodyByte)
 
 	if ok && resp.StatusCode == 200 {
 		return annotations, nil
