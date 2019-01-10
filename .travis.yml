@@ -6,6 +6,9 @@ go:
   - 1.11.x
   - master
 
+env:
+  - GO111MODULE=on
+  
 install: true
 
 # Fix this by renaming the directory before testing.
