@@ -8,19 +8,7 @@
 
 ### Config & Run The Application
 
-Hamster uses [dep](https://github.com/golang/dep) to manage dependencies so you need to install it
-
-```bash
-# For latest dep version
-$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-
-# For latest stable version
-$ curl https://raw.githubusercontent.com/golang/dep/v0.5.0/install.sh | sh
-
-$ dep ensure
-```
-
-Then Create a dist config file
+Hamster uses [Go Modules](https://github.com/golang/go/wiki/Modules) to manage dependencies. First Create a dist config file.
 
 ```bash
 $ cp config.json config.dist.json
@@ -973,11 +961,16 @@ logger.Fatalf("Fatalf %s Here!", "Goes")
 
 [![Build Status](https://travis-ci.org/Clivern/Hamster.svg?branch=master)](https://travis-ci.org/Clivern/Hamster)
 [![GitHub license](https://img.shields.io/github/license/Clivern/Hamster.svg)](https://github.com/Clivern/Hamster/blob/master/LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.1-red.svg)](https://github.com/Clivern/Hamster/releases)
+[![Version](https://img.shields.io/badge/Version-3.1.0-red.svg)](https://github.com/Clivern/Hamster/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Clivern/Hamster)](https://goreportcard.com/report/github.com/Clivern/Hamster)
 
 
 ## Changelog
+
+* Version 3.1.0:
+```
+Switch to go 1.11 modules.
+```
 
 * Version 3.0.1:
 ```
