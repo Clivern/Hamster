@@ -8,19 +8,7 @@
 
 ### Config & Run The Application
 
-Hamster uses [dep](https://github.com/golang/dep) to manage dependencies so you need to install it
-
-```bash
-# For latest dep version
-$ curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-
-# For latest stable version
-$ curl https://raw.githubusercontent.com/golang/dep/v0.5.0/install.sh | sh
-
-$ dep ensure
-```
-
-Then Create a dist config file
+Hamster uses [Go Modules](https://github.com/golang/go/wiki/Modules) to manage dependencies. First Create a dist config file.
 
 ```bash
 $ cp config.json config.dist.json

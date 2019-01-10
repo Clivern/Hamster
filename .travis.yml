@@ -24,3 +24,8 @@ script:
   - make ensure_dep
   - make ci
 
+matrix:
+  include:
+  allow_failures:
+  - go: 1.9.x
+  - go: 1.10.x
