@@ -961,11 +961,16 @@ logger.Fatalf("Fatalf %s Here!", "Goes")
 
 [![Build Status](https://travis-ci.org/Clivern/Hamster.svg?branch=master)](https://travis-ci.org/Clivern/Hamster)
 [![GitHub license](https://img.shields.io/github/license/Clivern/Hamster.svg)](https://github.com/Clivern/Hamster/blob/master/LICENSE)
-[![Version](https://img.shields.io/badge/Version-3.0.1-red.svg)](https://github.com/Clivern/Hamster/releases)
+[![Version](https://img.shields.io/badge/Version-3.1.0-red.svg)](https://github.com/Clivern/Hamster/releases)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Clivern/Hamster)](https://goreportcard.com/report/github.com/Clivern/Hamster)
 
 
 ## Changelog
+
+* Version 3.1.0:
+```
+Switch to go 1.11 modules.
+```
 
 * Version 3.0.1:
 ```

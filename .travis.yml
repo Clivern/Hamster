@@ -19,9 +19,7 @@ script:
   - mv Clivern clivern
   - cd clivern/hamster
   # Config & execute ci tasks
-  - make install_dep
   - make install_revive
-  - make ensure_dep
   - make ci
 
 matrix:
