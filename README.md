@@ -342,7 +342,7 @@ github_api := &github.API{
 
 // Get Repository label with name
 // github_api.CreateLabel (name string, color string) (response.Label, error)
-label, err := github_api.GetLabel("Bug", "f29513")
+label, err := github_api.CreateLabel("Bug", "f29513")
 
 if err == nil {
     // label of type response.Label
