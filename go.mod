@@ -11,6 +11,8 @@ require (
 	github.com/ugorji/go v0.0.0-20170215201144-c88ee250d022
 	golang.org/x/sys v0.0.0-20180928133829-e4b3c5e90611
 	gopkg.in/go-playground/validator.v8 v8.18.1
-	gopkg.in/h2non/gock.v1 v1.0.11
+	gopkg.in/h2non/gock.v1 v1.0.15
 	gopkg.in/yaml.v2 v2.0.0-20160928153709-a5b47d31c556
 )
+
+go 1.13
