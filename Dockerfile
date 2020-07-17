@@ -1,4 +1,4 @@
-FROM golang:1.14.5
+FROM golang:1.14.6
 
 RUN mkdir -p /go/src/github.com/clivern/hamster/
 
